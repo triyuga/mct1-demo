@@ -9,6 +9,7 @@ export function init() {
     log.info(`init()`);
     BGL.set(4);
     Insulin.set(0);
+    eat();
 }
 
 export function setBGL(num: number = 0) {
@@ -24,9 +25,10 @@ export function setInsulin(num: number = 0) {
 export function eat()  {
     magik.dixit('listening to eat event!');
     magik.Events.on('PlayerItemConsumeEvent', (evt) => {
-        const itemType = evt.getItem().getType();
-        magik.dixit(`you ate a ${itemType}!`);
-        magik.dixit('evt.getItem(): ' + JSON.stringify('evt.getItem()'));
+        const event = evt.getItem();
+        const foodType = event.getType();
+        magik.dixit(`you ate a ${foodType}!`);
+        magik.dixit('event: ' + JSON.stringify('event'));
     });
 }
 

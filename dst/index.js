@@ -8,6 +8,7 @@ function init() {
     log.info("init()");
     BGL_1.default.set(4);
     Insulin_1.default.set(0);
+    eat();
 }
 exports.init = init;
 function setBGL(num) {
@@ -25,9 +26,10 @@ exports.setInsulin = setInsulin;
 function eat() {
     magik.dixit('listening to eat event!');
     magik.Events.on('PlayerItemConsumeEvent', function (evt) {
-        var itemType = evt.getItem().getType();
-        magik.dixit("you ate a " + itemType + "!");
-        magik.dixit('evt.getItem(): ' + JSON.stringify('evt.getItem()'));
+        var event = evt.getItem();
+        var foodType = event.getType();
+        magik.dixit("you ate a " + foodType + "!");
+        magik.dixit('event: ' + JSON.stringify('event'));
     });
 }
 exports.eat = eat;
