@@ -24,10 +24,11 @@ export const Player = {
         const sender = magik.getSender();
         const inventory = sender.getInventory(); //Contents of player inventory
         
-        for (let i =0; i<= 35; i++) {
+        for (let i = 0; i <= 35; i++) {
+            magik.dixit('i: ' + i);
             const item = inventory['getItem'](i);
             const type = item.getType();
-            magik.dixit('type', type);
+            magik.dixit('type: ' + type);
         }
         
         // const contents = inventory['getContents']();
