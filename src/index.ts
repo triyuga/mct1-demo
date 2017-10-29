@@ -1,6 +1,7 @@
 import BGL from './BGL';
 import Insulin from './Insulin';
 import Food from './Food';
+import Player from './Player';
 import * as log from './old/util/log';
 
 const magik = magikcraft.io;
@@ -21,36 +22,6 @@ export function init() {
 }
 
 magik.dixit('Loaded mct1-demo');
-
-export const Player = {
-    getInventory() {
-        magik.dixit('Player.getInventory()');
-        const sender = magik.getSender();
-        const inventory = sender.getInventory(); //Contents of player inventory
-        
-        for (let i = 0; i <= 35; i++) {
-            const item = inventory['getItem'](i);
-            if (item) {
-                const type = item.getType();
-                const amount = item.getAmount();
-                magik.dixit('i: ' + i);
-                magik.dixit('type: ' + type);
-                magik.dixit('amount: ' + amount);
-            }
-            
-        }
-        
-        // const contents = inventory['getContents']();
-        // contents.map(stack => {
-        //     const type = stack.getType();
-        //     magik.dixit('type: ', type);
-        // })
-        
-        // const contentsStr = JSON.stringify(contents);
-        // log.info('inventory[getContents]()', inventory['getContents']());
-        // magik.dixit(`Inventory contents: ${contentsStr}`);
-    }
-}
 
 export function getInventory() {
     log.info(`getContents()`);

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var BGL_1 = require("./BGL");
 var Insulin_1 = require("./Insulin");
+var Player_1 = require("./Player");
 var log = require("./old/util/log");
 var magik = magikcraft.io;
 function init() {
@@ -20,34 +21,9 @@ function init() {
 }
 exports.init = init;
 magik.dixit('Loaded mct1-demo');
-exports.Player = {
-    getInventory: function () {
-        magik.dixit('Player.getInventory()');
-        var sender = magik.getSender();
-        var inventory = sender.getInventory(); //Contents of player inventory
-        for (var i = 0; i <= 35; i++) {
-            var item = inventory['getItem'](i);
-            if (item) {
-                var type = item.getType();
-                var amount = item.getAmount();
-                magik.dixit('i: ' + i);
-                magik.dixit('type: ' + type);
-                magik.dixit('amount: ' + amount);
-            }
-        }
-        // const contents = inventory['getContents']();
-        // contents.map(stack => {
-        //     const type = stack.getType();
-        //     magik.dixit('type: ', type);
-        // })
-        // const contentsStr = JSON.stringify(contents);
-        // log.info('inventory[getContents]()', inventory['getContents']());
-        // magik.dixit(`Inventory contents: ${contentsStr}`);
-    }
-};
 function getInventory() {
     log.info("getContents()");
-    exports.Player.getInventory();
+    Player_1.default.getInventory();
 }
 exports.getInventory = getInventory;
 function setInventory() {
