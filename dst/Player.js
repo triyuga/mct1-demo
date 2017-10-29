@@ -95,8 +95,8 @@ var Player = {
             var digestionQueue = magik.playerMap.get('digestionQueue') || [];
             log('digestionQueue: ' + JSON.stringify(digestionQueue));
             if (digestionQueue[0]) {
-                digestionQueue[0].percentDigested += 20;
-                if (digestionQueue[0].percentDigested >= 100) {
+                digestionQueue[0].percentDigested += 21;
+                if (digestionQueue[0].percentDigested > 100) {
                     // finished digesting...
                     // remove bar...
                     var barKey = DIGESTION_BAR_KEY + "." + digestionQueue[0].uuid;
