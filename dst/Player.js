@@ -92,7 +92,7 @@ var Player = {
     },
     doDigestion: function () {
         log('digesting...');
-        log('this.digestionQueue.length: ' + this.digestionQueue.length);
+        log('this.digestionQueue: ' + JSON.stringify(this.digestionQueue));
         this.digestionQueue.map(function (item, i) { return log("digestionQueue[" + i + "].type: " + item.type); });
         var that = this;
         magik.setTimeout(function () {
@@ -102,7 +102,7 @@ var Player = {
                     // finished digesting, remove from queue...
                     that.digestionQueue.splice(0, 1);
                 }
-                // that.renderBars();
+                that.renderBars();
             }
             // repeat!
             log('repeat doDigestion');
@@ -121,7 +121,7 @@ var Player = {
                 percentDigested: 0,
             };
             this.digestionQueue.push(digestionQueueItem);
-            this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
+            log('this.digestionQueue: (1) ' + JSON.stringify(this.digestionQueue));
             this.renderBars();
             // event.setCancelled(true);
         }

@@ -97,7 +97,7 @@ const Player = {
 
 	doDigestion() {
 		log('digesting...');
-		log('this.digestionQueue.length: ' + this.digestionQueue.length);
+		log('this.digestionQueue: ' + JSON.stringify(this.digestionQueue));
 		this.digestionQueue.map((item, i) => log(`digestionQueue[${i}].type: ${item.type}`));
 		const that = this;
 		magik.setTimeout(function() {
@@ -107,7 +107,7 @@ const Player = {
 					// finished digesting, remove from queue...
 					that.digestionQueue.splice(0, 1);
 				}
-				// that.renderBars();
+				that.renderBars();
 			}
 			// repeat!
 			log('repeat doDigestion');
@@ -128,7 +128,7 @@ const Player = {
 			};
 			this.digestionQueue.push(digestionQueueItem);
 
-			this.digestionQueue.map((item, i) => log(`item[${i}].type: ${item.type}`));
+			log('this.digestionQueue: (1) ' + JSON.stringify(this.digestionQueue));
 			this.renderBars();
 			// event.setCancelled(true);
 		}
