@@ -50,7 +50,7 @@ const Player = {
 		let color  = 'GREEN';
 		if (state.bgl >= 4 && state.bgl <= 8) {
 			color = 'GREEN';
-		} else if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 10)) {
+		} else if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 12)) {
 			color = 'YELLOW';
 		} else {
 			color = 'RED';
