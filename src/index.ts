@@ -28,8 +28,10 @@ export const Player = {
             const item = inventory['getItem'](i);
             if (item) {
                 const type = item.getType();
+                const amount = item.getAmount();
                 magik.dixit('i: ' + i);
                 magik.dixit('type: ' + type);
+                magik.dixit('amount: ' + amount);
             }
             
         }

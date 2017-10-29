@@ -24,8 +24,10 @@ exports.Player = {
             var item = inventory['getItem'](i);
             if (item) {
                 var type = item.getType();
+                var amount = item.getAmount();
                 magik.dixit('i: ' + i);
                 magik.dixit('type: ' + type);
+                magik.dixit('amount: ' + amount);
             }
         }
         // const contents = inventory['getContents']();
