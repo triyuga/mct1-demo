@@ -12,7 +12,7 @@ var Player = {
     init: function () {
         this.clearInventory();
         this.setupInventory();
-        this.setFood(10);
+        this.setFood(2);
         this.doDigestion();
         this.renderBars();
         magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
