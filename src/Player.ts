@@ -236,7 +236,7 @@ const Player = {
 
 		items.map(item => {
 			server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
-			magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
+			// magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
 		});
 	},
 
