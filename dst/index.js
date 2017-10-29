@@ -15,6 +15,21 @@ function init() {
     //getInventory();
 }
 exports.init = init;
+exports.Player = {
+    getInventory: function () {
+        magik.dixit('Player.getInventory()');
+        var sender = magik.getSender();
+        var inventory = sender.getInventory(); //Contents of player inventory
+        var contents = inventory['getContents']();
+        contents.map(function (stack) {
+            var type = stack.getType();
+            magik.dixit('type: ', type);
+        });
+        var contentsStr = JSON.stringify(contents);
+        log.info('inventory[getContents]()', inventory['getContents']());
+        // magik.dixit(`Inventory contents: ${contentsStr}`);
+    }
+};
 function getInventory() {
     log.info("getContents()");
     var sender = magik.getSender();

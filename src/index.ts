@@ -16,6 +16,25 @@ export function init() {
     //getInventory();
 }
 
+
+
+export const Player = {
+    getInventory() {
+        magik.dixit('Player.getInventory()');
+        const sender = magik.getSender();
+        const inventory = sender.getInventory(); //Contents of player inventory
+        const contents = inventory['getContents']();
+        contents.map(stack => {
+            const type = stack.getType();
+            magik.dixit('type: ', type);
+        })
+        
+        const contentsStr = JSON.stringify(contents);
+        log.info('inventory[getContents]()', inventory['getContents']());
+        // magik.dixit(`Inventory contents: ${contentsStr}`);
+    }
+}
+
 export function getInventory() {
     log.info(`getContents()`);
     const sender = magik.getSender();
