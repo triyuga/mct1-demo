@@ -46,11 +46,13 @@
   },
   "homepage": "https://www.mct1.io",
   "dependencies": {
+    "@types/uuid": "^3.4.3",
     "events": "^1.1.1",
     "in-array": "^0.1.2",
     "magikcraft-lore-ui-bar": "^1.0.14",
     "nanoflux-fusion": "^0.6.0-beta",
-    "only": "0.0.2"
+    "only": "0.0.2",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^8.0.20",

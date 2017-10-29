@@ -3,6 +3,7 @@
 import * as Bar from './Bar';
 import Utils from './Utils';
 import Food from './Food';
+import * as uuid from 'uuid';
 
 const magik = magikcraft.io;
 const log = magik.dixit;
@@ -79,7 +80,10 @@ class PlayerClass {
 		magik.playerMap.get(INSULIN_BAR_KEY).destroy();
 		magik.playerMap.put(INSULIN_BAR_KEY, insulinBar);
 
-		this.digestionQueue.slice(0, 3).map((item, i) => {
+		const digestionItems = this.digestionQueue.slice(0, 3);
+		log('digestionItems.length: ' + digestionItems.length);
+
+		digestionItems.map((item) => {
 			// digestionBar
 			const digestionBar = Bar.bar()
 				.text(`Digesting: ${item.type}`)
@@ -87,8 +91,8 @@ class PlayerClass {
 				.style(Bar.style.NOTCHED_20)
 				.progress(item.percentDigested)
 				.show();
-			magik.playerMap.get(`${DIGESTION_BAR_KEY}-${i}`).destroy();
-			magik.playerMap.put(`${DIGESTION_BAR_KEY}-${i}`, digestionBar);
+			magik.playerMap.get(`${DIGESTION_BAR_KEY}.${item.uuid}`).destroy();
+			magik.playerMap.put(`${DIGESTION_BAR_KEY}.${item.uuid}`, digestionBar);
 		});
 	}
 
@@ -118,11 +122,13 @@ class PlayerClass {
 		if (Food[type]) {
 			log(`You consumed a ${type}!`);
 			const digestionQueueItem = {
+				uuid: uuid.v4(),
 				type: type,
 				percentDigested: 0,
 			};
 			this.digestionQueue.push(digestionQueueItem);
 			this.digestionQueue.map((item, i) => log(`item[${i}].type: ${item.type}`));
+			this.renderBars();
 			// event.setCancelled(true);
 		}
 	}

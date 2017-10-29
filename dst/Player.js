@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // import * as log from './old/util/log';
 var Bar = require("./Bar");
 var Food_1 = require("./Food");
+var uuid = require("uuid");
 var magik = magikcraft.io;
 var log = magik.dixit;
 var INSULIN_BAR_KEY = 'mct1.bar.insulin';
@@ -37,7 +38,9 @@ var PlayerClass = (function () {
                 .show();
             magik.playerMap.get(INSULIN_BAR_KEY).destroy();
             magik.playerMap.put(INSULIN_BAR_KEY, insulinBar);
-            _this.digestionQueue.slice(0, 3).map(function (item, i) {
+            var digestionItems = _this.digestionQueue.slice(0, 3);
+            log('digestionItems.length: ' + digestionItems.length);
+            digestionItems.map(function (item) {
                 // digestionBar
                 var digestionBar = Bar.bar()
                     .text("Digesting: " + item.type)
@@ -45,8 +48,8 @@ var PlayerClass = (function () {
                     .style(Bar.style.NOTCHED_20)
                     .progress(item.percentDigested)
                     .show();
-                magik.playerMap.get(DIGESTION_BAR_KEY + "-" + i).destroy();
-                magik.playerMap.put(DIGESTION_BAR_KEY + "-" + i, digestionBar);
+                magik.playerMap.get(DIGESTION_BAR_KEY + "." + item.uuid).destroy();
+                magik.playerMap.put(DIGESTION_BAR_KEY + "." + item.uuid, digestionBar);
             });
         };
         this.doDigestion = function () {
@@ -74,11 +77,13 @@ var PlayerClass = (function () {
             if (Food_1.default[type]) {
                 log("You consumed a " + type + "!");
                 var digestionQueueItem = {
+                    uuid: uuid.v4(),
                     type: type,
                     percentDigested: 0,
                 };
                 _this.digestionQueue.push(digestionQueueItem);
                 _this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
+                _this.renderBars();
                 // event.setCancelled(true);
             }
         };
