@@ -52,9 +52,7 @@ var PlayerClass = (function () {
         this.doDigestion = function () {
             log('digesting...');
             log('this.digestionQueue.length: ' + _this.digestionQueue.length);
-            _this.digestionQueue.map(function (item, i) {
-                log("item[" + i + "].type: " + item.type);
-            });
+            _this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
             var that = _this;
             magik.setTimeout(function () {
                 if (that.digestionQueue[0]) {
@@ -80,6 +78,7 @@ var PlayerClass = (function () {
                     percentDigested: 0,
                 };
                 _this.digestionQueue.push(digestionQueueItem);
+                _this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
                 event.setCancelled(true);
             }
         };

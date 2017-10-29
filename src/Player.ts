@@ -95,9 +95,7 @@ class PlayerClass {
 	doDigestion = () => {
 		log('digesting...');
 		log('this.digestionQueue.length: ' + this.digestionQueue.length);
-		this.digestionQueue.map((item, i) => {
-			log(`item[${i}].type: ${item.type}`);
-		});
+		this.digestionQueue.map((item, i) => log(`item[${i}].type: ${item.type}`));
 		const that = this;
 		magik.setTimeout(function() {
 			if (that.digestionQueue[0]) {
@@ -124,6 +122,7 @@ class PlayerClass {
 				percentDigested: 0,
 			};
 			this.digestionQueue.push(digestionQueueItem);
+			this.digestionQueue.map((item, i) => log(`item[${i}].type: ${item.type}`));
 			event.setCancelled(true);
 		}
 	}
