@@ -3,7 +3,7 @@
 import * as Bar from './Bar';
 import Utils from './Utils';
 import Food from './Food';
-import * as uuid from 'uuid';
+// import * as uuid from 'uuid';
 
 const magik = magikcraft.io;
 const log = magik.dixit;
@@ -122,7 +122,7 @@ class PlayerClass {
 		if (Food[type]) {
 			log(`You consumed a ${type}!`);
 			const digestionQueueItem = {
-				uuid: uuid.v4(),
+				uuid: Utils.makeTimestamp(),
 				type: type,
 				percentDigested: 0,
 			};

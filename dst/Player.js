@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // import { IBar } from 'magikcraft-lore-ui-bar/dst';
 // import * as log from './old/util/log';
 var Bar = require("./Bar");
+var Utils_1 = require("./Utils");
 var Food_1 = require("./Food");
-var uuid = require("uuid");
+// import * as uuid from 'uuid';
 var magik = magikcraft.io;
 var log = magik.dixit;
 var INSULIN_BAR_KEY = 'mct1.bar.insulin';
@@ -117,7 +118,7 @@ var PlayerClass = (function () {
         if (Food_1.default[type]) {
             log("You consumed a " + type + "!");
             var digestionQueueItem = {
-                uuid: uuid.v4(),
+                uuid: Utils_1.default.makeTimestamp(),
                 type: type,
                 percentDigested: 0,
             };
