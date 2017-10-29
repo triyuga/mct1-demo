@@ -58,5 +58,5 @@ export const spells = {
     init,
     setBGL,
     setInsulin,
-    eat,
+    listenConsume,
 }

@@ -53,5 +53,5 @@ exports.spells = {
     init: init,
     setBGL: setBGL,
     setInsulin: setInsulin,
-    eat: eat,
+    listenConsume: listenConsume,
 };
