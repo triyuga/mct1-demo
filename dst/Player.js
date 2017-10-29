@@ -137,33 +137,48 @@ var Player = {
         }
     },
     doEffects: function () {
-        if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 10 && state.bgl < 12)) {
-            this.doConfusion();
+        if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 8 && state.bgl <= 10)) {
+            this.doConfusion(2500);
         }
         else if (state.bgl < 2 || state.bgl > 10) {
-            this.doBlindness();
+            this.doConfusion(5000);
+        }
+        else if (state.bgl < 0 || state.bgl > 12) {
+            this.doBlindness(5000);
+            this.doPoison(5000);
         }
     },
-    doConfusion: function () {
+    doConfusion: function (milliseconds) {
         if (!state.confusionEffect) {
-            this._makeEffect('CONFUSION', 3000);
+            this._makeEffect('CONFUSION', milliseconds);
             state.confusionEffect = true;
             State_1.setState(state);
             magik.setTimeout(function () {
                 state.confusionEffect = false;
                 State_1.setState(state);
-            }, 3000);
+            }, milliseconds);
         }
     },
-    doBlindness: function () {
+    doBlindness: function (milliseconds) {
         if (!state.blindnessEffect) {
-            this._makeEffect('BLINDNESS', 5000);
+            this._makeEffect('BLINDNESS', milliseconds);
             state.blindnessEffect = true;
             State_1.setState(state);
             magik.setTimeout(function () {
                 state.blindnessEffect = false;
                 State_1.setState(state);
-            }, 5000);
+            }, milliseconds);
+        }
+    },
+    doPoison: function (milliseconds) {
+        if (!state.poisonEffect) {
+            this._makeEffect('POISON', milliseconds);
+            state.poisonEffect = true;
+            State_1.setState(state);
+            magik.setTimeout(function () {
+                state.poisonEffect = false;
+                State_1.setState(state);
+            }, milliseconds);
         }
     },
     _makeEffect: function (type, milliseconds, color) {

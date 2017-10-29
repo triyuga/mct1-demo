@@ -147,35 +147,51 @@ const Player = {
 	},
 
 	doEffects() {
-		if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 10 && state.bgl < 12)) {
-			this.doConfusion();
+		if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 8 && state.bgl <= 10)) {
+			this.doConfusion(2500);
 		}
 		else if (state.bgl < 2 || state.bgl > 10) {
-			this.doBlindness();
+			this.doConfusion(5000);
+		}
+		else if (state.bgl < 0 || state.bgl > 12) {
+			this.doBlindness(5000);
+			this.doPoison(5000);
 		}
 	},
 
-	doConfusion() {
+	doConfusion(milliseconds) {
 		if (!state.confusionEffect) {
-			this._makeEffect('CONFUSION', 3000);
+			this._makeEffect('CONFUSION', milliseconds);
 			state.confusionEffect = true;
 			setState(state);
 			magik.setTimeout(() => {
 				state.confusionEffect = false;
 				setState(state);
-			}, 3000);
+			}, milliseconds);
 		}
 	},
 
-	doBlindness() {
+	doBlindness(milliseconds) {
 		if (!state.blindnessEffect) {
-			this._makeEffect('BLINDNESS', 5000);
+			this._makeEffect('BLINDNESS', milliseconds);
 			state.blindnessEffect = true;
 			setState(state);
 			magik.setTimeout(() => {
 				state.blindnessEffect = false;
 				setState(state);
-			}, 5000);
+			}, milliseconds);
+		}
+	},
+
+	doPoison(milliseconds) {
+		if (!state.poisonEffect) {
+			this._makeEffect('POISON', milliseconds);
+			state.poisonEffect = true;
+			setState(state);
+			magik.setTimeout(() => {
+				state.poisonEffect = false;
+				setState(state);
+			}, milliseconds);
 		}
 	},
 

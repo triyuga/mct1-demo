@@ -13,6 +13,7 @@ export function getState() {
 	state.digestionBar1 = state.digestionBar1 || null;
 	state.confusionEffect = state.confusionEffect ? true : false;
 	state.blindnessEffect = state.blindnessEffect ? true : false;
+	state.poisonEffect = state.poisonEffect ? true : false;
 	return state;
 }
 
@@ -26,5 +27,6 @@ export function setState(state) {
 	state.digestionBar1 = state.digestionBar1 || null;
 	state.confusionEffect = state.confusionEffect ? true : false
 	state.blindnessEffect = state.blindnessEffect ? true : false;
+	state.poisonEffect = state.poisonEffect ? true : false;
 	magik.playerMap.put(KEY, state);
 }
