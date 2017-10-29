@@ -93,17 +93,23 @@ var Player = {
         var that = this;
         magik.setTimeout(function () {
             var digestionQueue = magik.playerMap.get('digestionQueue') || [];
+            var item = digestionQueue[0];
             log('digestionQueue: ' + JSON.stringify(digestionQueue));
-            if (digestionQueue[0]) {
-                digestionQueue[0].percentDigested += 21;
-                if (digestionQueue[0].percentDigested > 100) {
+            if (item) {
+                item.percentDigested += 21;
+                if (item.percentDigested > 100) {
+                    log('finished digesting ' + item.uuid + ' (' + item.type + ')');
                     // finished digesting...
                     // remove bar...
                     var barKey = DIGESTION_BAR_KEY + "." + digestionQueue[0].uuid;
-                    if (magik.playerMap.containsKey(barKey))
+                    if (magik.playerMap.containsKey(barKey)) {
+                        log('destroy ' + barKey);
                         magik.playerMap.get(barKey).destroy();
+                    }
+                    var updatedDigestionQueue = digestionQueue.splice(0, 1);
+                    log('updatedDigestionQueue: ' + JSON.stringify(updatedDigestionQueue));
                     // remove from queue...
-                    magik.playerMap.put('digestionQueue', digestionQueue.splice(0, 1));
+                    magik.playerMap.put('digestionQueue', updatedDigestionQueue);
                 }
                 that.renderBars();
             }
