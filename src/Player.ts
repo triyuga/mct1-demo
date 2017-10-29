@@ -70,7 +70,7 @@ const Player = {
 				.text(`Digesting: ${item.type}`)
 				.color(Bar.color.RED)
 				.style(Bar.style.NOTCHED_20)
-				.progress(item.percentDigested)
+				.progress(100 - item.percentDigested)
 				.show();
 		});
 
@@ -84,14 +84,14 @@ const Player = {
 			let updated = false;
 			
 			if (state.insulin > 0) {
-				state.insulin -= 0.5;
-				state.bgl -= 1;
+				state.insulin -= 0.1;
+				state.bgl -= 0.2;
 				updated = true;
 			}
 
 			if (state.digestionQueue[0]) {
 				state.digestionQueue[0].percentDigested += 10;
-				state.bgl += 0.5;	
+				state.bgl += 0.2;	
 				if (state.digestionQueue[0].percentDigested >= 100) {
 					// finished digesting... remove from queue...
 					state.digestionQueue.splice(0, 1);
@@ -127,7 +127,7 @@ const Player = {
 		else if (type == 'POTION') { // important! use double arrow (not triple)
 			log(`You consumed an INSULIN POTION!`);
 			log(`state 1: ${JSON.stringify(state)}`);
-			state.insulin += 5;
+			state.insulin += 3;
 			setState(state);
 			log(`state 2: ${JSON.stringify(state)}`);
 			this.renderBars();

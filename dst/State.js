@@ -5,8 +5,8 @@ var log = magik.dixit;
 var KEY = 'mct1-demo';
 function getState() {
     var state = magik.playerMap.get(KEY) || {};
-    state.bgl = state.bgl || 4;
-    state.insulin = state.insulin || 0;
+    state.bgl = state.bgl !== undefined ? state.bgl : 5;
+    state.insulin = state.insulin !== undefined ? state.insulin : 0;
     state.digestionQueue = state.digestionQueue ? state.digestionQueue.sort(function (a, b) { return a.timestamp - b.timestamp; }) : [];
     state.bglBar = state.bglBar || null;
     state.insulinBar = state.insulinBar || null;
@@ -17,8 +17,8 @@ function getState() {
 }
 exports.getState = getState;
 function setState(state) {
-    state.bgl = state.bgl || 4;
-    state.insulin = state.insulin || 0;
+    state.bgl = state.bgl !== undefined ? state.bgl : 5;
+    state.insulin = state.insulin !== undefined ? state.insulin : 0;
     state.digestionQueue = state.digestionQueue ? state.digestionQueue.sort(function (a, b) { return a.timestamp - b.timestamp; }) : [];
     state.bglBar = state.bglBar || null;
     state.insulinBar = state.insulinBar || null;
