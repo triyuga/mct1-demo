@@ -69,7 +69,7 @@ var PlayerClass = (function () {
                 }
                 // repeat!
                 log('repeat doDigestion');
-                that.doDigestion();
+                // that.doDigestion();
             }, 3000);
         };
         this._BGLBarColor = function () {

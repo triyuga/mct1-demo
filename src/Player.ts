@@ -112,7 +112,7 @@ class PlayerClass {
 			}
 			// repeat!
 			log('repeat doDigestion');
-			that.doDigestion();
+			// that.doDigestion();
 		}, 3000);
 	}
 
