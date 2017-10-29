@@ -50,18 +50,18 @@ const Player = {
 		else if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 10)) color = 'YELLOW';
 		else color = 'RED';
 		state.bglBar = Bar.bar()
-			.text(`BGL: ${state.bgl}`)
+			.text(`BGL: ${Math.round(state.bgl*10)/10}`) // round to 1 decimal
 			.color(Bar.color[color])
 			.style(Bar.style.NOTCHED_20)
-			.progress(Math.round( ((state.bgl/20)*100) * 10) / 10) // bgl as percentage, rounded to 1 decimal
+			.progress((state.bgl/20)*100)
 			.show();
 
 		// insulinBar
 		state.insulinBar = Bar.bar()
-			.text(`Insulin: ${state.insulin}`)
+			.text(`Insulin: ${Math.round(state.insulin*10)/10}`) // round to 1 decimal
 			.color(Bar.color.BLUE)
 			.style(Bar.style.NOTCHED_20)
-			.progress(Math.round( ((state.insulin/20)*100) * 10) / 10) // insulin as percentage, rounded to 1 decimal
+			.progress((state.insulin/20)*100) // insulin as percentage, rounded to 1 decimal
 			.show();
 
 		// digestionBar(s)
@@ -91,7 +91,7 @@ const Player = {
 
 			if (state.digestionQueue[0]) {
 				state.digestionQueue[0].percentDigested += 5;
-				state.bgl += 0.1;	
+				state.bgl += 0.2;	
 				if (state.digestionQueue[0].percentDigested >= 100) {
 					// finished digesting... remove from queue...
 					state.digestionQueue.splice(0, 1);
