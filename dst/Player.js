@@ -1,21 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// import { IBar } from 'magikcraft-lore-ui-bar/dst';
-// import * as log from './old/util/log';
 var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
 var Food_1 = require("./Food");
-// import * as uuid from 'uuid';
+var State_1 = require("./State");
 var magik = magikcraft.io;
 var log = magik.dixit;
-var INSULIN_BAR_KEY = 'mct1.bar.insulin';
-var BGL_BAR_KEY = 'mct1.bar.BGL';
-var DIGESTION_BAR_KEY = 'mct1.bar.digestiom';
+var player = magik.getSender();
+var state = State_1.getState();
 var Player = {
-    name: magik.getSender().getName(),
-    player: magik.getSender(),
-    insulin: magik.playerMap.get('insulin') || 0,
-    BGL: magik.playerMap.get('BGL') || 4,
     init: function () {
         this.clearInventory();
         this.setupInventory();
@@ -25,103 +18,82 @@ var Player = {
         magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
     },
     setFood: function (num) {
-        this.player.setFoodLevel(num);
+        player.setFoodLevel(num);
     },
     setHealth: function (num) {
-        this.player.setHealth(num);
+        player['setHealth'](num);
     },
     setInsulin: function (num) {
         if (num === void 0) { num = 0; }
-        this.insulin = num;
-        magik.playerMap.put('insulin', this.insulin);
+        state.insulin = num;
+        State_1.setState(state);
     },
     setBGL: function (num) {
         if (num === void 0) { num = 0; }
-        this.BGL = num;
-        magik.playerMap.put('BGL', this.BGL);
+        state.bgl = num;
+        State_1.setState(state);
     },
     renderBars: function () {
+        if (state.bglBar)
+            state.bglBar.destroy();
+        if (state.insulinBar)
+            state.insulinBar.destroy();
+        if (state.digestionBar0)
+            state.digestionBar0.destroy();
+        if (state.digestionBar1)
+            state.digestionBar1.destroy();
+        if (state.digestionBar2)
+            state.digestionBar2.destroy();
         // BGLBar
         var color = 'GREEN';
-        if (this.BGL >= 4 && this.BGL <= 8) {
+        if (state.bgl >= 4 && state.bgl <= 8)
             color = 'GREEN';
-        }
-        else if ((this.BGL < 4 && this.BGL >= 2) || (this.BGL > 8 && this.BGL <= 10)) {
+        else if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 10))
             color = 'ORANGE';
-        }
-        else {
+        else
             color = 'RED';
-        }
-        var BGLBar = Bar.bar()
-            .text("BGL: " + this.insulin)
+        state.bglBar = Bar.bar()
+            .text("BGL: " + state.insulin)
             .color(Bar.color[color])
             .style(Bar.style.NOTCHED_20)
-            .progress((this.BGL / 20) * 100)
+            .progress((state.bgl / 20) * 100)
             .show();
-        if (magik.playerMap.containsKey(BGL_BAR_KEY))
-            magik.playerMap.get(BGL_BAR_KEY).destroy();
-        magik.playerMap.put(BGL_BAR_KEY, BGLBar);
         // insulinBar
-        var insulinBar = Bar.bar()
-            .text("Insulin: " + this.insulin)
+        state.insulinBar = Bar.bar()
+            .text("Insulin: " + state.insulin)
             .color(Bar.color.BLUE)
             .style(Bar.style.NOTCHED_20)
-            .progress((this.BGL / 20) * 100)
+            .progress((state.bgl / 20) * 100)
             .show();
-        if (magik.playerMap.containsKey(INSULIN_BAR_KEY))
-            magik.playerMap.get(INSULIN_BAR_KEY).destroy();
-        magik.playerMap.put(INSULIN_BAR_KEY, insulinBar);
-        if (magik.playerMap.containsKey(DIGESTION_BAR_KEY + ".0"))
-            magik.playerMap.get(DIGESTION_BAR_KEY + ".0").destroy();
-        if (magik.playerMap.containsKey(DIGESTION_BAR_KEY + ".1"))
-            magik.playerMap.get(DIGESTION_BAR_KEY + ".1").destroy();
-        if (magik.playerMap.containsKey(DIGESTION_BAR_KEY + ".2"))
-            magik.playerMap.get(DIGESTION_BAR_KEY + ".2").destroy();
-        var digestionQueue = magik.playerMap.get('digestionQueue') || [];
-        digestionQueue.slice(0, 3).map(function (item, i) {
-            // digestionBar
-            var digestionBar = Bar.bar()
+        // digestionBar(s)
+        state.digestionQueue.slice(0, 3).map(function (item, i) {
+            state["digestionBar" + i] = Bar.bar()
                 .text("Digesting: " + item.type)
                 .color(Bar.color.RED)
                 .style(Bar.style.NOTCHED_20)
                 .progress(item.percentDigested)
                 .show();
-            var barKey = DIGESTION_BAR_KEY + "." + i;
-            magik.playerMap.put(barKey, digestionBar);
         });
+        State_1.setState(state);
     },
     doDigestion: function () {
         log('digesting...');
         var that = this;
         magik.setTimeout(function () {
-            var digestionQueue = magik.playerMap.get('digestionQueue') || [];
-            var item = digestionQueue[0];
-            log('digestionQueue: ' + JSON.stringify(digestionQueue));
-            if (item) {
-                item.percentDigested += 21;
-                if (item.percentDigested > 100) {
-                    log('finished digesting ' + item.uuid + ' (' + item.type + ')');
-                    // finished digesting...
-                    // remove bar...
-                    var barKey = DIGESTION_BAR_KEY + "." + digestionQueue[0].uuid;
-                    if (magik.playerMap.containsKey(barKey)) {
-                        log('destroy ' + barKey);
-                        magik.playerMap.get(barKey).destroy();
-                    }
-                    digestionQueue.splice(0, 1);
-                    log('updated digestionQueue: ' + JSON.stringify(digestionQueue));
-                    // remove from queue...
-                    magik.playerMap.put('digestionQueue', digestionQueue);
+            if (state.digestionQueue[0]) {
+                state.digestionQueue[0].percentDigested += 21;
+                if (state.digestionQueue[0].percentDigested > 100) {
+                    // finished digesting... remove from queue...
+                    state.digestionQueue.splice(0, 1);
                 }
+                State_1.setState(state);
                 that.renderBars();
             }
             // repeat!
-            log('repeat doDigestion');
             that.doDigestion();
         }, 3000);
     },
     _onConsume: function (event) {
-        log('onConsume');
         var type = event.getItem().getType();
         // const amount = event.getItem().getAmount();
         if (Food_1.default[type]) {
@@ -131,18 +103,11 @@ var Player = {
                 type: type,
                 percentDigested: 0,
             };
-            this.setDigestionQueue(this.getDigestionQueue().push(item));
+            state.digestionQueue.push(item);
+            State_1.setState(state);
             this.renderBars();
             // event.setCancelled(true);
         }
-    },
-    getDigestionQueue: function () {
-        var digestionQueue = magik.playerMap.get('digestionQueue') || [];
-        digestionQueue.sort(function (a, b) { return a.timestamp - b.timestamp; });
-        return digestionQueue;
-    },
-    setDigestionQueue: function (digestionQueue) {
-        magik.playerMap.put('digestionQueue', digestionQueue);
     },
     getInventory: function () {
         var inventory = this.player.getInventory(); //Contents of player inventory
@@ -175,6 +140,4 @@ var Player = {
         this.player.getInventory().clear();
     },
 };
-// const playerName = magik.getSender().getName();
-// const Player = new PlayerClass(playerName);
 exports.default = Player;
