@@ -147,13 +147,16 @@ const Player = {
 	},
 
 	doEffects() {
+		// Confusion!
 		if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 8 && state.bgl <= 10)) {
 			this.doConfusion(2500);
 		}
+		// More Confusion!
 		else if (state.bgl < 2 || state.bgl > 10) {
 			this.doConfusion(5000);
 		}
-		else if (state.bgl < 0 || state.bgl > 12) {
+		// Layer additional effects.
+		if (state.bgl < 0 || state.bgl > 12) {
 			this.doBlindness(5000);
 			this.doPoison(5000);
 		}
