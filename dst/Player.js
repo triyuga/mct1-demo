@@ -52,7 +52,7 @@ var PlayerClass = (function () {
         this.doDigestion = function () {
             log('digesting...');
             log('this.digestionQueue.length: ' + _this.digestionQueue.length);
-            _this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
+            _this.digestionQueue.map(function (item, i) { return log("digestionQueue[" + i + "].type: " + item.type); });
             var that = _this;
             magik.setTimeout(function () {
                 if (that.digestionQueue[0]) {
@@ -61,7 +61,7 @@ var PlayerClass = (function () {
                         // finished digesting, remove from queue...
                         that.digestionQueue.splice(0, 1);
                     }
-                    that.renderBars();
+                    // that.renderBars();
                 }
                 // repeat!
                 log('repeat doDigestion');
@@ -79,7 +79,7 @@ var PlayerClass = (function () {
                 };
                 _this.digestionQueue.push(digestionQueueItem);
                 _this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
-                event.setCancelled(true);
+                // event.setCancelled(true);
             }
         };
         this._BGLBarColor = function () {
