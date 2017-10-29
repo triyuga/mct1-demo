@@ -13,6 +13,10 @@ function init() {
     setHeatlh(10);
     setFood(10);
     //getInventory();
+    magik.dixit('waiting 3 secs');
+    magik.setTimeout(function () {
+        magik.dixit('timeout');
+    }, 3000);
 }
 exports.init = init;
 exports.Player = {

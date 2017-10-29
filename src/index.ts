@@ -14,6 +14,10 @@ export function init() {
     setHeatlh(10);
     setFood(10);
     //getInventory();
+    magik.dixit('waiting 3 secs');
+    magik.setTimeout(() => {
+        magik.dixit('timeout');
+    }, 3000);
 }
 
 
