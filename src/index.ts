@@ -3,13 +3,13 @@ import * as log from './old/util/log';
 
 const magik = magikcraft.io;
 
-log.info('MCT1 loading...');
-
 export function init() {
+    log.info(`init()`);
     BGL.init();
 }
 
 export function setBGL(num: number = 0) {
+    log.info(`setBGL(${num})`);
     BGL.set(num);
 }
 
