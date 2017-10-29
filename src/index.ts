@@ -10,26 +10,27 @@ export function init() {
     BGL.set(4);
     Insulin.set(0);
     listenConsume();
-    
+    setInventory();
+}
+
+export function setInventory() {
     const sender = magik.getSender();
     const playerName = sender.getName();
-    magik.dixit(`playerName: ${playerName}`);
-
     const plugin = magik.getPlugin();
     const server = plugin.getServer();
     const consoleSender = server.getConsoleSender();
-    server.dispatchCommand(consoleSender, `give ${playerName} cake`);
-    magik.dixit(`server.dispatchCommand(give ${playerName} cake)`);
-
-    // var player = canon.plugin.getServer().getPlayer(playerName);
     
-    // if (typeof playerName === "undefined") {
-    //     canon.magik.msg(MSG.SATIO_GENERIC);
-    //     return canon.sender.setFoodLevel(30);
-    // }
-    // var player = canon.plugin.getServer().getPlayer(playerName);
+    const items = [
+        { type: 'cake', amount: 2 },
+        { type: 'apple', amount: 10 },
+        { type: 'bread', amount: 5 },
+        { type: 'fish', amount: 5 },
+    ];
 
-
+    items.map(item => {
+        server.dispatchCommand(consoleSender, `give ${playerName} ${item.type} ${item.amount}`);
+        magik.dixit(`server.dispatchCommand(give ${playerName} ${item.type} ${item.amount})`);
+    });
 }
 
 export function setBGL(num: number = 0) {
@@ -59,4 +60,5 @@ export const spells = {
     setBGL,
     setInsulin,
     listenConsume,
+    setInventory,
 }

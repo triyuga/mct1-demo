@@ -9,22 +9,27 @@ function init() {
     BGL_1.default.set(4);
     Insulin_1.default.set(0);
     listenConsume();
+    setInventory();
+}
+exports.init = init;
+function setInventory() {
     var sender = magik.getSender();
     var playerName = sender.getName();
-    magik.dixit("playerName: " + playerName);
     var plugin = magik.getPlugin();
     var server = plugin.getServer();
     var consoleSender = server.getConsoleSender();
-    server.dispatchCommand(consoleSender, "give " + playerName + " cake");
-    magik.dixit("server.dispatchCommand(give " + playerName + " cake)");
-    // var player = canon.plugin.getServer().getPlayer(playerName);
-    // if (typeof playerName === "undefined") {
-    //     canon.magik.msg(MSG.SATIO_GENERIC);
-    //     return canon.sender.setFoodLevel(30);
-    // }
-    // var player = canon.plugin.getServer().getPlayer(playerName);
+    var items = [
+        { type: 'cake', amount: 2 },
+        { type: 'apple', amount: 10 },
+        { type: 'bread', amount: 5 },
+        { type: 'fish', amount: 5 },
+    ];
+    items.map(function (item) {
+        server.dispatchCommand(consoleSender, "give " + playerName + " " + item.type + " " + item.amount);
+        magik.dixit("server.dispatchCommand(give " + playerName + " " + item.type + " " + item.amount + ")");
+    });
 }
-exports.init = init;
+exports.setInventory = setInventory;
 function setBGL(num) {
     if (num === void 0) { num = 0; }
     log.info("setBGL(" + num + ")");
@@ -54,4 +59,5 @@ exports.spells = {
     setBGL: setBGL,
     setInsulin: setInsulin,
     listenConsume: listenConsume,
+    setInventory: setInventory,
 };
