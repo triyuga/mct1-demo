@@ -11,7 +11,8 @@ export function getState() {
 	state.insulinBar = state.insulinBar || null;
 	state.digestionBar0 = state.digestionBar0 || null;
 	state.digestionBar1 = state.digestionBar1 || null;
-	// state.digestionBar2 = state.digestionBar2 || null;
+	state.confusionEffect = state.confusionEffect ? true : false;
+	state.blindnessEffect = state.blindnessEffect ? true : false;
 	return state;
 }
 
@@ -23,6 +24,7 @@ export function setState(state) {
 	state.insulinBar = state.insulinBar || null;
 	state.digestionBar0 = state.digestionBar0 || null;
 	state.digestionBar1 = state.digestionBar1 || null;
-	// state.digestionBar2 = state.digestionBar2 || null;
+	state.confusionEffect = state.confusionEffect ? true : false
+	state.blindnessEffect = state.blindnessEffect ? true : false;
 	magik.playerMap.put(KEY, state);
 }

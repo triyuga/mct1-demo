@@ -85,7 +85,7 @@ const Player = {
 			
 			if (state.insulin > 0) {
 				state.insulin -= 0.1;
-				state.bgl -= 0.2;
+				state.bgl -= 0.3;
 				updated = true;
 			}
 
@@ -102,6 +102,7 @@ const Player = {
 			if (updated) {
 				setState(state);
 				that.renderBars();
+				this.doEffects();
 			}
 			// repeat!
 			that.doDigestion();
@@ -164,7 +165,52 @@ const Player = {
 
 	clearInventory() {
 		player.getInventory()['clear']();
-	},	
+	},
+
+	doEffects() {
+		if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 10)) {
+			this.doConfusion();
+		}
+		else if (state.bgl < 2 || state.bgl > 10) {
+			this.doBlindness();
+		}
+	},
+
+	doConfusion() {
+		if (!state.confusionEffect) {
+			this._makeEffect('CONFUSION', 5000);
+			state.confusionEffect = true;
+			setState(state);
+			magik.setTimeout(() => {
+				state.confusionEffect = false;
+				setState(state);
+			}, 5000);
+		}
+	},
+
+	doBlindness() {
+		if (!state.blindnessEffect) {
+			this._makeEffect('BLINDNESS', 5000);
+			state.blindnessEffect = true;
+			setState(state);
+			magik.setTimeout(() => {
+				state.blindnessEffect = false;
+				setState(state);
+			}, 5000);
+		}
+	},
+
+	_makeEffect(type, milliseconds, color = 'GREEN') {
+		const PotionEffect = magik.type("potion.PotionEffect");
+		const PotionEffectType = magik.type("potion.PotionEffectType");
+		const Color = magik.type("Color");
+		const duration = milliseconds/1000*20; // 20 tick. 1 tick = 0.05 seconds
+		const amplifier = 1;
+		const c = Color[color];
+		const l = PotionEffectType[type];
+		const effect = new PotionEffect(l, duration, amplifier, true, true, c);
+		player.addPotionEffect(effect);
+	}
 }
 
 export default Player;

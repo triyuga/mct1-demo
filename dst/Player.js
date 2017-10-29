@@ -82,7 +82,7 @@ var Player = {
             var updated = false;
             if (state.insulin > 0) {
                 state.insulin -= 0.1;
-                state.bgl -= 0.2;
+                state.bgl -= 0.3;
                 updated = true;
             }
             if (state.digestionQueue[0]) {
@@ -97,6 +97,7 @@ var Player = {
             if (updated) {
                 State_1.setState(state);
                 that.renderBars();
+                this.doEffects();
             }
             // repeat!
             that.doDigestion();
@@ -154,5 +155,47 @@ var Player = {
     clearInventory: function () {
         player.getInventory()['clear']();
     },
+    doEffects: function () {
+        if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 10)) {
+            this.doConfusion();
+        }
+        else if (state.bgl < 2 || state.bgl > 10) {
+            this.doBlindness();
+        }
+    },
+    doConfusion: function () {
+        if (!state.confusionEffect) {
+            this._makeEffect('CONFUSION', 5000);
+            state.confusionEffect = true;
+            State_1.setState(state);
+            magik.setTimeout(function () {
+                state.confusionEffect = false;
+                State_1.setState(state);
+            }, 5000);
+        }
+    },
+    doBlindness: function () {
+        if (!state.blindnessEffect) {
+            this._makeEffect('BLINDNESS', 5000);
+            state.blindnessEffect = true;
+            State_1.setState(state);
+            magik.setTimeout(function () {
+                state.blindnessEffect = false;
+                State_1.setState(state);
+            }, 5000);
+        }
+    },
+    _makeEffect: function (type, milliseconds, color) {
+        if (color === void 0) { color = 'GREEN'; }
+        var PotionEffect = magik.type("potion.PotionEffect");
+        var PotionEffectType = magik.type("potion.PotionEffectType");
+        var Color = magik.type("Color");
+        var duration = milliseconds / 1000 * 20; // 20 tick. 1 tick = 0.05 seconds
+        var amplifier = 1;
+        var c = Color[color];
+        var l = PotionEffectType[type];
+        var effect = new PotionEffect(l, duration, amplifier, true, true, c);
+        player.addPotionEffect(effect);
+    }
 };
 exports.default = Player;
