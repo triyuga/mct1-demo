@@ -76,13 +76,21 @@ var PlayerClass = (function () {
             return color;
         };
         this.name = name;
-        this.player = magik.getSender();
-        this.insulin = 0;
-        this.BGL = 4;
-        this.digestionQueue = [];
-        this.doDigestion();
-        magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
+        this.initialised = false;
+        this.init();
     }
+    PlayerClass.prototype.init = function () {
+        if (!this.initialised) {
+            this.player = magik.getSender();
+            this.insulin = 0;
+            this.BGL = 4;
+            this.digestionQueue = [];
+            this.doDigestion();
+            magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
+            this.setupInventory();
+            this.initialised = true;
+        }
+    };
     PlayerClass.prototype.setInsulin = function (num) {
         if (num === void 0) { num = 0; }
         this.insulin = num;
@@ -118,6 +126,20 @@ var PlayerClass = (function () {
                 log('amount: ' + amount);
             }
         }
+    };
+    PlayerClass.prototype.setupInventory = function () {
+        var _this = this;
+        var items = [
+            { type: 'CAKE', amount: 2 },
+            { type: 'APPLE', amount: 10 },
+            { type: 'BREAD', amount: 5 },
+            { type: 'COOKED_FISH', amount: 5 },
+        ];
+        var server = magik.getPlugin().getServer();
+        items.map(function (item) {
+            server.dispatchCommand(server.getConsoleSender(), "give " + _this.name + " " + item.type + " " + item.amount);
+            magik.dixit("server.dispatchCommand(give " + _this.name + " " + item.type + " " + item.amount + ")");
+        });
     };
     return PlayerClass;
 }());

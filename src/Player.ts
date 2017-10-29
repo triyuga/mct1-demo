@@ -13,6 +13,7 @@ const DIGESTION_BAR_KEY = 'mct1.bar.digestiom';
 
 class PlayerClass {
 	name: string;
+	initialised: boolean;
 	player: any;
 	insulin: number;
 	BGL: number;
@@ -20,12 +21,21 @@ class PlayerClass {
 
 	constructor(name) {
 		this.name = name;
-		this.player = magik.getSender();
-		this.insulin = 0;
-		this.BGL = 4;
-		this.digestionQueue = [];
-		this.doDigestion();
-		magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
+		this.initialised = false;
+		this.init();
+	}
+
+	init() {
+		if (!this.initialised) {
+			this.player = magik.getSender();
+			this.insulin = 0;
+			this.BGL = 4;
+			this.digestionQueue = [];
+			this.doDigestion();
+			magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
+			this.setupInventory();
+			this.initialised = true;
+		}
 	}
 
 	setFood = (num: number) => {
@@ -134,6 +144,22 @@ class PlayerClass {
                 log('amount: ' + amount);
             }
         }
+	}
+
+	setupInventory() {
+		const items = [
+			{ type: 'CAKE', amount: 2 },
+			{ type: 'APPLE', amount: 10 },
+			{ type: 'BREAD', amount: 5 },
+			{ type: 'COOKED_FISH', amount: 5 },
+		];
+
+		const server = magik.getPlugin().getServer();
+
+		items.map(item => {
+			server.dispatchCommand(server.getConsoleSender(), `give ${this.name} ${item.type} ${item.amount}`);
+			magik.dixit(`server.dispatchCommand(give ${this.name} ${item.type} ${item.amount})`);
+		});
 	}
 	
 }
