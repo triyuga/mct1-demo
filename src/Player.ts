@@ -12,23 +12,13 @@ const INSULIN_BAR_KEY = 'mct1.bar.insulin';
 const BGL_BAR_KEY = 'mct1.bar.BGL';
 const DIGESTION_BAR_KEY = 'mct1.bar.digestiom';
 
-class PlayerClass {
-	name: string;
-	initialised: boolean;
-	player: any;
-	insulin: number;
-	BGL: number;
-	digestionQueue: Array<any>;
-
-	constructor(name) {
-		this.initialised = false;
-		this.name = name;
-		log('name: ' + name);
-		this.player = magik.getSender();
-		this.insulin = 0;
-		this.BGL = 4;
-		this.digestionQueue = [];
-	}
+const Player = {
+	name: magik.getSender().getName(),
+	initialised: false,
+	player: magik.getSender(),
+	insulin: 0,
+	BGL: 4,
+	digestionQueue: [],
 
 	init() {
 		if (!this.initialised) {
@@ -40,29 +30,39 @@ class PlayerClass {
 			magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
 			this.initialised = true;
 		}
-	}
+	},
 
-	setFood = (num: number) => {
+	setFood(num: number) {
 		this.player.setFoodLevel(num);
-	}
+	},
 
-	setHealth = (num: number) => {
+	setHealth(num: number) {
 		this.player.setHealth(num);
-	} 
+	},
 
 	setInsulin(num: number = 0) {
 		this.insulin = num;
-	}
+	},
 
 	setBGL(num: number = 0) {
 		this.BGL = num;
-	}
+	},
 
-	renderBars = () => {
+	renderBars() {
 		// BGLBar
+		let color  = 'GREEN';
+		if (this.BGL >= 4 && this.BGL <= 8) {
+			color = 'GREEN';
+		}
+		else if ((this.BGL < 4 && this.BGL >= 2) || (this.BGL > 8 && this.BGL <= 10)) {
+			color = 'ORANGE';
+		}
+		else {
+			color = 'RED';
+		}
 		const BGLBar = Bar.bar()
 			.text(`BGL: ${this.insulin}`)
-			.color(Bar.color[this._BGLBarColor()])
+			.color(Bar.color[color])
 			.style(Bar.style.NOTCHED_20)
 			.progress((this.BGL / 20) * 100)
 			.show();
@@ -71,8 +71,8 @@ class PlayerClass {
 		
 		// insulinBar
 		const insulinBar = Bar.bar()
-			.text(`BGL: ${this.insulin}`)
-			.color(Bar.color[this._BGLBarColor()])
+			.text(`Insulin: ${this.insulin}`)
+			.color(Bar.color.BLUE)
 			.style(Bar.style.NOTCHED_20)
 			.progress((this.BGL / 20) * 100)
 			.show();
@@ -81,7 +81,6 @@ class PlayerClass {
 
 		const digestionItems = this.digestionQueue.slice(0, 3);
 		log('digestionItems.length: ' + digestionItems.length);
-
 		digestionItems.map((item) => {
 			// digestionBar
 			const digestionBar = Bar.bar()
@@ -94,9 +93,9 @@ class PlayerClass {
 			if (magik.playerMap.containsKey(barKey)) magik.playerMap.get(barKey).destroy();
 			magik.playerMap.put(barKey, digestionBar);
 		});
-	}
+	},
 
-	doDigestion = () => {
+	doDigestion() {
 		log('digesting...');
 		log('this.digestionQueue.length: ' + this.digestionQueue.length);
 		this.digestionQueue.map((item, i) => log(`digestionQueue[${i}].type: ${item.type}`));
@@ -114,7 +113,7 @@ class PlayerClass {
 			log('repeat doDigestion');
 			that.doDigestion();
 		}, 3000);
-	}
+	},
 
 	_onConsume(event) {
 		log('onConsume');
@@ -128,25 +127,12 @@ class PlayerClass {
 				percentDigested: 0,
 			};
 			this.digestionQueue.push(digestionQueueItem);
+
 			this.digestionQueue.map((item, i) => log(`item[${i}].type: ${item.type}`));
 			this.renderBars();
 			// event.setCancelled(true);
 		}
-	}
-
-	_BGLBarColor = () => {
-		let color = 'GREEN';
-		if (this.BGL >= 4 && this.BGL <= 8) {
-			color = 'GREEN';
-		}
-		else if ((this.BGL < 4 && this.BGL >= 2) || (this.BGL > 8 && this.BGL <= 10)) {
-			color = 'ORANGE';
-		}
-		else {
-			color = 'RED';
-		}
-		return color;
-	}
+	},
 
 	getInventory() {
         const inventory = this.player.getInventory(); //Contents of player inventory
@@ -160,7 +146,7 @@ class PlayerClass {
                 log('amount: ' + amount);
             }
         }
-	}
+	},
 
 	setupInventory() {
 		const items = [
@@ -176,16 +162,15 @@ class PlayerClass {
 			server.dispatchCommand(server.getConsoleSender(), `give ${this.name} ${item.type} ${item.amount}`);
 			magik.dixit(`server.dispatchCommand(give ${this.name} ${item.type} ${item.amount})`);
 		});
-	}
+	},
 
 	clearInventory() {
 		this.player.getInventory().clear();
-	}
-	
+	},	
 }
 
 
-const playerName = magik.getSender().getName();
-const Player = new PlayerClass(playerName);
+// const playerName = magik.getSender().getName();
+// const Player = new PlayerClass(playerName);
 export default Player;
 
