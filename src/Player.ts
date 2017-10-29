@@ -35,11 +35,9 @@ class PlayerClass {
 			this.clearInventory();
 			this.setupInventory();
 			this.setFood(10);
-			log('1');
 			this.doDigestion();
-			log('2');
 			this.onConsume();
-			log('3');
+			this.renderBars();
 			this.initialised = true;
 		}
 	}
@@ -113,7 +111,7 @@ class PlayerClass {
 			}
 			// repeat!
 			log('repeat doDigestion');
-			// that.doDigestion();
+			that.doDigestion();
 		}, 3000);
 	}
 
