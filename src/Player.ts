@@ -47,13 +47,13 @@ const Player = {
 		// BGLBar
 		let color  = 'GREEN';
 		if (state.bgl >= 4 && state.bgl <= 8) color = 'GREEN';
-		else if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 10)) color = 'ORANGE';
+		else if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 10)) color = 'YELLOW';
 		else color = 'RED';
 		state.bglBar = Bar.bar()
 			.text(`BGL: ${state.bgl}`)
 			.color(Bar.color[color])
 			.style(Bar.style.NOTCHED_20)
-			.progress((state.bgl / 20) * 100)
+			.progress(Math.round( ((state.bgl/20)*100) * 10) / 10) // bgl as percentage, rounded to 1 decimal
 			.show();
 
 		// insulinBar
@@ -61,14 +61,14 @@ const Player = {
 			.text(`Insulin: ${state.insulin}`)
 			.color(Bar.color.BLUE)
 			.style(Bar.style.NOTCHED_20)
-			.progress((state.insulin / 20) * 100)
+			.progress(Math.round( ((state.insulin/20)*100) * 10) / 10) // insulin as percentage, rounded to 1 decimal
 			.show();
 
 		// digestionBar(s)
 		state.digestionQueue.slice(0, 2).map((item, i) => {
 			state[`digestionBar${i}`] = Bar.bar()
 				.text(`Digesting: ${item.type}`)
-				.color(Bar.color.RED)
+				.color(Bar.color.PURPLE)
 				.style(Bar.style.NOTCHED_20)
 				.progress(100 - item.percentDigested)
 				.show();
@@ -90,8 +90,8 @@ const Player = {
 			}
 
 			if (state.digestionQueue[0]) {
-				state.digestionQueue[0].percentDigested += 10;
-				state.bgl += 0.2;	
+				state.digestionQueue[0].percentDigested += 5;
+				state.bgl += 0.1;	
 				if (state.digestionQueue[0].percentDigested >= 100) {
 					// finished digesting... remove from queue...
 					state.digestionQueue.splice(0, 1);
@@ -126,10 +126,8 @@ const Player = {
 		}
 		else if (type == 'POTION') { // important! use double arrow (not triple)
 			log(`You consumed an INSULIN POTION!`);
-			log(`state 1: ${JSON.stringify(state)}`);
 			state.insulin += 3;
 			setState(state);
-			log(`state 2: ${JSON.stringify(state)}`);
 			this.renderBars();
 		}
 	},
@@ -150,10 +148,10 @@ const Player = {
 
 	setupInventory() {
 		const items = [
-			{ type: 'APPLE', amount: 10 },
-			{ type: 'BREAD', amount: 5 },
-			{ type: 'COOKED_FISH', amount: 5 },
-			{ type: 'POTION', amount: 64 },
+			{ type: 'APPLE', amount: 64 },
+			{ type: 'BREAD', amount: 64 },
+			{ type: 'COOKED_FISH', amount: 64 },
+			{ type: 'POTION', amount: 128 },
 		];
 
 		const server = magik.getPlugin().getServer();
