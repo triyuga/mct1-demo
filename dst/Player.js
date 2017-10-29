@@ -62,7 +62,7 @@ var Player = {
             .text("Insulin: " + state.insulin)
             .color(Bar.color.BLUE)
             .style(Bar.style.NOTCHED_20)
-            .progress((state.bgl / 20) * 100)
+            .progress((state.insulin / 20) * 100)
             .show();
         // digestionBar(s)
         state.digestionQueue.slice(0, 2).map(function (item, i) {

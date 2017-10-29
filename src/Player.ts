@@ -61,7 +61,7 @@ const Player = {
 			.text(`Insulin: ${state.insulin}`)
 			.color(Bar.color.BLUE)
 			.style(Bar.style.NOTCHED_20)
-			.progress((state.bgl / 20) * 100)
+			.progress((state.insulin / 20) * 100)
 			.show();
 
 		// digestionBar(s)
