@@ -12,8 +12,17 @@ function init() {
     setInventory();
     setHeatlh(10);
     setFood(10);
+    getInventory();
 }
 exports.init = init;
+function getInventory() {
+    log.info("getContents()");
+    var sender = magik.getSender();
+    var inventory = sender.getInventory(); //Contents of player inventory
+    var contents = inventory['getContents']();
+    magik.dixit("Inventory contents: " + JSON.stringify(contents));
+}
+exports.getInventory = getInventory;
 function setInventory() {
     var sender = magik.getSender();
     var playerName = sender.getName();
@@ -21,10 +30,10 @@ function setInventory() {
     var server = plugin.getServer();
     var consoleSender = server.getConsoleSender();
     var items = [
-        { type: 'cake', amount: 2 },
-        { type: 'apple', amount: 10 },
-        { type: 'bread', amount: 5 },
-        { type: 'fish', amount: 5 },
+        { type: 'CAKE', amount: 2 },
+        { type: 'APPLE', amount: 10 },
+        { type: 'BREAD', amount: 5 },
+        { type: 'COOKED_FISH', amount: 5 },
     ];
     items.map(function (item) {
         server.dispatchCommand(consoleSender, "give " + playerName + " " + item.type + " " + item.amount);
@@ -78,4 +87,5 @@ exports.spells = {
     setInventory: setInventory,
     setHeatlh: setHeatlh,
     setFood: setFood,
+    getInventory: getInventory,
 };

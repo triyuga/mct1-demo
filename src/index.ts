@@ -13,6 +13,15 @@ export function init() {
     setInventory();
     setHeatlh(10);
     setFood(10);
+    getInventory();
+}
+
+export function getInventory() {
+    log.info(`getContents()`);
+    const sender = magik.getSender();
+    const inventory = sender.getInventory(); //Contents of player inventory
+    const contents = inventory['getContents']();
+    magik.dixit(`Inventory contents: ${JSON.stringify(contents)}`);
 }
 
 export function setInventory() {
@@ -23,10 +32,10 @@ export function setInventory() {
     const consoleSender = server.getConsoleSender();
     
     const items = [
-        { type: 'cake', amount: 2 },
-        { type: 'apple', amount: 10 },
-        { type: 'bread', amount: 5 },
-        { type: 'fish', amount: 5 },
+        { type: 'CAKE', amount: 2 },
+        { type: 'APPLE', amount: 10 },
+        { type: 'BREAD', amount: 5 },
+        { type: 'COOKED_FISH', amount: 5 },
     ];
 
     items.map(item => {
@@ -77,4 +86,5 @@ export const spells = {
     setInventory,
     setHeatlh,
     setFood,
+    getInventory,
 }

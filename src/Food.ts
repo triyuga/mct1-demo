@@ -8,6 +8,12 @@ const Food = {
 	CAKE_WHOLE: {
 		foodPoints: 14, 
 	},
+	RAW_FISH: {
+		foodPoints: 2, 
+	},
+	COOKED_FISH: {
+		foodPoints: 5, 
+	}
 }
 
 export default Food;
