@@ -21,10 +21,12 @@ exports.Player = {
         var sender = magik.getSender();
         var inventory = sender.getInventory(); //Contents of player inventory
         for (var i = 0; i <= 35; i++) {
-            magik.dixit('i: ' + i);
             var item = inventory['getItem'](i);
-            var type = item.getType();
-            magik.dixit('type: ' + type);
+            if (item) {
+                var type = item.getType();
+                magik.dixit('i: ' + i);
+                magik.dixit('type: ' + type);
+            }
         }
         // const contents = inventory['getContents']();
         // contents.map(stack => {
