@@ -101,6 +101,7 @@ var PlayerClass = (function () {
     };
     PlayerClass.prototype.doDigestion = function () {
         log('digesting...');
+        log('this.digestionQueue.length: ' + this.digestionQueue.length);
         this.digestionQueue.map(function (item, i) {
             log("item[" + i + "].type: " + item.type);
         });
@@ -116,7 +117,7 @@ var PlayerClass = (function () {
             }
             // repeat!
             that.doDigestion();
-        }, 1000);
+        }, 3000);
     };
     PlayerClass.prototype.getInventory = function () {
         var inventory = this.player.getInventory(); //Contents of player inventory
