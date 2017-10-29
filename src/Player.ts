@@ -113,7 +113,7 @@ const Player = {
 	},
 
 	getInventory() {
-        const inventory = this.player.getInventory(); //Contents of player inventory
+        const inventory = player.getInventory(); //Contents of player inventory
         for (let i = 0; i <= 35; i++) {
             const item = inventory['getItem'](i);
             if (item) {
@@ -137,13 +137,13 @@ const Player = {
 		const server = magik.getPlugin().getServer();
 
 		items.map(item => {
-			server.dispatchCommand(server.getConsoleSender(), `give ${this.name} ${item.type} ${item.amount}`);
-			magik.dixit(`server.dispatchCommand(give ${this.name} ${item.type} ${item.amount})`);
+			server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
+			magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
 		});
 	},
 
 	clearInventory() {
-		this.player.getInventory().clear();
+		player.getInventory()['clear']();
 	},	
 }
 

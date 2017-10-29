@@ -110,7 +110,7 @@ var Player = {
         }
     },
     getInventory: function () {
-        var inventory = this.player.getInventory(); //Contents of player inventory
+        var inventory = player.getInventory(); //Contents of player inventory
         for (var i = 0; i <= 35; i++) {
             var item = inventory['getItem'](i);
             if (item) {
@@ -123,7 +123,6 @@ var Player = {
         }
     },
     setupInventory: function () {
-        var _this = this;
         var items = [
             { type: 'CAKE', amount: 2 },
             { type: 'APPLE', amount: 10 },
@@ -132,12 +131,12 @@ var Player = {
         ];
         var server = magik.getPlugin().getServer();
         items.map(function (item) {
-            server.dispatchCommand(server.getConsoleSender(), "give " + _this.name + " " + item.type + " " + item.amount);
-            magik.dixit("server.dispatchCommand(give " + _this.name + " " + item.type + " " + item.amount + ")");
+            server.dispatchCommand(server.getConsoleSender(), "give " + player.getName() + " " + item.type + " " + item.amount);
+            magik.dixit("server.dispatchCommand(give " + player.getName() + " " + item.type + " " + item.amount + ")");
         });
     },
     clearInventory: function () {
-        this.player.getInventory().clear();
+        player.getInventory()['clear']();
     },
 };
 exports.default = Player;
