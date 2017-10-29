@@ -21,9 +21,9 @@ export function getInventory() {
     const sender = magik.getSender();
     const inventory = sender.getInventory(); //Contents of player inventory
     const contents = inventory['getContents']();
-    const contentsStr = JSON.stringify(contents);
-    log.info('contentsStr', contentsStr);
-    magik.dixit(`Inventory contents: ${contentsStr}`);
+    // const contentsStr = JSON.stringify(contents);
+    log.info('inventory[getContents]()', inventory['getContents']());
+    // magik.dixit(`Inventory contents: ${contentsStr}`);
 }
 
 export function setInventory() {
@@ -75,6 +75,11 @@ export function listenConsume()  {
         const foodType = event.getType();
         magik.dixit(`you ate a ${foodType}!`);
         magik.dixit('event: ' + JSON.stringify(event));
+        const player = event.getPlayer();
+        const playerName = player.getName();
+        magik.dixit('playerName: ' + playerName);
+        magik.dixit('player.getHealth(): ' + player.getHealth());
+        magik.dixit('player.getFoodLevel(): ' + player.getFoodLevel());
     });
 }
 
