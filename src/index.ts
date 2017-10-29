@@ -76,7 +76,7 @@ export function listenConsume()  {
         magik.dixit(`you ate a ${foodType}!`);
         // magik.dixit('event: ' + JSON.stringify(event));
         magik.dixit('1');
-        const player = event.getType().getPlayer();
+        const player = event.getPlayer();
         magik.dixit('2');
         const playerName = player.getName();
         magik.dixit('playerName: ' + playerName);
