@@ -102,7 +102,7 @@ const Player = {
 			if (updated) {
 				setState(state);
 				that.renderBars();
-				this.doEffects();
+				that.doEffects();
 			}
 			// repeat!
 			that.doDigestion();

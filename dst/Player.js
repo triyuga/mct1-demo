@@ -97,7 +97,7 @@ var Player = {
             if (updated) {
                 State_1.setState(state);
                 that.renderBars();
-                this.doEffects();
+                that.doEffects();
             }
             // repeat!
             that.doDigestion();
