@@ -106,10 +106,10 @@ var Player = {
                         log('destroy ' + barKey);
                         magik.playerMap.get(barKey).destroy();
                     }
-                    var updatedDigestionQueue = digestionQueue.splice(0, 1);
-                    log('updatedDigestionQueue: ' + JSON.stringify(updatedDigestionQueue));
+                    digestionQueue.splice(0, 1);
+                    log('updated digestionQueue: ' + JSON.stringify(digestionQueue));
                     // remove from queue...
-                    magik.playerMap.put('digestionQueue', updatedDigestionQueue);
+                    magik.playerMap.put('digestionQueue', digestionQueue);
                 }
                 that.renderBars();
             }
