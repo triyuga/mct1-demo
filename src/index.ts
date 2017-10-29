@@ -17,8 +17,8 @@ export function init() {
 
     const plugin = magik.getPlugin();
     const server = plugin.getServer();
-    // const consoleSender = server.getConsoleSender();
-    server.dispatchCommand(null, `give ${playerName} cake`);
+    const consoleSender = server.getConsoleSender();
+    server.dispatchCommand(consoleSender, `give ${playerName} cake`);
     magik.dixit(`server.dispatchCommand(give ${playerName} cake)`);
 
     // var player = canon.plugin.getServer().getPlayer(playerName);
