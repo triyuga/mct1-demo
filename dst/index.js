@@ -21,8 +21,9 @@ exports.Player = {
         var sender = magik.getSender();
         var inventory = sender.getInventory(); //Contents of player inventory
         for (var i = 0; i <= 35; i++) {
-            var item = sender.getInventory()['getItem'](i);
-            magik.dixit('item.type: ', item.type);
+            var item = inventory['getItem'](i);
+            var type = item.getType();
+            magik.dixit('type', type);
         }
         // const contents = inventory['getContents']();
         // contents.map(stack => {
