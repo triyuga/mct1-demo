@@ -52,7 +52,7 @@
   },
   "exclude": [
     "spells/**/*.*",
-    "old/**/*.*",
+    "_old/**/*.*",
     "**/*.test.ts",
     "node_modules/**/*.*"
   ]
