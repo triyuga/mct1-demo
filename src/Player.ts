@@ -130,6 +130,9 @@ const Player = {
 			const digestionQueue = magik.playerMap.get('digestionQueue') || [];
 			digestionQueue.push(digestionQueueItem);
 			magik.playerMap.put('digestionQueue', digestionQueue);
+			
+			const barKey = `${DIGESTION_BAR_KEY}.${digestionQueueItem.uuid}`;
+			if (magik.playerMap.containsKey(barKey)) magik.playerMap.get(barKey).destroy();
 
 			log('digestionQueue: (1) ' + JSON.stringify(digestionQueue));
 			this.renderBars();
