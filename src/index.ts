@@ -42,16 +42,14 @@ export function setBGL(num: number = 0) {
 
 export function setFood(num: number = 10) {
     log.info(`setFood(${num})`);
-    const plugin = magik.getPlugin();
-    const player = plugin.getPlayer(magik.getSender().getName())
-    player.setFoodLevel(num);
+    const sender = magik.getSender();
+    sender.setFoodLevel(num);
 }
 
 export function setHeatlh(num: number = 20) {
     log.info(`setHeatlh(${num})`);
-    const plugin = magik.getPlugin();
-    const player = plugin.getPlayer(magik.getSender().getName())
-    player.setHealth(num);
+    const sender = magik.getSender();
+    sender['setHealth'](num);
 }
 
 export function setInsulin(num: number = 0) {

@@ -41,17 +41,15 @@ exports.setBGL = setBGL;
 function setFood(num) {
     if (num === void 0) { num = 10; }
     log.info("setFood(" + num + ")");
-    var plugin = magik.getPlugin();
-    var player = plugin.getPlayer(magik.getSender().getName());
-    player.setFoodLevel(num);
+    var sender = magik.getSender();
+    sender.setFoodLevel(num);
 }
 exports.setFood = setFood;
 function setHeatlh(num) {
     if (num === void 0) { num = 20; }
     log.info("setHeatlh(" + num + ")");
-    var plugin = magik.getPlugin();
-    var player = plugin.getPlayer(magik.getSender().getName());
-    player.setHealth(num);
+    var sender = magik.getSender();
+    sender['setHealth'](num);
 }
 exports.setHeatlh = setHeatlh;
 function setInsulin(num) {
