@@ -12,7 +12,7 @@ function init() {
     setInventory();
     setHeatlh(10);
     setFood(10);
-    getInventory();
+    //getInventory();
 }
 exports.init = init;
 function getInventory() {
