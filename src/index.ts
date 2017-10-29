@@ -11,6 +11,8 @@ export function init() {
     Insulin.set(0);
     listenConsume();
     setInventory();
+    setHeatlh(10);
+    setFood(10);
 }
 
 export function setInventory() {
@@ -38,6 +40,20 @@ export function setBGL(num: number = 0) {
     BGL.set(num);
 }
 
+export function setFood(num: number = 10) {
+    log.info(`setFood(${num})`);
+    const plugin = magik.getPlugin();
+    const player = plugin.getPlayer(magik.getSender().getName())
+    player.setFoodLevel(num);
+}
+
+export function setHeatlh(num: number = 20) {
+    log.info(`setHeatlh(${num})`);
+    const plugin = magik.getPlugin();
+    const player = plugin.getPlayer(magik.getSender().getName())
+    player.setHealth(num);
+}
+
 export function setInsulin(num: number = 0) {
     log.info(`setInsulin(${num})`);
     Insulin.set(num);
@@ -61,4 +77,6 @@ export const spells = {
     setInsulin,
     listenConsume,
     setInventory,
+    setHeatlh,
+    setFood,
 }

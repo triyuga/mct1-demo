@@ -10,6 +10,8 @@ function init() {
     Insulin_1.default.set(0);
     listenConsume();
     setInventory();
+    setHeatlh(10);
+    setFood(10);
 }
 exports.init = init;
 function setInventory() {
@@ -36,6 +38,22 @@ function setBGL(num) {
     BGL_1.default.set(num);
 }
 exports.setBGL = setBGL;
+function setFood(num) {
+    if (num === void 0) { num = 10; }
+    log.info("setFood(" + num + ")");
+    var plugin = magik.getPlugin();
+    var player = plugin.getPlayer(magik.getSender().getName());
+    player.setFoodLevel(num);
+}
+exports.setFood = setFood;
+function setHeatlh(num) {
+    if (num === void 0) { num = 20; }
+    log.info("setHeatlh(" + num + ")");
+    var plugin = magik.getPlugin();
+    var player = plugin.getPlayer(magik.getSender().getName());
+    player.setHealth(num);
+}
+exports.setHeatlh = setHeatlh;
 function setInsulin(num) {
     if (num === void 0) { num = 0; }
     log.info("setInsulin(" + num + ")");
@@ -60,4 +78,6 @@ exports.spells = {
     setInsulin: setInsulin,
     listenConsume: listenConsume,
     setInventory: setInventory,
+    setHeatlh: setHeatlh,
+    setFood: setFood,
 };
