@@ -76,12 +76,12 @@ const Player = {
 		if (magik.playerMap.containsKey(INSULIN_BAR_KEY)) magik.playerMap.get(INSULIN_BAR_KEY).destroy();
 		magik.playerMap.put(INSULIN_BAR_KEY, insulinBar);
 
-		
-		const digestionQueue = magik.playerMap.get('digestionQueue') || [];
-		const digestionItems = digestionQueue.slice(0, 3);
+		if (magik.playerMap.containsKey(`${DIGESTION_BAR_KEY}.0`)) magik.playerMap.get(`${DIGESTION_BAR_KEY}.0`).destroy();
+		if (magik.playerMap.containsKey(`${DIGESTION_BAR_KEY}.1`)) magik.playerMap.get(`${DIGESTION_BAR_KEY}.1`).destroy();
+		if (magik.playerMap.containsKey(`${DIGESTION_BAR_KEY}.2`)) magik.playerMap.get(`${DIGESTION_BAR_KEY}.2`).destroy();
 
-		log('digestionItems.length: ' + digestionItems.length);
-		digestionItems.map((item) => {
+		const digestionQueue = magik.playerMap.get('digestionQueue') || [];
+		digestionQueue.slice(0, 3).map((item, i) => {
 			// digestionBar
 			const digestionBar = Bar.bar()
 				.text(`Digesting: ${item.type}`)
@@ -89,8 +89,7 @@ const Player = {
 				.style(Bar.style.NOTCHED_20)
 				.progress(item.percentDigested)
 				.show();
-			const barKey = `${DIGESTION_BAR_KEY}.${item.uuid}`;
-			if (magik.playerMap.containsKey(barKey)) magik.playerMap.get(barKey).destroy();
+			const barKey = `${DIGESTION_BAR_KEY}.${i}`;
 			magik.playerMap.put(barKey, digestionBar);
 		});
 	},

@@ -71,10 +71,14 @@ var Player = {
         if (magik.playerMap.containsKey(INSULIN_BAR_KEY))
             magik.playerMap.get(INSULIN_BAR_KEY).destroy();
         magik.playerMap.put(INSULIN_BAR_KEY, insulinBar);
+        if (magik.playerMap.containsKey(DIGESTION_BAR_KEY + ".0"))
+            magik.playerMap.get(DIGESTION_BAR_KEY + ".0").destroy();
+        if (magik.playerMap.containsKey(DIGESTION_BAR_KEY + ".1"))
+            magik.playerMap.get(DIGESTION_BAR_KEY + ".1").destroy();
+        if (magik.playerMap.containsKey(DIGESTION_BAR_KEY + ".2"))
+            magik.playerMap.get(DIGESTION_BAR_KEY + ".2").destroy();
         var digestionQueue = magik.playerMap.get('digestionQueue') || [];
-        var digestionItems = digestionQueue.slice(0, 3);
-        log('digestionItems.length: ' + digestionItems.length);
-        digestionItems.map(function (item) {
+        digestionQueue.slice(0, 3).map(function (item, i) {
             // digestionBar
             var digestionBar = Bar.bar()
                 .text("Digesting: " + item.type)
@@ -82,9 +86,7 @@ var Player = {
                 .style(Bar.style.NOTCHED_20)
                 .progress(item.percentDigested)
                 .show();
-            var barKey = DIGESTION_BAR_KEY + "." + item.uuid;
-            if (magik.playerMap.containsKey(barKey))
-                magik.playerMap.get(barKey).destroy();
+            var barKey = DIGESTION_BAR_KEY + "." + i;
             magik.playerMap.put(barKey, digestionBar);
         });
     },
