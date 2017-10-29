@@ -14,22 +14,17 @@ const DIGESTION_BAR_KEY = 'mct1.bar.digestiom';
 
 const Player = {
 	name: magik.getSender().getName(),
-	initialised: false,
 	player: magik.getSender(),
-	insulin: 0,
-	BGL: 4,
-	digestionQueue: [],
+	insulin: magik.playerMap.get('insulin') || 0,
+	BGL: magik.playerMap.get('BGL') || 4,
 
 	init() {
-		if (!this.initialised) {
-			this.clearInventory();
-			this.setupInventory();
-			this.setFood(10);
-			this.doDigestion();
-			this.renderBars();
-			magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
-			this.initialised = true;
-		}
+		this.clearInventory();
+		this.setupInventory();
+		this.setFood(10);
+		this.doDigestion();
+		this.renderBars();
+		magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
 	},
 
 	setFood(num: number) {
@@ -42,10 +37,12 @@ const Player = {
 
 	setInsulin(num: number = 0) {
 		this.insulin = num;
+		magik.playerMap.put('insulin', this.insulin);
 	},
 
 	setBGL(num: number = 0) {
 		this.BGL = num;
+		magik.playerMap.put('BGL', this.BGL);
 	},
 
 	renderBars() {
@@ -79,7 +76,10 @@ const Player = {
 		if (magik.playerMap.containsKey(INSULIN_BAR_KEY)) magik.playerMap.get(INSULIN_BAR_KEY).destroy();
 		magik.playerMap.put(INSULIN_BAR_KEY, insulinBar);
 
-		const digestionItems = this.digestionQueue.slice(0, 3);
+		
+		const digestionQueue = magik.playerMap.get('digestionQueue') || [];
+		const digestionItems = digestionQueue.slice(0, 3);
+
 		log('digestionItems.length: ' + digestionItems.length);
 		digestionItems.map((item) => {
 			// digestionBar
@@ -97,15 +97,16 @@ const Player = {
 
 	doDigestion() {
 		log('digesting...');
-		log('this.digestionQueue: ' + JSON.stringify(this.digestionQueue));
-		this.digestionQueue.map((item, i) => log(`digestionQueue[${i}].type: ${item.type}`));
 		const that = this;
 		magik.setTimeout(function() {
-			if (that.digestionQueue[0]) {
-				that.digestionQueue[0].percentDigested += 20;
-				if (that.digestionQueue[0].percentDigested >= 100) {
+			const digestionQueue = magik.playerMap.get('digestionQueue') || [];
+			log('digestionQueue: ' + JSON.stringify(digestionQueue));
+			if (digestionQueue[0]) {
+				digestionQueue[0].percentDigested += 20;
+				if (digestionQueue[0].percentDigested >= 100) {
 					// finished digesting, remove from queue...
-					that.digestionQueue.splice(0, 1);
+					digestionQueue.splice(0, 1);
+					magik.playerMap.put('digestionQueue', digestionQueue);
 				}
 				that.renderBars();
 			}
@@ -126,9 +127,11 @@ const Player = {
 				type: type,
 				percentDigested: 0,
 			};
-			this.digestionQueue.push(digestionQueueItem);
+			const digestionQueue = magik.playerMap.get('digestionQueue') || [];
+			digestionQueue.push(digestionQueueItem);
+			magik.playerMap.put('digestionQueue', digestionQueue);
 
-			log('this.digestionQueue: (1) ' + JSON.stringify(this.digestionQueue));
+			log('digestionQueue: (1) ' + JSON.stringify(digestionQueue));
 			this.renderBars();
 			// event.setCancelled(true);
 		}
