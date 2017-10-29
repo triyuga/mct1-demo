@@ -50,7 +50,7 @@ const Player = {
 		else if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 10)) color = 'ORANGE';
 		else color = 'RED';
 		state.bglBar = Bar.bar()
-			.text(`BGL: ${state.insulin}`)
+			.text(`BGL: ${state.bgl}`)
 			.color(Bar.color[color])
 			.style(Bar.style.NOTCHED_20)
 			.progress((state.bgl / 20) * 100)
@@ -78,12 +78,18 @@ const Player = {
 	},
 
 	doDigestion() {
-		log('digesting...');
+		// log('digesting...');
 		const that = this;
 		magik.setTimeout(function() {
 			if (state.digestionQueue[0]) {
-				state.digestionQueue[0].percentDigested += 21;
-				if (state.digestionQueue[0].percentDigested > 100) {
+				state.digestionQueue[0].percentDigested += 10;
+				state.bgl += 5;
+				if (state.insulin > 0) {
+					state.insulin -= 10;
+					if (state.insulin < 0) state.insulin = 0; 
+					state.bgl -= 10;
+				}			
+				if (state.digestionQueue[0].percentDigested >= 100) {
 					// finished digesting... remove from queue...
 					state.digestionQueue.splice(0, 1);
 				}
@@ -92,7 +98,7 @@ const Player = {
 			}
 			// repeat!
 			that.doDigestion();
-		}, 3000);
+		}, 1000);
 	},
 
 	_onConsume(event) {
@@ -128,10 +134,10 @@ const Player = {
 
 	setupInventory() {
 		const items = [
-			{ type: 'CAKE', amount: 2 },
 			{ type: 'APPLE', amount: 10 },
 			{ type: 'BREAD', amount: 5 },
 			{ type: 'COOKED_FISH', amount: 5 },
+			{ type: 'POTION', amount: 64 },
 		];
 
 		const server = magik.getPlugin().getServer();
