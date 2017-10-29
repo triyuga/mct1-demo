@@ -9,7 +9,27 @@ export function init() {
     log.info(`init()`);
     BGL.set(4);
     Insulin.set(0);
-    eat();
+    listenConsume();
+    
+    const sender = magik.getSender();
+    const playerName = sender.getName();
+    magik.dixit(`playerName: ${playerName}`);
+
+    const plugin = magik.getPlugin();
+    const server = plugin.getServer();
+    // const consoleSender = server.getConsoleSender();
+    server.dispatchCommand(null, `give ${playerName} cake`);
+    magik.dixit(`server.dispatchCommand(give ${playerName} cake)`);
+
+    // var player = canon.plugin.getServer().getPlayer(playerName);
+    
+    // if (typeof playerName === "undefined") {
+    //     canon.magik.msg(MSG.SATIO_GENERIC);
+    //     return canon.sender.setFoodLevel(30);
+    // }
+    // var player = canon.plugin.getServer().getPlayer(playerName);
+
+
 }
 
 export function setBGL(num: number = 0) {
@@ -22,13 +42,13 @@ export function setInsulin(num: number = 0) {
     Insulin.set(num);
 }
 
-export function eat()  {
-    magik.dixit('listening to eat event!');
+export function listenConsume()  {
+    magik.dixit('listening to PlayerItemConsumeEvent...');
     magik.Events.on('PlayerItemConsumeEvent', (evt) => {
         const event = evt.getItem();
         const foodType = event.getType();
         magik.dixit(`you ate a ${foodType}!`);
-        magik.dixit('event: ' + JSON.stringify('event'));
+        magik.dixit('event: ' + JSON.stringify(event));
     });
 }
 
