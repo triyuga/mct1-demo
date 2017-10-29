@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // import { IBar } from 'magikcraft-lore-ui-bar/dst';
 // import * as log from './old/util/log';
 var Bar = require("./Bar");
+var Utils_1 = require("./Utils");
+var Food_1 = require("./Food");
 // import * as uuid from 'uuid';
 var magik = magikcraft.io;
 var log = magik.dixit;
@@ -101,8 +103,8 @@ var PlayerClass = (function () {
             this.setupInventory();
             this.setFood(10);
             this.doDigestion();
-            this.onConsume();
             this.renderBars();
+            magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
             this.initialised = true;
         }
     };
@@ -114,24 +116,22 @@ var PlayerClass = (function () {
         if (num === void 0) { num = 0; }
         this.BGL = num;
     };
-    PlayerClass.prototype.onConsume = function () {
+    PlayerClass.prototype._onConsume = function (event) {
         log('onConsume');
-        // magik.Events.on('PlayerItemConsumeEvent', (event) => {
-        // 	const type = event.getItem().getType();
-        // 	// const amount = event.getItem().getAmount();
-        // 	if (Food[type]) {
-        // 		log(`You consumed a ${type}!`);
-        // 		const digestionQueueItem = {
-        // 			uuid: Utils.makeTimestamp(),
-        // 			type: type,
-        // 			percentDigested: 0,
-        // 		};
-        // 		this.digestionQueue.push(digestionQueueItem);
-        // 		this.digestionQueue.map((item, i) => log(`item[${i}].type: ${item.type}`));
-        // 		this.renderBars();
-        // 		// event.setCancelled(true);
-        // 	}
-        // });
+        var type = event.getItem().getType();
+        // const amount = event.getItem().getAmount();
+        if (Food_1.default[type]) {
+            log("You consumed a " + type + "!");
+            var digestionQueueItem = {
+                uuid: Utils_1.default.makeTimestamp(),
+                type: type,
+                percentDigested: 0,
+            };
+            this.digestionQueue.push(digestionQueueItem);
+            this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
+            this.renderBars();
+            // event.setCancelled(true);
+        }
     };
     PlayerClass.prototype.getInventory = function () {
         var inventory = this.player.getInventory(); //Contents of player inventory
