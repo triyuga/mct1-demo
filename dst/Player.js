@@ -51,15 +51,15 @@ var PlayerClass = (function () {
         };
         this._onConsume = function (event) {
             var type = event.getItem().getType();
-            var amount = event.getItem().getAmount();
-            log("You consumed " + amount + " " + type + "!");
+            // const amount = event.getItem().getAmount();
             if (Food_1.default[type]) {
-                event.setCancelled(true);
+                log("You consumed a " + type + "!");
                 var digestionQueueItem = {
-                    type: Food_1.default[type],
+                    type: type,
                     percentDigested: 0,
                 };
                 _this.digestionQueue.push(digestionQueueItem);
+                event.setCancelled(true);
             }
         };
         this._BGLBarColor = function () {
@@ -102,7 +102,7 @@ var PlayerClass = (function () {
     PlayerClass.prototype.doDigestion = function () {
         log('digesting...');
         this.digestionQueue.map(function (item, i) {
-            log('item.type: ' + item.type);
+            log("item[" + i + "].type: " + item.type);
         });
         var that = this;
         magik.setTimeout(function () {

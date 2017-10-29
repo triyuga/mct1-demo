@@ -91,7 +91,7 @@ class PlayerClass {
 	doDigestion() {
 		log('digesting...');
 		this.digestionQueue.map((item, i) => {
-			log('item.type: ' + item.type);
+			log(`item[${i}].type: ${item.type}`);
 		});
 		const that = this;
 		magik.setTimeout(function() {
@@ -110,15 +110,15 @@ class PlayerClass {
 
 	_onConsume = (event) => {
 		const type = event.getItem().getType();
-		const amount = event.getItem().getAmount();
-		log(`You consumed ${amount} ${type}!`);
+		// const amount = event.getItem().getAmount();
 		if (Food[type]) {
-			event.setCancelled(true);
+			log(`You consumed a ${type}!`);
 			const digestionQueueItem = {
-				type: Food[type],
+				type: type,
 				percentDigested: 0,
 			};
 			this.digestionQueue.push(digestionQueueItem);
+			event.setCancelled(true);
 		}
 	}
 

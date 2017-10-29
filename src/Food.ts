@@ -1,17 +1,22 @@
 const Food = {
 	APPLE: {
+		type: 'APPLE',
 		foodPoints: 4, 
 	},
 	CAKE_SLICE: {
+		type: 'CAKE_SLICE',
 		foodPoints: 2, 
 	},
 	CAKE_WHOLE: {
+		type: 'CAKE_WHOLE',
 		foodPoints: 14, 
 	},
 	RAW_FISH: {
+		type: 'RAW_FISH',
 		foodPoints: 2, 
 	},
 	COOKED_FISH: {
+		type: 'COOKED_FISH',
 		foodPoints: 5, 
 	}
 }
