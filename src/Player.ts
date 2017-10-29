@@ -95,6 +95,9 @@ const Player = {
 			if (state.insulin > 0) {
 				state.insulin -= 0.1;
 				state.bgl -= 0.3;
+				if (state.bgl < 4 && player.getFoodLevel() >= 20) {
+					player.setFoodLevel(15);
+				}
 				updated = true;
 			}
 
