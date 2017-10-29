@@ -20,7 +20,7 @@ export function init() {
     }, 3000);
 }
 
-
+magik.dixit('Loaded mct1-demo');
 
 export const Player = {
     getInventory() {

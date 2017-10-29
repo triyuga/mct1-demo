@@ -19,6 +19,7 @@ function init() {
     }, 3000);
 }
 exports.init = init;
+magik.dixit('Loaded mct1-demo');
 exports.Player = {
     getInventory: function () {
         magik.dixit('Player.getInventory()');
