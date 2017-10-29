@@ -65,6 +65,12 @@ var Player = {
             .style(Bar.style.NOTCHED_20)
             .progress((state.bgl / 20) * 100)
             .show();
+        state.randBar = Bar.bar()
+            .text("Random: 5")
+            .color(Bar.color.PINK)
+            .style(Bar.style.NOTCHED_20)
+            .progress(20)
+            .show();
         // digestionBar(s)
         state.digestionQueue.slice(0, 3).map(function (item, i) {
             state["digestionBar" + i] = Bar.bar()

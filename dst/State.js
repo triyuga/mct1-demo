@@ -13,6 +13,7 @@ function getState() {
     state.digestionBar0 = state.digestionBar0 || null;
     state.digestionBar1 = state.digestionBar1 || null;
     state.digestionBar2 = state.digestionBar2 || null;
+    state.randBar = state.randBar || null;
     return state;
 }
 exports.getState = getState;
@@ -25,6 +26,7 @@ function setState(state) {
     state.digestionBar0 = state.digestionBar0 || null;
     state.digestionBar1 = state.digestionBar1 || null;
     state.digestionBar2 = state.digestionBar2 || null;
+    state.randBar = state.randBar || null;
     magik.playerMap.put(KEY, state);
 }
 exports.setState = setState;
