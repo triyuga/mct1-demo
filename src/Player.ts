@@ -116,7 +116,7 @@ class PlayerClass {
 		}, 3000);
 	}
 
-	_onConsume = (event) => {
+	_onConsume(event) {
 		const type = event.getItem().getType();
 		// const amount = event.getItem().getAmount();
 		if (Food[type]) {

@@ -71,22 +71,6 @@ var PlayerClass = (function () {
                 that.doDigestion();
             }, 3000);
         };
-        this._onConsume = function (event) {
-            var type = event.getItem().getType();
-            // const amount = event.getItem().getAmount();
-            if (Food_1.default[type]) {
-                log("You consumed a " + type + "!");
-                var digestionQueueItem = {
-                    uuid: uuid.v4(),
-                    type: type,
-                    percentDigested: 0,
-                };
-                _this.digestionQueue.push(digestionQueueItem);
-                _this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
-                _this.renderBars();
-                // event.setCancelled(true);
-            }
-        };
         this._BGLBarColor = function () {
             var color = 'GREEN';
             if (_this.BGL >= 4 && _this.BGL <= 8) {
@@ -126,6 +110,22 @@ var PlayerClass = (function () {
     PlayerClass.prototype.setBGL = function (num) {
         if (num === void 0) { num = 0; }
         this.BGL = num;
+    };
+    PlayerClass.prototype._onConsume = function (event) {
+        var type = event.getItem().getType();
+        // const amount = event.getItem().getAmount();
+        if (Food_1.default[type]) {
+            log("You consumed a " + type + "!");
+            var digestionQueueItem = {
+                uuid: uuid.v4(),
+                type: type,
+                percentDigested: 0,
+            };
+            this.digestionQueue.push(digestionQueueItem);
+            this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
+            this.renderBars();
+            // event.setCancelled(true);
+        }
     };
     PlayerClass.prototype.getInventory = function () {
         var inventory = this.player.getInventory(); //Contents of player inventory
