@@ -71,16 +71,17 @@ function setInsulin(num) {
 exports.setInsulin = setInsulin;
 function listenConsume() {
     magik.dixit('listening to PlayerItemConsumeEvent...');
-    magik.Events.on('PlayerItemConsumeEvent', function (evt) {
-        var event = evt.getItem();
-        var foodType = event.getType();
+    magik.Events.on('PlayerItemConsumeEvent', function (event) {
+        ;
+        var foodType = event.getItem().getType();
         magik.dixit("you ate a " + foodType + "!");
         // magik.dixit('event: ' + JSON.stringify(event));
-        var player = evt.getPlayer();
+        var player = event.getPlayer();
         var playerName = player.getName();
         magik.dixit('playerName: ' + playerName);
         magik.dixit('player.getHealth(): ' + player.getHealth());
         magik.dixit('player.getFoodLevel(): ' + player.getFoodLevel());
+        event.setCancelled(true);
     });
 }
 exports.listenConsume = listenConsume;
