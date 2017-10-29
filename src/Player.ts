@@ -23,14 +23,15 @@ class PlayerClass {
 	constructor(name) {
 		this.initialised = false;
 		this.name = name;
+		log('name: ' + name);
 		this.player = magik.getSender();
+		this.insulin = 0;
+		this.BGL = 4;
+		this.digestionQueue = [];
 	}
 
 	init() {
 		if (!this.initialised) {
-			this.insulin = 0;
-			this.BGL = 4;
-			this.digestionQueue = [];
 			this.clearInventory();
 			this.setupInventory();
 			this.setFood(10);

@@ -85,13 +85,14 @@ var PlayerClass = (function () {
         };
         this.initialised = false;
         this.name = name;
+        log('name: ' + name);
         this.player = magik.getSender();
+        this.insulin = 0;
+        this.BGL = 4;
+        this.digestionQueue = [];
     }
     PlayerClass.prototype.init = function () {
         if (!this.initialised) {
-            this.insulin = 0;
-            this.BGL = 4;
-            this.digestionQueue = [];
             this.clearInventory();
             this.setupInventory();
             this.setFood(10);
