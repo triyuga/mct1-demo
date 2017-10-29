@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "7"
+cache: yarn
+deploy:
+  on:
+  branch: production
+  tags: true
+  provider: npm
+  email: "sitapati@worldsankirtan.net"
+  api_key:
+    secure: "ntEkHJt2+Eyd3SfvyEV5MqNL3EXeQAG1qI56K1RRxPZ9Y0Nxw3eHqy7Z3xrqJPLgGfEq0bQr0jPINA3j3ZUwsKouulg007+gckkohWQydiG3DZT/yYziMrqwBN0rghPOXypkf4zqcLQfPQkOKoMOjHTB7XRnzXltflNUJYcu3GlcSdAYXvx0u/HOY24vrFcMRTKm3a06N+bGNI66fjahUXEV2In+CDKEaR7cZFcv8fc32h3q54jfit7O47b7kpwt7k7VTUR3Cx2ANhIWP7tR9FhsdAWAmeQEyUloleLPzofd4pKLeQQ3z3nyzL4kjgScUcl/D8nbktLxCHvOvTz0Umu0/+6BffYostAunaDVcCf8ooGyoIk7wtBC0reUXCqFs7HbJUmNx/mzTbVu7ccyNP3lzzUrOCDjIzz/YfyCVmzDu5joL/k6D0RmwjKQJ81NDtjkdajNgTJMhM6f++y9HDWyTIj9LIDg2+2ZhcfSYqAZdfpkr2span6FwNnJtG2JMMRCcsp1MUYYQ6pNr6TJvTUudNiju67SsziqEAPr6otbZTGNLt3fiHp62n+eKYZ1uKDiqlaBCaeL6XYWNI03roKPzVGB3VJKdlQRBKK1Ejuin4+JwsbSXchY+ldotBZKqpSaYDZ/srtml2qrlIUoAfYROCkzzXSLuya2lTSIF9A="
+
+

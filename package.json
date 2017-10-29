@@ -1,0 +1,62 @@
+{
+  "name": "mct1",
+  "version": "1.0.3",
+  "description": "Repo for mct1 ",
+  "main": "dst/index.js",
+  "scripts": {
+    "test": "jest",
+    "clean": "rm -rf dst/*",
+    "precommit": "tsc -p src",
+    "build": "tsc -p src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mc-t1/mct1.git"
+  },
+  "keywords": [
+    "mct1",
+    "magikcraft",
+    "javascript",
+    "diabetes",
+    "minecraft"
+  ],
+  "author": "Prahlad Wulf < prahlad.108@gmail.com > (https://github.com/purpsta)",
+  "contributors": [
+    "The Legendary Josh Wulf(tm) - As Seen on the Internet(R) < josh@magikcraft.io > (https://github.com/jwulf)"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mc-t1/mct1/issues"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "src/tsconfig.json"
+      }
+    },
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  },
+  "homepage": "https://www.mct1.io",
+  "dependencies": {
+    "events": "^1.1.1",
+    "magikcraft-lore-ui-bar": "^1.0.14",
+    "nanoflux-fusion": "^0.6.0-beta",
+    "only": "0.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.20",
+    "husky": "^0.14.3",
+    "jest": "^20.0.4",
+    "magikcraft.io": "^1.2.8",
+    "ts-jest": "^20.0.7",
+    "typescript": "^2.4.1"
+  }
+}
