@@ -26,7 +26,8 @@ var PlayerClass = (function () {
                 .style(Bar.style.NOTCHED_20)
                 .progress((_this.BGL / 20) * 100)
                 .show();
-            magik.playerMap.get(BGL_BAR_KEY).destroy();
+            if (magik.playerMap.containsKey(BGL_BAR_KEY))
+                magik.playerMap.get(BGL_BAR_KEY).destroy();
             magik.playerMap.put(BGL_BAR_KEY, BGLBar);
             // insulinBar
             var insulinBar = Bar.bar()
@@ -35,7 +36,8 @@ var PlayerClass = (function () {
                 .style(Bar.style.NOTCHED_20)
                 .progress((_this.BGL / 20) * 100)
                 .show();
-            magik.playerMap.get(INSULIN_BAR_KEY).destroy();
+            if (magik.playerMap.containsKey(INSULIN_BAR_KEY))
+                magik.playerMap.get(INSULIN_BAR_KEY).destroy();
             magik.playerMap.put(INSULIN_BAR_KEY, insulinBar);
             var digestionItems = _this.digestionQueue.slice(0, 3);
             log('digestionItems.length: ' + digestionItems.length);
@@ -47,8 +49,10 @@ var PlayerClass = (function () {
                     .style(Bar.style.NOTCHED_20)
                     .progress(item.percentDigested)
                     .show();
-                magik.playerMap.get(DIGESTION_BAR_KEY + "." + item.uuid).destroy();
-                magik.playerMap.put(DIGESTION_BAR_KEY + "." + item.uuid, digestionBar);
+                var barKey = DIGESTION_BAR_KEY + "." + item.uuid;
+                if (magik.playerMap.containsKey(barKey))
+                    magik.playerMap.get(barKey).destroy();
+                magik.playerMap.put(barKey, digestionBar);
             });
         };
         this.doDigestion = function () {

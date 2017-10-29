@@ -66,7 +66,7 @@ class PlayerClass {
 			.style(Bar.style.NOTCHED_20)
 			.progress((this.BGL / 20) * 100)
 			.show();
-		magik.playerMap.get(BGL_BAR_KEY).destroy();
+		if (magik.playerMap.containsKey(BGL_BAR_KEY)) magik.playerMap.get(BGL_BAR_KEY).destroy();
 		magik.playerMap.put(BGL_BAR_KEY, BGLBar);
 		
 		// insulinBar
@@ -76,7 +76,7 @@ class PlayerClass {
 			.style(Bar.style.NOTCHED_20)
 			.progress((this.BGL / 20) * 100)
 			.show();
-		magik.playerMap.get(INSULIN_BAR_KEY).destroy();
+		if (magik.playerMap.containsKey(INSULIN_BAR_KEY)) magik.playerMap.get(INSULIN_BAR_KEY).destroy();
 		magik.playerMap.put(INSULIN_BAR_KEY, insulinBar);
 
 		const digestionItems = this.digestionQueue.slice(0, 3);
@@ -90,8 +90,9 @@ class PlayerClass {
 				.style(Bar.style.NOTCHED_20)
 				.progress(item.percentDigested)
 				.show();
-			magik.playerMap.get(`${DIGESTION_BAR_KEY}.${item.uuid}`).destroy();
-			magik.playerMap.put(`${DIGESTION_BAR_KEY}.${item.uuid}`, digestionBar);
+			const barKey = `${DIGESTION_BAR_KEY}.${item.uuid}`;
+			if (magik.playerMap.containsKey(barKey)) magik.playerMap.get(barKey).destroy();
+			magik.playerMap.put(barKey, digestionBar);
 		});
 	}
 
