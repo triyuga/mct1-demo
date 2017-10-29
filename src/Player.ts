@@ -180,7 +180,7 @@ const Player = {
 		const PotionEffect = magik.type("potion.PotionEffect");
 		const PotionEffectType = magik.type("potion.PotionEffectType");
 		const Color = magik.type("Color");
-		const duration = milliseconds/1000*20; // 20 tick. 1 tick = 0.05 seconds
+		const duration = milliseconds/1000*40; // 20 tick. 1 tick = 0.05 seconds
 		const amplifier = 1;
 		const c = Color[color];
 		const l = PotionEffectType[type];

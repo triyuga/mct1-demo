@@ -168,7 +168,7 @@ var Player = {
         var PotionEffect = magik.type("potion.PotionEffect");
         var PotionEffectType = magik.type("potion.PotionEffectType");
         var Color = magik.type("Color");
-        var duration = milliseconds / 1000 * 20; // 20 tick. 1 tick = 0.05 seconds
+        var duration = milliseconds / 1000 * 40; // 20 tick. 1 tick = 0.05 seconds
         var amplifier = 1;
         var c = Color[color];
         var l = PotionEffectType[type];
