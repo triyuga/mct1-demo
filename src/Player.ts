@@ -31,10 +31,14 @@ class PlayerClass {
 			this.insulin = 0;
 			this.BGL = 4;
 			this.digestionQueue = [];
-			this.doDigestion();
 			magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
 			this.setupInventory();
+			this.setFood(10);
+			log('1');
+			this.doDigestion();
+			log('2');
 			this.initialised = true;
+
 		}
 	}
 
@@ -88,7 +92,7 @@ class PlayerClass {
 		});
 	}
 
-	doDigestion() {
+	doDigestion = () => {
 		log('digesting...');
 		log('this.digestionQueue.length: ' + this.digestionQueue.length);
 		this.digestionQueue.map((item, i) => {
@@ -105,6 +109,7 @@ class PlayerClass {
 				that.renderBars();
 			}
 			// repeat!
+			log('repeat doDigestion');
 			that.doDigestion();
 		}, 3000);
 	}

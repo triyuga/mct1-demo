@@ -49,6 +49,27 @@ var PlayerClass = (function () {
                 magik.playerMap.put(DIGESTION_BAR_KEY + "-" + i, digestionBar);
             });
         };
+        this.doDigestion = function () {
+            log('digesting...');
+            log('this.digestionQueue.length: ' + _this.digestionQueue.length);
+            _this.digestionQueue.map(function (item, i) {
+                log("item[" + i + "].type: " + item.type);
+            });
+            var that = _this;
+            magik.setTimeout(function () {
+                if (that.digestionQueue[0]) {
+                    that.digestionQueue[0].percentDigested += 20;
+                    if (that.digestionQueue[0].percentDigested >= 100) {
+                        // finished digesting, remove from queue...
+                        that.digestionQueue.splice(0, 1);
+                    }
+                    that.renderBars();
+                }
+                // repeat!
+                log('repeat doDigestion');
+                that.doDigestion();
+            }, 3000);
+        };
         this._onConsume = function (event) {
             var type = event.getItem().getType();
             // const amount = event.getItem().getAmount();
@@ -85,9 +106,12 @@ var PlayerClass = (function () {
             this.insulin = 0;
             this.BGL = 4;
             this.digestionQueue = [];
-            this.doDigestion();
             magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
             this.setupInventory();
+            this.setFood(10);
+            log('1');
+            this.doDigestion();
+            log('2');
             this.initialised = true;
         }
     };
@@ -98,26 +122,6 @@ var PlayerClass = (function () {
     PlayerClass.prototype.setBGL = function (num) {
         if (num === void 0) { num = 0; }
         this.BGL = num;
-    };
-    PlayerClass.prototype.doDigestion = function () {
-        log('digesting...');
-        log('this.digestionQueue.length: ' + this.digestionQueue.length);
-        this.digestionQueue.map(function (item, i) {
-            log("item[" + i + "].type: " + item.type);
-        });
-        var that = this;
-        magik.setTimeout(function () {
-            if (that.digestionQueue[0]) {
-                that.digestionQueue[0].percentDigested += 20;
-                if (that.digestionQueue[0].percentDigested >= 100) {
-                    // finished digesting, remove from queue...
-                    that.digestionQueue.splice(0, 1);
-                }
-                that.renderBars();
-            }
-            // repeat!
-            that.doDigestion();
-        }, 3000);
     };
     PlayerClass.prototype.getInventory = function () {
         var inventory = this.player.getInventory(); //Contents of player inventory

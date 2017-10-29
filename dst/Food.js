@@ -20,6 +20,10 @@ var Food = {
     COOKED_FISH: {
         type: 'COOKED_FISH',
         foodPoints: 5,
+    },
+    BREAD: {
+        type: 'BREAD',
+        foodPoints: 5,
     }
 };
 exports.default = Food;
