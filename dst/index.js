@@ -20,13 +20,17 @@ exports.Player = {
         magik.dixit('Player.getInventory()');
         var sender = magik.getSender();
         var inventory = sender.getInventory(); //Contents of player inventory
-        var contents = inventory['getContents']();
-        contents.map(function (stack) {
-            var type = stack.getType();
-            magik.dixit('type: ', type);
-        });
-        var contentsStr = JSON.stringify(contents);
-        log.info('inventory[getContents]()', inventory['getContents']());
+        for (var i = 0; i <= 35; i++) {
+            var item = sender.getInventory()['getItem'](i);
+            magik.dixit('item.type: ', item.type);
+        }
+        // const contents = inventory['getContents']();
+        // contents.map(stack => {
+        //     const type = stack.getType();
+        //     magik.dixit('type: ', type);
+        // })
+        // const contentsStr = JSON.stringify(contents);
+        // log.info('inventory[getContents]()', inventory['getContents']());
         // magik.dixit(`Inventory contents: ${contentsStr}`);
     }
 };
