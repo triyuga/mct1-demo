@@ -75,13 +75,11 @@ export function listenConsume()  {
         const foodType = event.getType();
         magik.dixit(`you ate a ${foodType}!`);
         // magik.dixit('event: ' + JSON.stringify(event));
-        magik.dixit('1');
         const player = evt.getPlayer();
-        magik.dixit('2');
         const playerName = player.getName();
         magik.dixit('playerName: ' + playerName);
-        // magik.dixit('player.getHealth(): ' + player.getHealth());
-        // magik.dixit('player.getFoodLevel(): ' + player.getFoodLevel());
+        magik.dixit('player.getHealth(): ' + player.getHealth());
+        magik.dixit('player.getFoodLevel(): ' + player.getFoodLevel());
     });
 }
 

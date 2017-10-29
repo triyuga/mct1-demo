@@ -76,13 +76,11 @@ function listenConsume() {
         var foodType = event.getType();
         magik.dixit("you ate a " + foodType + "!");
         // magik.dixit('event: ' + JSON.stringify(event));
-        magik.dixit('1');
         var player = evt.getPlayer();
-        magik.dixit('2');
         var playerName = player.getName();
         magik.dixit('playerName: ' + playerName);
-        // magik.dixit('player.getHealth(): ' + player.getHealth());
-        // magik.dixit('player.getFoodLevel(): ' + player.getFoodLevel());
+        magik.dixit('player.getHealth(): ' + player.getHealth());
+        magik.dixit('player.getFoodLevel(): ' + player.getFoodLevel());
     });
 }
 exports.listenConsume = listenConsume;
