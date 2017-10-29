@@ -131,19 +131,26 @@ const Player = {
 		// const amount = event.getItem().getAmount();
 		if (Food[type]) {
 			log(`You consumed a ${type}!`);
-			const digestionQueueItem = {
-				uuid: Utils.makeTimestamp(),
+			const item = {
+				timestamp: Utils.makeTimestamp(),
 				type: type,
 				percentDigested: 0,
 			};
-			const digestionQueue = magik.playerMap.get('digestionQueue') || [];
-			digestionQueue.push(digestionQueueItem);
-			magik.playerMap.put('digestionQueue', digestionQueue);
+			this.setDigestionQueue(this.getDigestionQueue().push(item));
 
-			log('digestionQueue: (1) ' + JSON.stringify(digestionQueue));
 			this.renderBars();
 			// event.setCancelled(true);
 		}
+	},
+
+	getDigestionQueue() {
+		const digestionQueue = magik.playerMap.get('digestionQueue') || [];
+		digestionQueue.sort((a,b) => a.timestamp - b.timestamp);
+		return digestionQueue;
+	},
+
+	setDigestionQueue(digestionQueue) {
+		magik.playerMap.put('digestionQueue', digestionQueue);
 	},
 
 	getInventory() {
