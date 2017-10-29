@@ -104,7 +104,7 @@ const Player = {
 	_onConsume(event) {
 		const type = event.getItem().getType();
 		// const amount = event.getItem().getAmount();
-		log(`_onConsume type: ${type}!`);
+		log(`_onConsume type: ${type}`);
 		if (Food[type]) {
 			log(`You consumed a ${type}!`);
 			const item = {
@@ -117,7 +117,7 @@ const Player = {
 			this.renderBars();
 			// event.setCancelled(true);
 		}
-		else if (type === 'POTION') {
+		else if (type == 'POTION') { // important! use double arrow (not triple)
 			log(`You consumed an INSULIN POTION!`);
 			state.insulin += 2;
 			setState(state);

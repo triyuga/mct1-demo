@@ -102,7 +102,7 @@ var Player = {
     _onConsume: function (event) {
         var type = event.getItem().getType();
         // const amount = event.getItem().getAmount();
-        log("_onConsume type: " + type + "!");
+        log("_onConsume type: " + type);
         if (Food_1.default[type]) {
             log("You consumed a " + type + "!");
             var item = {
@@ -115,7 +115,7 @@ var Player = {
             this.renderBars();
             // event.setCancelled(true);
         }
-        else if (type === 'POTION') {
+        else if (type == 'POTION') {
             log("You consumed an INSULIN POTION!");
             state.insulin += 2;
             State_1.setState(state);
