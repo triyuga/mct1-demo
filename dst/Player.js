@@ -83,22 +83,24 @@ var PlayerClass = (function () {
             }
             return color;
         };
-        this.name = name;
         this.initialised = false;
+        this.name = name;
+        this.player = magik.getSender();
         this.init();
     }
     PlayerClass.prototype.init = function () {
         if (!this.initialised) {
-            this.player = magik.getSender();
             this.insulin = 0;
             this.BGL = 4;
             this.digestionQueue = [];
-            this.onConsume();
+            this.clearInventory();
             this.setupInventory();
             this.setFood(10);
             log('1');
             this.doDigestion();
             log('2');
+            this.onConsume();
+            log('3');
             this.initialised = true;
         }
     };
@@ -155,6 +157,9 @@ var PlayerClass = (function () {
             server.dispatchCommand(server.getConsoleSender(), "give " + _this.name + " " + item.type + " " + item.amount);
             magik.dixit("server.dispatchCommand(give " + _this.name + " " + item.type + " " + item.amount + ")");
         });
+    };
+    PlayerClass.prototype.clearInventory = function () {
+        this.player.getInventory().clear();
     };
     return PlayerClass;
 }());
