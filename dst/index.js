@@ -22,10 +22,20 @@ function setInsulin(num) {
     Insulin_1.default.set(num);
 }
 exports.setInsulin = setInsulin;
+function eat() {
+    magik.dixit('listening to eat event!');
+    magik.Events.on('PlayerItemConsumeEvent', function (evt) {
+        var itemType = evt.getItem().getType();
+        magik.dixit("you ate a " + itemType + "!");
+        magik.dixit('evt.getItem(): ' + JSON.stringify('evt.getItem()'));
+    });
+}
+exports.eat = eat;
 var _default = init;
 exports.spells = {
     _default: _default,
     init: init,
     setBGL: setBGL,
     setInsulin: setInsulin,
+    eat: eat,
 };
