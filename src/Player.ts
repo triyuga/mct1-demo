@@ -117,22 +117,23 @@ class PlayerClass {
 	}
 
 	onConsume() {
-		magik.Events.on('PlayerItemConsumeEvent', (event) => {
-			const type = event.getItem().getType();
-			// const amount = event.getItem().getAmount();
-			if (Food[type]) {
-				log(`You consumed a ${type}!`);
-				const digestionQueueItem = {
-					uuid: Utils.makeTimestamp(),
-					type: type,
-					percentDigested: 0,
-				};
-				this.digestionQueue.push(digestionQueueItem);
-				this.digestionQueue.map((item, i) => log(`item[${i}].type: ${item.type}`));
-				this.renderBars();
-				// event.setCancelled(true);
-			}
-		});
+		log('onConsume');
+		// magik.Events.on('PlayerItemConsumeEvent', (event) => {
+		// 	const type = event.getItem().getType();
+		// 	// const amount = event.getItem().getAmount();
+		// 	if (Food[type]) {
+		// 		log(`You consumed a ${type}!`);
+		// 		const digestionQueueItem = {
+		// 			uuid: Utils.makeTimestamp(),
+		// 			type: type,
+		// 			percentDigested: 0,
+		// 		};
+		// 		this.digestionQueue.push(digestionQueueItem);
+		// 		this.digestionQueue.map((item, i) => log(`item[${i}].type: ${item.type}`));
+		// 		this.renderBars();
+		// 		// event.setCancelled(true);
+		// 	}
+		// });
 	}
 
 	_BGLBarColor = () => {
