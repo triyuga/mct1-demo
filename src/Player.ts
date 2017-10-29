@@ -154,13 +154,13 @@ const Player = {
 
 	doConfusion() {
 		if (!state.confusionEffect) {
-			this._makeEffect('CONFUSION', 5000);
+			this._makeEffect('CONFUSION', 3000);
 			state.confusionEffect = true;
 			setState(state);
 			magik.setTimeout(() => {
 				state.confusionEffect = false;
 				setState(state);
-			}, 5000);
+			}, 3000);
 		}
 	},
 

@@ -143,13 +143,13 @@ var Player = {
     },
     doConfusion: function () {
         if (!state.confusionEffect) {
-            this._makeEffect('CONFUSION', 5000);
+            this._makeEffect('CONFUSION', 3000);
             state.confusionEffect = true;
             State_1.setState(state);
             magik.setTimeout(function () {
                 state.confusionEffect = false;
                 State_1.setState(state);
-            }, 5000);
+            }, 3000);
         }
     },
     doBlindness: function () {
