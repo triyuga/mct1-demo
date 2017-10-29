@@ -86,7 +86,6 @@ var PlayerClass = (function () {
         this.initialised = false;
         this.name = name;
         this.player = magik.getSender();
-        this.init();
     }
     PlayerClass.prototype.init = function () {
         if (!this.initialised) {

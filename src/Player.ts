@@ -24,7 +24,6 @@ class PlayerClass {
 		this.initialised = false;
 		this.name = name;
 		this.player = magik.getSender();
-		this.init();
 	}
 
 	init() {
