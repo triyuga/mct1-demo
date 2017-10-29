@@ -101,17 +101,18 @@ var PlayerClass = (function () {
     };
     PlayerClass.prototype.doDigestion = function () {
         log('digesting...');
+        var that = this;
         magik.setTimeout(function () {
-            if (this.digestionQueue[0]) {
-                this.digestionQueue[0].percentDigested += 20;
-                if (this.digestionQueue[0].percentDigested >= 100) {
+            if (that.digestionQueue[0]) {
+                that.digestionQueue[0].percentDigested += 20;
+                if (that.digestionQueue[0].percentDigested >= 100) {
                     // finished digesting, remove from queue...
-                    this.digestionQueue.splice(0, 1);
+                    that.digestionQueue.splice(0, 1);
                 }
-                this.renderBars();
+                that.renderBars();
             }
             // repeat!
-            this.doDigestion();
+            that.doDigestion();
         }, 1000);
     };
     PlayerClass.prototype.getInventory = function () {
