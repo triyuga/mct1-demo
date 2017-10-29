@@ -9,7 +9,7 @@ export function init() {
     BGL.init();
 }
 
-export function setBGL(num: number) {
+export function setBGL(num: number = 0) {
     BGL.set(num);
 }
 

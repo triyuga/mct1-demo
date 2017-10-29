@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// import { IBar } from 'magikcraft-lore-ui-bar/dst';
+var log = require("./old/util/log");
 var Bar = require("./Bar");
 var magik = magikcraft.io;
 var BGL_BAR_KEY = 'mct1.bar.bgl';
@@ -24,6 +26,7 @@ var BGLProvider = (function () {
         magik.playerMap.put(BGL_BAR_KEY, bar);
     };
     BGLProvider.prototype.set = function (bgl) {
+        log.info("BGL.set(" + bgl + ")");
         if (magik.playerMap.containsKey(BGL_BAR_KEY)) {
             var _bar = magik.playerMap.get(BGL_BAR_KEY);
             _bar.destroy();

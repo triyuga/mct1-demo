@@ -9,6 +9,7 @@ function init() {
 }
 exports.init = init;
 function setBGL(num) {
+    if (num === void 0) { num = 0; }
     BGL_1.default.set(num);
 }
 exports.setBGL = setBGL;
