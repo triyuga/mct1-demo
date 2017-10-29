@@ -95,7 +95,7 @@ var PlayerClass = (function () {
             this.insulin = 0;
             this.BGL = 4;
             this.digestionQueue = [];
-            magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
+            this.onConsume();
             this.setupInventory();
             this.setFood(10);
             log('1');
@@ -112,21 +112,24 @@ var PlayerClass = (function () {
         if (num === void 0) { num = 0; }
         this.BGL = num;
     };
-    PlayerClass.prototype._onConsume = function (event) {
-        var type = event.getItem().getType();
-        // const amount = event.getItem().getAmount();
-        if (Food_1.default[type]) {
-            log("You consumed a " + type + "!");
-            var digestionQueueItem = {
-                uuid: Utils_1.default.makeTimestamp(),
-                type: type,
-                percentDigested: 0,
-            };
-            this.digestionQueue.push(digestionQueueItem);
-            this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
-            this.renderBars();
-            // event.setCancelled(true);
-        }
+    PlayerClass.prototype.onConsume = function () {
+        var _this = this;
+        magik.Events.on('PlayerItemConsumeEvent', function (event) {
+            var type = event.getItem().getType();
+            // const amount = event.getItem().getAmount();
+            if (Food_1.default[type]) {
+                log("You consumed a " + type + "!");
+                var digestionQueueItem = {
+                    uuid: Utils_1.default.makeTimestamp(),
+                    type: type,
+                    percentDigested: 0,
+                };
+                _this.digestionQueue.push(digestionQueueItem);
+                _this.digestionQueue.map(function (item, i) { return log("item[" + i + "].type: " + item.type); });
+                _this.renderBars();
+                // event.setCancelled(true);
+            }
+        });
     };
     PlayerClass.prototype.getInventory = function () {
         var inventory = this.player.getInventory(); //Contents of player inventory

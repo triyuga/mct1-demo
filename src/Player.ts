@@ -32,7 +32,7 @@ class PlayerClass {
 			this.insulin = 0;
 			this.BGL = 4;
 			this.digestionQueue = [];
-			magik.Events.on('PlayerItemConsumeEvent', this._onConsume);
+			this.onConsume();
 			this.setupInventory();
 			this.setFood(10);
 			log('1');
@@ -116,21 +116,23 @@ class PlayerClass {
 		}, 3000);
 	}
 
-	_onConsume(event) {
-		const type = event.getItem().getType();
-		// const amount = event.getItem().getAmount();
-		if (Food[type]) {
-			log(`You consumed a ${type}!`);
-			const digestionQueueItem = {
-				uuid: Utils.makeTimestamp(),
-				type: type,
-				percentDigested: 0,
-			};
-			this.digestionQueue.push(digestionQueueItem);
-			this.digestionQueue.map((item, i) => log(`item[${i}].type: ${item.type}`));
-			this.renderBars();
-			// event.setCancelled(true);
-		}
+	onConsume() {
+		magik.Events.on('PlayerItemConsumeEvent', (event) => {
+			const type = event.getItem().getType();
+			// const amount = event.getItem().getAmount();
+			if (Food[type]) {
+				log(`You consumed a ${type}!`);
+				const digestionQueueItem = {
+					uuid: Utils.makeTimestamp(),
+					type: type,
+					percentDigested: 0,
+				};
+				this.digestionQueue.push(digestionQueueItem);
+				this.digestionQueue.map((item, i) => log(`item[${i}].type: ${item.type}`));
+				this.renderBars();
+				// event.setCancelled(true);
+			}
+		});
 	}
 
 	_BGLBarColor = () => {
