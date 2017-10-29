@@ -121,7 +121,7 @@ var Player = {
         }
         else if (type == 'POTION') {
             log("You consumed an INSULIN POTION!");
-            state.insulin += 3;
+            state.insulin += 2;
             State_1.setState(state);
             this.renderBars();
         }
@@ -156,7 +156,7 @@ var Player = {
         player.getInventory()['clear']();
     },
     doEffects: function () {
-        if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 10)) {
+        if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 10 && state.bgl < 12)) {
             this.doConfusion();
         }
         else if (state.bgl < 2 || state.bgl > 10) {

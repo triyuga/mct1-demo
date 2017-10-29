@@ -127,7 +127,7 @@ const Player = {
 		}
 		else if (type == 'POTION') { // important! use double arrow (not triple)
 			log(`You consumed an INSULIN POTION!`);
-			state.insulin += 3;
+			state.insulin += 2;
 			setState(state);
 			this.renderBars();
 		}
@@ -168,7 +168,7 @@ const Player = {
 	},
 
 	doEffects() {
-		if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl > 8 && state.bgl <= 10)) {
+		if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 10 && state.bgl < 12)) {
 			this.doConfusion();
 		}
 		else if (state.bgl < 2 || state.bgl > 10) {
