@@ -101,6 +101,9 @@ var PlayerClass = (function () {
     };
     PlayerClass.prototype.doDigestion = function () {
         log('digesting...');
+        this.digestionQueue.map(function (item, i) {
+            log('item.type: ' + item.type);
+        });
         var that = this;
         magik.setTimeout(function () {
             if (that.digestionQueue[0]) {

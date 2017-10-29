@@ -90,6 +90,9 @@ class PlayerClass {
 
 	doDigestion() {
 		log('digesting...');
+		this.digestionQueue.map((item, i) => {
+			log('item.type: ' + item.type);
+		});
 		const that = this;
 		magik.setTimeout(function() {
 			if (that.digestionQueue[0]) {
