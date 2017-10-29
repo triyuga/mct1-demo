@@ -104,6 +104,7 @@ const Player = {
 	_onConsume(event) {
 		const type = event.getItem().getType();
 		// const amount = event.getItem().getAmount();
+		log(`_onConsume type: ${type}!`);
 		if (Food[type]) {
 			log(`You consumed a ${type}!`);
 			const item = {
