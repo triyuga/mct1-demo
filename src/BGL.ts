@@ -33,19 +33,21 @@ class BGLProvider {
 	}
 
 	set(bgl: number) {
-		log.info(`BGL.set(${bgl})`);
-		if (magik.playerMap.containsKey(BGL_BAR_KEY)) {
-			let _bar = magik.playerMap.get(BGL_BAR_KEY);
-			_bar.destroy();
-		}
+		// log.info(`BGL.set(${bgl})`);
+		// if (magik.playerMap.containsKey(BGL_BAR_KEY)) {
+		// 	let _bar = magik.playerMap.get(BGL_BAR_KEY);
+		// 	_bar.destroy();
+		// }
 
-		const bar = Bar.bar()
-			.text(`BGL: ${bgl}`)
-			.color(Bar.color.GREEN)
-			.style(Bar.style.NOTCHED_20)
-			.progress(bgl)
-			.show();
+		// const bar = Bar.bar()
+		// 	.text(`BGL: ${bgl}`)
+		// 	.color(Bar.color.GREEN)
+		// 	.style(Bar.style.NOTCHED_20)
+		// 	.progress(bgl)
+		// 	.show();
 
+		let bar = magik.playerMap.get(BGL_BAR_KEY);
+		
 		magik.playerMap.put(BGL_BAR_KEY, bar);
 	}
 }
