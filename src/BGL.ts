@@ -33,8 +33,18 @@ class BGLProvider {
 	}
 
 	set(bgl: number) {
-		const bar = magik.playerMap.get(BGL_BAR_KEY);
-		bar.progress(bgl);
+		if (magik.playerMap.containsKey(BGL_BAR_KEY)) {
+			let _bar = magik.playerMap.get(BGL_BAR_KEY);
+			_bar.destroy();
+		}
+
+		const bar = Bar.bar()
+			.text(`BGL: ${bgl}`)
+			.color(Bar.color.GREEN)
+			.style(Bar.style.NOTCHED_20)
+			.progress(bgl)
+			.show();
+
 		magik.playerMap.put(BGL_BAR_KEY, bar);
 	}
 }
