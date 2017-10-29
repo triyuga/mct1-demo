@@ -81,12 +81,12 @@ var Player = {
         magik.setTimeout(function () {
             if (state.digestionQueue[0]) {
                 state.digestionQueue[0].percentDigested += 10;
-                state.bgl += 5;
+                state.bgl += 1;
                 if (state.insulin > 0) {
-                    state.insulin -= 10;
+                    state.insulin -= 1;
                     if (state.insulin < 0)
                         state.insulin = 0;
-                    state.bgl -= 10;
+                    state.bgl -= 2;
                 }
                 if (state.digestionQueue[0].percentDigested >= 100) {
                     // finished digesting... remove from queue...
@@ -113,6 +113,12 @@ var Player = {
             State_1.setState(state);
             this.renderBars();
             // event.setCancelled(true);
+        }
+        else if (type === 'POTION') {
+            log("You consumed an INSULIN POTION!");
+            state.insulin += 2;
+            State_1.setState(state);
+            this.renderBars();
         }
     },
     getInventory: function () {
