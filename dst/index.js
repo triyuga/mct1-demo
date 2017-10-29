@@ -20,7 +20,9 @@ function getInventory() {
     var sender = magik.getSender();
     var inventory = sender.getInventory(); //Contents of player inventory
     var contents = inventory['getContents']();
-    magik.dixit("Inventory contents: " + JSON.stringify(contents));
+    var contentsStr = JSON.stringify(contents);
+    log.info('contentsStr', contentsStr);
+    magik.dixit("Inventory contents: " + contentsStr);
 }
 exports.getInventory = getInventory;
 function setInventory() {

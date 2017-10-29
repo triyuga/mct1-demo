@@ -21,7 +21,9 @@ export function getInventory() {
     const sender = magik.getSender();
     const inventory = sender.getInventory(); //Contents of player inventory
     const contents = inventory['getContents']();
-    magik.dixit(`Inventory contents: ${JSON.stringify(contents)}`);
+    const contentsStr = JSON.stringify(contents);
+    log.info('contentsStr', contentsStr);
+    magik.dixit(`Inventory contents: ${contentsStr}`);
 }
 
 export function setInventory() {
