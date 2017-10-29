@@ -81,18 +81,25 @@ const Player = {
 		// log('digesting...');
 		const that = this;
 		magik.setTimeout(function() {
+			let updated = false;
+			
+			if (state.insulin > 0) {
+				state.insulin -= 1;
+				state.bgl -= 2;
+				updated = true;
+			}
+
 			if (state.digestionQueue[0]) {
 				state.digestionQueue[0].percentDigested += 10;
-				state.bgl += 1;
-				if (state.insulin > 0) {
-					state.insulin -= 1;
-					if (state.insulin < 0) state.insulin = 0; 
-					state.bgl -= 2;
-				}			
+				state.bgl += 1;	
 				if (state.digestionQueue[0].percentDigested >= 100) {
 					// finished digesting... remove from queue...
 					state.digestionQueue.splice(0, 1);
 				}
+				updated = true;
+			}
+
+			if (updated) {
 				setState(state);
 				that.renderBars();
 			}
@@ -119,8 +126,10 @@ const Player = {
 		}
 		else if (type == 'POTION') { // important! use double arrow (not triple)
 			log(`You consumed an INSULIN POTION!`);
+			log(`state 1: ${JSON.stringify(state)}`);
 			state.insulin += 2;
 			setState(state);
+			log(`state 2: ${JSON.stringify(state)}`);
 			this.renderBars();
 		}
 	},
