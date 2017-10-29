@@ -42,8 +42,7 @@ var Player = {
             state.digestionBar0.destroy();
         if (state.digestionBar1)
             state.digestionBar1.destroy();
-        if (state.digestionBar2)
-            state.digestionBar2.destroy();
+        // if (state.digestionBar2) state.digestionBar2.destroy();
         // BGLBar
         var color = 'GREEN';
         if (state.bgl >= 4 && state.bgl <= 8)
@@ -65,14 +64,8 @@ var Player = {
             .style(Bar.style.NOTCHED_20)
             .progress((state.bgl / 20) * 100)
             .show();
-        state.randBar = Bar.bar()
-            .text("Random: 5")
-            .color(Bar.color.PINK)
-            .style(Bar.style.NOTCHED_20)
-            .progress(20)
-            .show();
         // digestionBar(s)
-        state.digestionQueue.slice(0, 3).map(function (item, i) {
+        state.digestionQueue.slice(0, 2).map(function (item, i) {
             state["digestionBar" + i] = Bar.bar()
                 .text("Digesting: " + item.type)
                 .color(Bar.color.RED)
