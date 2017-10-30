@@ -17,6 +17,7 @@ const Player = {
 		this.doDigestion();
 		this.renderBars();
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
+		magik.Events.on('PlayerInteract', this.onInteract);
 	},
 
 	setFood(num: number) {
@@ -144,6 +145,32 @@ const Player = {
 			setState(state);
 			this.renderBars();
 		}
+	},
+
+	onInteract(event) {
+		const blockType = event.Block.getType();
+		const playerName = event.Player.getName();
+		log('blockType: ' + blockType);
+		log('playerName: ' + playerName);
+		// const type = event.getItem().getType();
+		// if (Food[type]) {
+		// 	log(`You ate a ${type}!`);
+		// 	const item = {
+		// 		timestamp: Utils.makeTimestamp(),
+		// 		type: type,
+		// 		percentDigested: 0,
+		// 	};
+		// 	state.digestionQueue.push(item);
+		// 	setState(state);
+		// 	this.renderBars();
+		// 	// event.setCancelled(true);
+		// }
+		// else if (type == 'POTION') { // important! use double arrow (not triple)
+		// 	log(`You drank an INSULIN POTION!`);
+		// 	state.insulin += 2;
+		// 	setState(state);
+		// 	this.renderBars();
+		// }
 	},
 
 	doEffects() {
