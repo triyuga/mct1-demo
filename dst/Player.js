@@ -138,6 +138,7 @@ var Player = {
         }
     },
     onInteract: function (event) {
+        log('PlayerInteract!');
         var blockType = event.Block.getType();
         var playerName = event.Player.getName();
         log('blockType: ' + blockType);
