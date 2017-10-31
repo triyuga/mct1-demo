@@ -133,7 +133,7 @@ const inventoryList = [
 const Player = {
 	init() {
 		this.clearInventory();
-		// this.refreshInventory();
+		this.refreshInventory();
 		this.setFood(2);
 		this.doDigestion();
 		this.renderBars();
@@ -446,8 +446,8 @@ const Player = {
 		inventoryList.map(item => {
 			// const stack = new ItemStack(MATERIAL[item.type], item.quantity);
 			// player.getInventory()['setItem'](item.slot, stack);
-			
-			const cmd = `replaceitem entity ${player.getName()} slot.inventory.${item.slot} ${item.type} ${item.quantity}`;
+			const slot = (item.slot <= 8) ? `slot.hotbar.${item.slot}` : `slot.inventory.${item.slot-1}`
+			const cmd = `replaceitem entity ${player.getName()}${slot} ${item.type} ${item.quantity}`;
 			magik.dixit(cmd);
 			server.dispatchCommand(server.getConsoleSender(), cmd);
 			// magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
