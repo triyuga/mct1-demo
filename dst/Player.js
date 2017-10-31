@@ -103,11 +103,11 @@ var Player = {
         magik.setTimeout(function () {
             var updated = false;
             // Reduce food level.
-            log('player.getFoodLevel(): 1 ' + player.getFoodLevel());
-            var newAmount = Math.max((player.getFoodLevel() - 0.05), 0);
-            // log('reduceAmount: ' + reduceAmount);
-            player.setFoodLevel(newAmount); // 0.16  = 125 secs to go from full to empty
-            log('player.getFoodLevel(): 2 ' + player.getFoodLevel());
+            // log('player.getFoodLevel(): 1 ' + player.getFoodLevel());
+            // const newAmount = Math.max((player.getFoodLevel()-0.05), 0); 
+            // // log('reduceAmount: ' + reduceAmount);
+            // player.setFoodLevel(newAmount); // 0.16  = 125 secs to go from full to empty
+            // log('player.getFoodLevel(): 2 ' + player.getFoodLevel());
             // handle insulin in system
             if (state.insulin > 0) {
                 state.insulin -= 0.1;
