@@ -32,6 +32,22 @@ const Player = {
 		// magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
 		magik.Events.on('PlayerQuit', (event) => log('PlayerQuit'));
 		magik.Events.on('PlayerTeleport', (event) => log('PlayerTeleport'));
+		magik.Events.on('ProjectileHit', (event) => {
+			// getEntity() // Returns the Entity involved in this event
+			// getHandlerList() 
+			// getHandlers() 
+			// getHitBlock()
+			// getHitEntity()
+			const entityType = event.getEntity() ? event.getEntity().getType() : null;
+			const hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
+			const hitBlockType = event.getHitBlock() ? event.getHitBlock().getType() : null;
+
+			log('entityType: ' + entityType);
+			log('hitEntityType: ' + hitEntityType);
+			log('hitBlockType: ' + hitBlockType);
+			// magik.shakti();
+		});
+		
 		
 		magik.Events.on('BlockDamage', (event) => {
 			// const server = magik.getPlugin().getServer();

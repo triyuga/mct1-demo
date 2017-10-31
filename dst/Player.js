@@ -30,6 +30,20 @@ var Player = {
         // magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
         magik.Events.on('PlayerQuit', function (event) { return log('PlayerQuit'); });
         magik.Events.on('PlayerTeleport', function (event) { return log('PlayerTeleport'); });
+        magik.Events.on('ProjectileHit', function (event) {
+            // getEntity() // Returns the Entity involved in this event
+            // getHandlerList() 
+            // getHandlers() 
+            // getHitBlock()
+            // getHitEntity()
+            var entityType = event.getEntity() ? event.getEntity().getType() : null;
+            var hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
+            var hitBlockType = event.getHitBlock() ? event.getHitBlock().getType() : null;
+            log('entityType: ' + entityType);
+            log('hitEntityType: ' + hitEntityType);
+            log('hitBlockType: ' + hitBlockType);
+            // magik.shakti();
+        });
         magik.Events.on('BlockDamage', function (event) {
             // const server = magik.getPlugin().getServer();
             // server.dispatchCommand(server.getConsoleSender(), `lightning`);
