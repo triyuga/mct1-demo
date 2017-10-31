@@ -18,20 +18,20 @@ const Player = {
 		this.renderBars();
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
 		
-		magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
-		magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
-		magik.Events.on('BlockCanBuild', (event) => log('BlockCanBuild'));
+		// magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
+		// magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
+		// magik.Events.on('BlockCanBuild', (event) => log('BlockCanBuild'));
 		// magik.Events.on('BlockDamage', (event) => log('BlockDamage'));
-		magik.Events.on('BlockPlace', (event) => log('BlockPlace'));
-		magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
-		magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
-		magik.Events.on('EntityRegainHealth', (event) => log('EntityRegainHealth'));
-		magik.Events.on('FoodLevelChange', (event) => log('FoodLevelChange'));
-		magik.Events.on('PlayerItemConsumeEvent', (event) => log('PlayerItemConsumeEvent'));
-		magik.Events.on('PlayerJoin', (event) => log('PlayerJoin'));
+		// magik.Events.on('BlockPlace', (event) => log('BlockPlace'));
+		// magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
+		// magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
+		// magik.Events.on('EntityRegainHealth', (event) => log('EntityRegainHealth'));
+		// magik.Events.on('FoodLevelChange', (event) => log('FoodLevelChange'));
+		// magik.Events.on('PlayerItemConsumeEvent', (event) => log('PlayerItemConsumeEvent'));
+		// magik.Events.on('PlayerJoin', (event) => log('PlayerJoin'));
 		// magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
-		magik.Events.on('PlayerQuit', (event) => log('PlayerQuit'));
-		magik.Events.on('PlayerTeleport', (event) => log('PlayerTeleport'));
+		// magik.Events.on('PlayerQuit', (event) => log('PlayerQuit'));
+		// magik.Events.on('PlayerTeleport', (event) => log('PlayerTeleport'));
 		magik.Events.on('ProjectileHit', (event) => {
 			// getEntity() // Returns the Entity involved in this event
 			// getHandlerList() 
@@ -42,9 +42,9 @@ const Player = {
 			const hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
 			const hitBlockType = event.getHitBlock() ? event.getHitBlock().getType() : null;
 
-			log('entityType: ' + entityType);
-			log('hitEntityType: ' + hitEntityType);
-			log('hitBlockType: ' + hitBlockType);
+			// log('entityType: ' + entityType);
+			// log('hitEntityType: ' + hitEntityType);
+			// log('hitBlockType: ' + hitBlockType);
 
 			let loc:any = null;
 			if (event.getHitEntity()) {

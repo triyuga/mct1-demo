@@ -16,20 +16,20 @@ var Player = {
         this.doDigestion();
         this.renderBars();
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
-        magik.Events.on('BlockBreak', function (event) { return log('BlockBreak'); });
-        magik.Events.on('BlockBurn', function (event) { return log('BlockBurn'); });
-        magik.Events.on('BlockCanBuild', function (event) { return log('BlockCanBuild'); });
+        // magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
+        // magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
+        // magik.Events.on('BlockCanBuild', (event) => log('BlockCanBuild'));
         // magik.Events.on('BlockDamage', (event) => log('BlockDamage'));
-        magik.Events.on('BlockPlace', function (event) { return log('BlockPlace'); });
-        magik.Events.on('CreatureSpawn', function (event) { return log('CreatureSpawn'); });
-        magik.Events.on('EntityDeath', function (event) { return log('EntityDeath'); });
-        magik.Events.on('EntityRegainHealth', function (event) { return log('EntityRegainHealth'); });
-        magik.Events.on('FoodLevelChange', function (event) { return log('FoodLevelChange'); });
-        magik.Events.on('PlayerItemConsumeEvent', function (event) { return log('PlayerItemConsumeEvent'); });
-        magik.Events.on('PlayerJoin', function (event) { return log('PlayerJoin'); });
+        // magik.Events.on('BlockPlace', (event) => log('BlockPlace'));
+        // magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
+        // magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
+        // magik.Events.on('EntityRegainHealth', (event) => log('EntityRegainHealth'));
+        // magik.Events.on('FoodLevelChange', (event) => log('FoodLevelChange'));
+        // magik.Events.on('PlayerItemConsumeEvent', (event) => log('PlayerItemConsumeEvent'));
+        // magik.Events.on('PlayerJoin', (event) => log('PlayerJoin'));
         // magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
-        magik.Events.on('PlayerQuit', function (event) { return log('PlayerQuit'); });
-        magik.Events.on('PlayerTeleport', function (event) { return log('PlayerTeleport'); });
+        // magik.Events.on('PlayerQuit', (event) => log('PlayerQuit'));
+        // magik.Events.on('PlayerTeleport', (event) => log('PlayerTeleport'));
         magik.Events.on('ProjectileHit', function (event) {
             // getEntity() // Returns the Entity involved in this event
             // getHandlerList() 
@@ -39,9 +39,9 @@ var Player = {
             var entityType = event.getEntity() ? event.getEntity().getType() : null;
             var hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
             var hitBlockType = event.getHitBlock() ? event.getHitBlock().getType() : null;
-            log('entityType: ' + entityType);
-            log('hitEntityType: ' + hitEntityType);
-            log('hitBlockType: ' + hitBlockType);
+            // log('entityType: ' + entityType);
+            // log('hitEntityType: ' + hitEntityType);
+            // log('hitBlockType: ' + hitBlockType);
             var loc = null;
             if (event.getHitEntity()) {
                 loc = event.getHitEntity().getLocation();
