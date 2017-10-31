@@ -42,6 +42,21 @@ var Player = {
             log('entityType: ' + entityType);
             log('hitEntityType: ' + hitEntityType);
             log('hitBlockType: ' + hitBlockType);
+            var loc = null;
+            if (hitEntityType) {
+                loc = hitEntityType.getLocation();
+            }
+            else if (hitBlockType) {
+                loc = hitBlockType.getLocation();
+            }
+            if (loc) {
+                var location = loc.getX() + " " + loc.getY() + " " + loc.getZ();
+                log('location: ' + location);
+                var server = magik.getPlugin().getServer();
+                server.dispatchCommand(server.getConsoleSender(), "/summon lightning_bolt " + location);
+            }
+            // const server = magik.getPlugin().getServer();
+            // server.dispatchCommand(server.getConsoleSender(), `/summon lightning_bolt [x] [y] [z]`);
             // magik.shakti();
         });
         magik.Events.on('BlockDamage', function (event) {
