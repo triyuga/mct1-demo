@@ -28,7 +28,7 @@ var Player = {
         magik.Events.on('FoodLevelChange', function (event) { return log('FoodLevelChange'); });
         magik.Events.on('PlayerItemConsumeEvent', function (event) { return log('PlayerItemConsumeEvent'); });
         magik.Events.on('PlayerJoin', function (event) { return log('PlayerJoin'); });
-        magik.Events.on('PlayerMove', function (event) { return log('PlayerMove'); });
+        // magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
         magik.Events.on('PlayerQuit', function (event) { return log('PlayerQuit'); });
         magik.Events.on('PlayerTeleport', function (event) { return log('PlayerTeleport'); });
         magik.Events.on('PlayerInteract', function (event) { return log('PlayerInteract'); });
