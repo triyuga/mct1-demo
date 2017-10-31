@@ -23,12 +23,14 @@ const Player = {
 		this.renderBars();
 		
 		// Super Powers!
+		this.superSpeed();
 		this.superJump();
 		this.superGlow();
-		this.superSpeed();
-
-		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
 		magik.Events.on('ProjectileHit', this.onProjectileHit);
+
+		// Handle eatFood and takeInsulin events.
+		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
+		
 		// magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
 		
 		// magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
@@ -284,7 +286,7 @@ const Player = {
 		this._makeEffect('SPEED', 10000000, 'WHITE', 2);
 	},
 	superJump() {
-		this._makeEffect('JUMP', 10000000, 'WHITE', 3);
+		this._makeEffect('JUMP', 10000000, 'WHITE', 2);
 	},
 	superGlow() {
 		this._makeEffect('GLOWING', 10000000, 'WHITE');
