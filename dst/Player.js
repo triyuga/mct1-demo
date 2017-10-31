@@ -53,7 +53,9 @@ var Player = {
                 var location = loc.getX() + " " + loc.getY() + " " + loc.getZ();
                 log('location: ' + location);
                 var server = magik.getPlugin().getServer();
-                server.dispatchCommand(server.getConsoleSender(), "/execute " + player.getName() + " ~ ~ ~ summon lightning_bolt " + location);
+                var cmd = "/execute " + player.getName() + " ~ ~ ~ summon lightning_bolt " + location;
+                log('cmd: ' + cmd);
+                server.dispatchCommand(server.getConsoleSender(), cmd);
             }
             // const server = magik.getPlugin().getServer();
             // server.dispatchCommand(server.getConsoleSender(), `/summon lightning_bolt [x] [y] [z]`);
