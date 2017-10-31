@@ -156,6 +156,9 @@ const Player = {
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
 		
 		// magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
+
+		const cmd = `cast EntityDamageEvent`;
+		player['performCommand'](cmd);
 		
 		// magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
 		// magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
