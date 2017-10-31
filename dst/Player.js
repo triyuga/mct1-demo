@@ -116,7 +116,7 @@ var Player = {
                 state.digestionQueue[0].percentDigested += 5;
                 state.bgl += 0.2;
                 if (player['getHealth']() < 20) {
-                    player['setHealth'](Math.max((player['getHealth']() + 0.5), 20));
+                    player['setHealth'](Math.min((player['getHealth']() + 0.5), 20));
                 }
                 if (state.digestionQueue[0].percentDigested >= 100) {
                     // finished digesting... remove from queue...
