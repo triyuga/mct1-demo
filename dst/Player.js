@@ -16,7 +16,22 @@ var Player = {
         this.doDigestion();
         this.renderBars();
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
-        magik.Events.on('PlayerInteract', this.onInteract);
+        magik.Events.on('PlayerInteract', function (event) { return log('PlayerInteract'); });
+        magik.Events.on('BlockBreak', function (event) { return log('BlockBreak'); });
+        magik.Events.on('BlockBurn', function (event) { return log('BlockBurn'); });
+        magik.Events.on('BlockCanBuild', function (event) { return log('BlockCanBuild'); });
+        magik.Events.on('BlockDamage', function (event) { return log('BlockDamage'); });
+        magik.Events.on('BlockPlace', function (event) { return log('BlockPlace'); });
+        magik.Events.on('CreatureSpawn', function (event) { return log('CreatureSpawn'); });
+        magik.Events.on('EntityDeath', function (event) { return log('EntityDeath'); });
+        magik.Events.on('EntityRegainHealth', function (event) { return log('EntityRegainHealth'); });
+        magik.Events.on('FoodLevelChange', function (event) { return log('FoodLevelChange'); });
+        magik.Events.on('PlayerItemConsumeEvent', function (event) { return log('PlayerItemConsumeEvent'); });
+        magik.Events.on('PlayerJoin', function (event) { return log('PlayerJoin'); });
+        magik.Events.on('PlayerMove', function (event) { return log('PlayerMove'); });
+        magik.Events.on('PlayerQuit', function (event) { return log('PlayerQuit'); });
+        magik.Events.on('PlayerTeleport', function (event) { return log('PlayerTeleport'); });
+        magik.Events.on('PlayerInteract', function (event) { return log('PlayerInteract'); });
     },
     setFood: function (num) {
         player.setFoodLevel(num);
@@ -137,32 +152,13 @@ var Player = {
             this.renderBars();
         }
     },
-    onInteract: function (event) {
-        log('PlayerInteract!');
-        var blockType = event.Block.getType();
-        var playerName = event.Player.getName();
-        log('blockType: ' + blockType);
-        log('playerName: ' + playerName);
-        // const type = event.getItem().getType();
-        // if (Food[type]) {
-        // 	log(`You ate a ${type}!`);
-        // 	const item = {
-        // 		timestamp: Utils.makeTimestamp(),
-        // 		type: type,
-        // 		percentDigested: 0,
-        // 	};
-        // 	state.digestionQueue.push(item);
-        // 	setState(state);
-        // 	this.renderBars();
-        // 	// event.setCancelled(true);
-        // }
-        // else if (type == 'POTION') { // important! use double arrow (not triple)
-        // 	log(`You drank an INSULIN POTION!`);
-        // 	state.insulin += 2;
-        // 	setState(state);
-        // 	this.renderBars();
-        // }
-    },
+    // onInteract(event) {
+    // 	log('PlayerInteract!');
+    // 	const blockType = event.Block.getType();
+    // 	const playerName = event.Player.getName();
+    // 	log('blockType: ' + blockType);
+    // 	log('playerName: ' + playerName);
+    // },
     doEffects: function () {
         // Confusion!
         if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 8 && state.bgl <= 10)) {

@@ -17,7 +17,23 @@ const Player = {
 		this.doDigestion();
 		this.renderBars();
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
-		magik.Events.on('PlayerInteract', this.onInteract);
+		
+		magik.Events.on('PlayerInteract', (event) => log('PlayerInteract'));
+		magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
+		magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
+		magik.Events.on('BlockCanBuild', (event) => log('BlockCanBuild'));
+		magik.Events.on('BlockDamage', (event) => log('BlockDamage'));
+		magik.Events.on('BlockPlace', (event) => log('BlockPlace'));
+		magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
+		magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
+		magik.Events.on('EntityRegainHealth', (event) => log('EntityRegainHealth'));
+		magik.Events.on('FoodLevelChange', (event) => log('FoodLevelChange'));
+		magik.Events.on('PlayerItemConsumeEvent', (event) => log('PlayerItemConsumeEvent'));
+		magik.Events.on('PlayerJoin', (event) => log('PlayerJoin'));
+		magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
+		magik.Events.on('PlayerQuit', (event) => log('PlayerQuit'));
+		magik.Events.on('PlayerTeleport', (event) => log('PlayerTeleport'));
+		magik.Events.on('PlayerInteract', (event) => log('PlayerInteract'));
 	},
 
 	setFood(num: number) {
@@ -147,32 +163,13 @@ const Player = {
 		}
 	},
 
-	onInteract(event) {
-		log('PlayerInteract!');
-		const blockType = event.Block.getType();
-		const playerName = event.Player.getName();
-		log('blockType: ' + blockType);
-		log('playerName: ' + playerName);
-		// const type = event.getItem().getType();
-		// if (Food[type]) {
-		// 	log(`You ate a ${type}!`);
-		// 	const item = {
-		// 		timestamp: Utils.makeTimestamp(),
-		// 		type: type,
-		// 		percentDigested: 0,
-		// 	};
-		// 	state.digestionQueue.push(item);
-		// 	setState(state);
-		// 	this.renderBars();
-		// 	// event.setCancelled(true);
-		// }
-		// else if (type == 'POTION') { // important! use double arrow (not triple)
-		// 	log(`You drank an INSULIN POTION!`);
-		// 	state.insulin += 2;
-		// 	setState(state);
-		// 	this.renderBars();
-		// }
-	},
+	// onInteract(event) {
+	// 	log('PlayerInteract!');
+	// 	const blockType = event.Block.getType();
+	// 	const playerName = event.Player.getName();
+	// 	log('blockType: ' + blockType);
+	// 	log('playerName: ' + playerName);
+	// },
 
 	doEffects() {
 		// Confusion!
