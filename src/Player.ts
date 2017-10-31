@@ -133,7 +133,8 @@ const inventoryList = [
 const Player = {
 	init() {
 		this.clearInventory();
-		this.refreshInventory();
+		// this.refreshInventory();
+		this.setupInventory();
 		this.setFood(2);
 		this.doDigestion();
 		this.renderBars();
@@ -451,6 +452,22 @@ const Player = {
 			magik.dixit(cmd);
 			server.dispatchCommand(server.getConsoleSender(), cmd);
 			// magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
+		});
+	},
+
+	setupInventory() {
+		const items = [
+			{ type: 'APPLE', amount: 64 },
+			{ type: 'BREAD', amount: 64 },
+			{ type: 'COOKED_FISH', amount: 64 },
+			{ type: 'POTION', amount: 128 },
+		];
+
+		const server = magik.getPlugin().getServer();
+
+		items.map(item => {
+			server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
+			magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
 		});
 	},
 
