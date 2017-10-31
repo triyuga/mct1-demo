@@ -19,7 +19,7 @@ const Player = {
 
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
 		magik.Events.on('ProjectileHit', this.onProjectileHit);
-		magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
+		// magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
 		
 		// magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
 		// magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
@@ -147,6 +147,11 @@ const Player = {
 				that.doEffects();
 			}
 
+			// Never allow player to be full!
+			if (player.getFoodLevel() >= 20) {
+				player.setFoodLevel(19.5);
+			}
+
 			// repeat ongoingly!
 			that.doDigestion();
 		}, 4000);
@@ -209,18 +214,18 @@ const Player = {
 		}
 	},
 
-	onFoodLevelChange(event) {
-		const entityType = event.getEntity().getType();
-		const playerName = event.getEntity().getName();
-		if (event.getEntity().getType() !== 'PLAYER' || event.getEntity().getName() !== player.getName()) {
-			return;
-		}
-		// Never allow player to be full!
-		log('FoodLevelChange 1' + event.getFoodLevel());
-		if (event.getFoodLevel() >= 20) {
-			event.setFoodLevel(19.5);
-		}
-	},
+	// onFoodLevelChange(event) {
+	// 	const entityType = event.getEntity().getType();
+	// 	const playerName = event.getEntity().getName();
+	// 	if (event.getEntity().getType() !== 'PLAYER' || event.getEntity().getName() !== player.getName()) {
+	// 		return;
+	// 	}
+	// 	// Never allow player to be full!
+	// 	log('FoodLevelChange: ' + event.getFoodLevel());
+	// 	if (event.getFoodLevel() >= 20) {
+	// 		event.setFoodLevel(19);
+	// 	}
+	// },
 
 	onInteract(event) {
 		// log('PlayerInteract!');

@@ -17,7 +17,7 @@ var Player = {
         this.renderBars();
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
         magik.Events.on('ProjectileHit', this.onProjectileHit);
-        magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
+        // magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
         // magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
         // magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
         // magik.Events.on('BlockCanBuild', (event) => log('BlockCanBuild'));
@@ -136,6 +136,10 @@ var Player = {
                 that.renderBars();
                 that.doEffects();
             }
+            // Never allow player to be full!
+            if (player.getFoodLevel() >= 20) {
+                player.setFoodLevel(19.5);
+            }
             // repeat ongoingly!
             that.doDigestion();
         }, 4000);
@@ -193,18 +197,18 @@ var Player = {
             player['setHealth'](player['getHealth']() - 1);
         }
     },
-    onFoodLevelChange: function (event) {
-        var entityType = event.getEntity().getType();
-        var playerName = event.getEntity().getName();
-        if (event.getEntity().getType() !== 'PLAYER' || event.getEntity().getName() !== player.getName()) {
-            return;
-        }
-        // Never allow player to be full!
-        log('FoodLevelChange 1' + event.getFoodLevel());
-        if (event.getFoodLevel() >= 20) {
-            event.setFoodLevel(19.5);
-        }
-    },
+    // onFoodLevelChange(event) {
+    // 	const entityType = event.getEntity().getType();
+    // 	const playerName = event.getEntity().getName();
+    // 	if (event.getEntity().getType() !== 'PLAYER' || event.getEntity().getName() !== player.getName()) {
+    // 		return;
+    // 	}
+    // 	// Never allow player to be full!
+    // 	log('FoodLevelChange: ' + event.getFoodLevel());
+    // 	if (event.getFoodLevel() >= 20) {
+    // 		event.setFoodLevel(19);
+    // 	}
+    // },
     onInteract: function (event) {
         // log('PlayerInteract!');
         // const blockType = event.Block.getType();
