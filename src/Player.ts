@@ -110,7 +110,7 @@ const Player = {
 			let updated = false;
 
 			// Reduce food level.
-			// log('player.getFoodLevel(): 1 ' + player.getFoodLevel());
+			log('player.getFoodLevel(): 1 ' + player.getFoodLevel());
 			// const newAmount = Math.max((player.getFoodLevel()-0.05), 0); 
 			// // log('reduceAmount: ' + reduceAmount);
 			// player.setFoodLevel(newAmount); // 0.16  = 125 secs to go from full to empty
@@ -149,7 +149,7 @@ const Player = {
 
 			// repeat ongoingly!
 			that.doDigestion();
-		}, 1000);
+		}, 4000);
 	},
 
 	onConsume(event) {
@@ -216,6 +216,7 @@ const Player = {
 			return;
 		}
 		// Never allow player to be full!
+		log('FoodLevelChange 1' + event.getFoodLevel());
 		if (event.getFoodLevel() >= 20) {
 			event.setFoodLevel(19.5);
 		}
