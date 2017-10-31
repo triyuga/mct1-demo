@@ -103,13 +103,11 @@ var Player = {
         var that = this;
         magik.setTimeout(function () {
             var updated = false;
-            log('tickCount: ' + tickCount);
             // Every 10 ticks...
             if (tickCount % 10 === 0) {
-                log('REDUCE FOOD!');
-                player.setFoodLevel(Math.max((player.getFoodLevel() - 1), 0)); // 0.16  = 125 secs to go from full to empty
+                // Reduce food level.
+                player.setFoodLevel(Math.max((player.getFoodLevel() - 1), 0));
             }
-            // Reduce food level.
             // handle insulin in system
             if (state.insulin > 0) {
                 state.insulin -= 0.1;
