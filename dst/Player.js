@@ -54,9 +54,18 @@ var Player = {
                 log('location: ' + location);
                 var server = magik.getPlugin().getServer();
                 var cmd = "execute " + player.getName() + " ~ ~ ~ summon lightning_bolt " + location;
+                // const cmd = `execute ${player.getName()} ~ ~ ~ summon SNOWMAN ${location}`;
                 log('cmd: ' + cmd);
                 server.dispatchCommand(server.getConsoleSender(), cmd);
-                player['performCommand']("summon SNOWMAN " + location);
+                // Food or Health cost...
+                if (player.getFoodLevel() > 1) {
+                    player.setFoodLevel(player.getFoodLevel() - 1);
+                }
+                else {
+                    player['setHealth'](player['getHealth']() - 1);
+                }
+                // (player.getFoodLevel()-1)
+                // player['performCommand'](`summon SNOWMAN ${location}`);
             }
             // const server = magik.getPlugin().getServer();
             // server.dispatchCommand(server.getConsoleSender(), `/summon lightning_bolt [x] [y] [z]`);
