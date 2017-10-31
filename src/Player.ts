@@ -110,12 +110,10 @@ const Player = {
 			let updated = false;
 
 			// Reduce food level.
-			log('player.getFoodLevel():' + player.getFoodLevel());
-			const newAmount = Math.max((player.getFoodLevel()-0.2), 0); 
-			log('newAmount: ' + newAmount);
-			// player.setFoodLevel(newAmount); // 0.16  = 125 secs to go from full to empty
-			// log('player.getFoodLevel(): 2 ' + player.getFoodLevel());
-			
+			const updatedFoodLevel = Math.max((player.getFoodLevel()-0.2), 0); 
+			log('FOOD: old=' + player.getFoodLevel() + ' newAmount=' + updatedFoodLevel);
+			player.setFoodLevel(updatedFoodLevel); // 0.16  = 125 secs to go from full to empty
+
 			// handle insulin in system
 			if (state.insulin > 0) {
 				state.insulin -= 0.1;
