@@ -8,57 +8,56 @@ var magik = magikcraft.io;
 var log = magik.dixit;
 var player = magik.getSender();
 var state = State_1.getState();
-// declare function require(name:string);
-// declare const require: any;
 // const foodList = fs.readFileSync('./men.json, handleJSONFile);
+var foodList = require('./food.json');
 // const foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
-var foodList = [
-    {
-        "type": "COOKED_CHICKEN",
-        "carbs": 10,
-        "GI": "high"
-    },
-    {
-        "type": "COOKED_FISH",
-        "carbs": 11,
-        "GI": "low"
-    },
-    {
-        "type": "BREAD",
-        "carbs": 14,
-        "GI": "high"
-    },
-    {
-        "type": "COOKIE",
-        "carbs": 30,
-        "GI": "high"
-    },
-    {
-        "type": "APPLE",
-        "carbs": 10,
-        "GI": "low"
-    },
-    {
-        "type": "BAKED_POTATO",
-        "carbs": 25,
-        "GI": "high"
-    },
-    {
-        "type": "PUMPKIN_PIE",
-        "carbs": 31,
-        "GI": "high"
-    },
-    {
-        "type": "MUSHROOM_STEW",
-        "carbs": 14,
-        "GI": "low"
-    },
-    {
-        "type": "BEETROOT",
-        "carbs": 31,
-        "GI": "high"
-    }
-];
+// const foodList = [
+// 	{
+// 		"type": "COOKED_CHICKEN",
+// 		"carbs": 10,
+// 		"GI": "high"
+// 	},
+// 	{
+// 		"type": "COOKED_FISH",
+// 		"carbs": 11,
+// 		"GI": "low"
+// 	},
+// 	{
+// 		"type": "BREAD",
+// 		"carbs": 14,
+// 		"GI": "high"
+// 	},
+// 	{
+// 		"type": "COOKIE",
+// 		"carbs": 30,
+// 		"GI": "high"
+// 	},
+// 	{
+// 		"type": "APPLE",
+// 		"carbs": 10,
+// 		"GI": "low"
+// 	},
+// 	{
+// 		"type": "BAKED_POTATO",
+// 		"carbs": 25,
+// 		"GI": "high"
+// 	},
+// 	{
+// 		"type": "PUMPKIN_PIE",
+// 		"carbs": 31,
+// 		"GI": "high"
+// 	},
+// 	{
+// 		"type": "MUSHROOM_STEW",
+// 		"carbs": 14,
+// 		"GI": "low"
+// 	},
+// 	{
+// 		"type": "BEETROOT",
+// 		"carbs": 31,
+// 		"GI": "high"
+// 	}
+// ];
 var Food = {};
 foodList.forEach(function (item) { return Food[item.type] = item; });
 // const inventoryList = JSON.parse(fs.readFileSync('./inventory.json', 'utf8'));
@@ -121,7 +120,12 @@ var inventoryList = [
 ];
 // TODO:
 // * Use XP bar for lightning
-// * Rising BGL
+// * BGL going down due to insulin = get health
+// * See in dark when in range
+// * All super powers only when in range
+// * don't allow them to below 2, or above 20 (blind at 15)
+// * high GI go top top of queue, digest faster, effect BGL positively, even if insulin in system
+// * low GI, digest slower, BGL still goes down in Insulin in system
 var Player = {
     init: function () {
         this.clearInventory();
@@ -134,6 +138,7 @@ var Player = {
         this.superSpeed();
         this.superJump();
         this.superGlow();
+        this.superNightVision();
         magik.Events.on('ProjectileHit', this.onProjectileHit);
         // Handle eatFood and takeInsulin events.
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
@@ -315,9 +320,9 @@ var Player = {
         if (player.getFoodLevel() > 0) {
             player.setFoodLevel(Math.max(player.getFoodLevel() - 1, 0));
         }
-        else {
-            player['setHealth'](player['getHealth']() - 1);
-        }
+        // else {
+        // 	player['setHealth'](player['getHealth']() - 1);
+        // }
     },
     onInteract: function (event) {
         // Do stuff.
@@ -377,6 +382,9 @@ var Player = {
     },
     superGlow: function () {
         this._makeEffect('GLOWING', 10000000, 'WHITE');
+    },
+    superNightVision: function () {
+        this._makeEffect('NIGHT_VISION', 10000000, 'WHITE');
     },
     _makeEffect: function (type, milliseconds, color, amplifier) {
         if (color === void 0) { color = 'GREEN'; }
@@ -439,3 +447,25 @@ var Player = {
     },
 };
 exports.default = Player;
+// const actionType = event.getAction().getType();
+// const handType = event.getHand().getType(); // EquipmentSlot
+// const itemType = event.getItem().getType(); // ItemStack
+// const materialType = event.getMaterial().getType(); // Material
+// const hasItem = event.hasItem(); // Check if this event involved an item
+// magik.dixit('actionType: ' + actionType);
+// magik.dixit('handType: ' + handType);
+// magik.dixit('itemType: ' + itemType);
+// magik.dixit('materialType: ' + materialType);
+// magik.dixit('hasItem: ' + hasItem);
+// // getBlockFace(); // BlockFace
+// // getClickedBlock().getType();
+// // getHandlerList(); // HandlerList
+// // getHandlers(); // HandlerList
+// // hasBlock() // Check if this event involved a block
+// // isBlockInHand() // boolean whether this was a block placement event
+// // isCancelled() // boolean
+// // setCancelled(boolean cancel) // 
+// // setUseInteractedBlock(Event.Result useInteractedBlock) 
+// // setUseItemInHand(Event.Result useItemInHand) 
+// // useInteractedBlock() // Event.Result This controls the action to take with the block (if any) that was clicked on.
+// // useItemInHand() // Event.Result	 

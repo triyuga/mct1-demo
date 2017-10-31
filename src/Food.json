@@ -1,12 +1,12 @@
 [
 	{
 		"type": "COOKED_CHICKEN",
-		"carbs": 10,
-		"GI": "high"
+		"carbs": 3,
+		"GI": "low"
 	},
 	{
 		"type": "COOKED_FISH",
-		"carbs": 11,
+		"carbs": 2,
 		"GI": "low"
 	},
 	{
@@ -22,26 +22,26 @@
 	{
 		"type": "APPLE",
 		"carbs": 10,
-		"GI": "low"
+		"GI": "high"
 	},
 	{
 		"type": "BAKED_POTATO",
-		"carbs": 25,
+		"carbs": 15,
 		"GI": "high"
 	},
 	{
 		"type": "PUMPKIN_PIE",
-		"carbs": 31,
+		"carbs": 30,
 		"GI": "high"
 	},
 	{
 		"type": "MUSHROOM_STEW",
-		"carbs": 14,
+		"carbs": 8,
 		"GI": "low"
 	},
 	{
-		"type": "BEETROOT",
-		"carbs": 31,
-		"GI": "high"
+		"type": "BEETROOT_SOUP",
+		"carbs": 10,
+		"GI": "low"
 	}
 ]
