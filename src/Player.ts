@@ -16,7 +16,10 @@ const Player = {
 		this.setFood(2);
 		this.doDigestion();
 		this.renderBars();
+
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
+		magik.Events.on('ProjectileHit', this.onProjectileHit);
+		magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
 		
 		// magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
 		// magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
@@ -32,67 +35,6 @@ const Player = {
 		// magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
 		// magik.Events.on('PlayerQuit', (event) => log('PlayerQuit'));
 		// magik.Events.on('PlayerTeleport', (event) => log('PlayerTeleport'));
-		magik.Events.on('ProjectileHit', (event) => {
-			// getEntity() // Returns the Entity involved in this event
-			// getHandlerList() 
-			// getHandlers() 
-			// getHitBlock()
-			// getHitEntity()
-			const shooter = event.getEntity().getShooter();
-			if (!shooter || shooter.getName() !== player.getName()) {
-				log('no shooter! or shooter not me!');
-				return;
-			}
-			
-			const entityType = event.getEntity() ? event.getEntity().getType() : null;
-			const hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
-			const hitBlockType = event.getHitBlock() ? event.getHitBlock().getType() : null;
-
-			// log('entityType: ' + entityType);
-			// log('hitEntityType: ' + hitEntityType);
-			// log('hitBlockType: ' + hitBlockType);
-
-			let loc:any = null;
-			if (event.getHitEntity()) {
-				loc = event.getHitEntity().getLocation();
-			} else if (event.getHitBlock()) {
-				loc = event.getHitBlock().getLocation();
-			}
-
-			
-			if (loc) {
-				const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
-				log('location: ' + location);
-				const server = magik.getPlugin().getServer();
-				const cmd = `execute ${player.getName()} ~ ~ ~ summon lightning_bolt ${location}`;
-				// const cmd = `execute ${player.getName()} ~ ~ ~ summon SNOWMAN ${location}`;
-				log('cmd: ' + cmd);
-				server.dispatchCommand(server.getConsoleSender(), cmd);
-
-				// Food or Health cost...
-				if (player.getFoodLevel() > 1) {
-					player.setFoodLevel(player.getFoodLevel() - 1);
-				}
-				else {
-					player['setHealth'](player['getHealth']() - 1);
-				}
-
-				// (player.getFoodLevel()-1)
-				// player['performCommand'](`summon SNOWMAN ${location}`);
-			}
-			
-			// const server = magik.getPlugin().getServer();
-			// server.dispatchCommand(server.getConsoleSender(), `/summon lightning_bolt [x] [y] [z]`);
-			
-			// magik.shakti();
-		});
-		
-		
-		magik.Events.on('BlockDamage', (event) => {
-			// const server = magik.getPlugin().getServer();
-			// server.dispatchCommand(server.getConsoleSender(), `lightning`);
-			// magik.shakti();
-		});
 	},
 
 	setFood(num: number) {
@@ -226,13 +168,54 @@ const Player = {
 		}
 	},
 
-	// onInteract(event) {
-	// 	log('PlayerInteract!');
-	// 	const blockType = event.Block.getType();
-	// 	const playerName = event.Player.getName();
-	// 	log('blockType: ' + blockType);
-	// 	log('playerName: ' + playerName);
-	// },
+	onProjectileHit(event) {
+		// Identify shooter.
+		const shooter = event.getEntity().getShooter();
+		if (!shooter || shooter.getName() !== player.getName()) {
+			log('no shooter! or shooter not me!');
+			return;
+		}
+		
+		// Get loc
+		let loc:any = null;
+		if (event.getHitEntity()) {
+			loc = event.getHitEntity().getLocation();
+		} else if (event.getHitBlock()) {
+			loc = event.getHitBlock().getLocation();
+		}
+
+		if (!loc) return;
+		
+		const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
+		log('location: ' + location);
+		const server = magik.getPlugin().getServer();
+		const cmd = `execute ${player.getName()} ~ ~ ~ summon lightning_bolt ${location}`;
+		server.dispatchCommand(server.getConsoleSender(), cmd);
+
+		// Food or Health cost...
+		if (player.getFoodLevel() > 1) {
+			player.setFoodLevel(player.getFoodLevel() - 1);
+		}
+		else {
+			player['setHealth'](player['getHealth']() - 1);
+		}
+	},
+
+	onFoodLevelChange(event) {
+		const entityType = event.getEntity().getType();
+		const playerName = event.getEntity().getName();
+
+		log('onFoodLevelChange: entityType: ' + entityType);
+		log('onFoodLevelChange: playerName: ' + playerName);
+	},
+
+	onInteract(event) {
+		// log('PlayerInteract!');
+		// const blockType = event.Block.getType();
+		// const playerName = event.Player.getName();
+		// log('blockType: ' + blockType);
+		// log('playerName: ' + playerName);
+	},
 
 	doEffects() {
 		// Confusion!

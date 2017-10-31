@@ -16,6 +16,8 @@ var Player = {
         this.doDigestion();
         this.renderBars();
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
+        magik.Events.on('ProjectileHit', this.onProjectileHit);
+        magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
         // magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
         // magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
         // magik.Events.on('BlockCanBuild', (event) => log('BlockCanBuild'));
@@ -30,57 +32,6 @@ var Player = {
         // magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
         // magik.Events.on('PlayerQuit', (event) => log('PlayerQuit'));
         // magik.Events.on('PlayerTeleport', (event) => log('PlayerTeleport'));
-        magik.Events.on('ProjectileHit', function (event) {
-            // getEntity() // Returns the Entity involved in this event
-            // getHandlerList() 
-            // getHandlers() 
-            // getHitBlock()
-            // getHitEntity()
-            var shooter = event.getEntity().getShooter();
-            if (!shooter || shooter.getName() !== player.getName()) {
-                log('no shooter! or shooter not me!');
-                return;
-            }
-            var entityType = event.getEntity() ? event.getEntity().getType() : null;
-            var hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
-            var hitBlockType = event.getHitBlock() ? event.getHitBlock().getType() : null;
-            // log('entityType: ' + entityType);
-            // log('hitEntityType: ' + hitEntityType);
-            // log('hitBlockType: ' + hitBlockType);
-            var loc = null;
-            if (event.getHitEntity()) {
-                loc = event.getHitEntity().getLocation();
-            }
-            else if (event.getHitBlock()) {
-                loc = event.getHitBlock().getLocation();
-            }
-            if (loc) {
-                var location = loc.getX() + " " + loc.getY() + " " + loc.getZ();
-                log('location: ' + location);
-                var server = magik.getPlugin().getServer();
-                var cmd = "execute " + player.getName() + " ~ ~ ~ summon lightning_bolt " + location;
-                // const cmd = `execute ${player.getName()} ~ ~ ~ summon SNOWMAN ${location}`;
-                log('cmd: ' + cmd);
-                server.dispatchCommand(server.getConsoleSender(), cmd);
-                // Food or Health cost...
-                if (player.getFoodLevel() > 1) {
-                    player.setFoodLevel(player.getFoodLevel() - 1);
-                }
-                else {
-                    player['setHealth'](player['getHealth']() - 1);
-                }
-                // (player.getFoodLevel()-1)
-                // player['performCommand'](`summon SNOWMAN ${location}`);
-            }
-            // const server = magik.getPlugin().getServer();
-            // server.dispatchCommand(server.getConsoleSender(), `/summon lightning_bolt [x] [y] [z]`);
-            // magik.shakti();
-        });
-        magik.Events.on('BlockDamage', function (event) {
-            // const server = magik.getPlugin().getServer();
-            // server.dispatchCommand(server.getConsoleSender(), `lightning`);
-            // magik.shakti();
-        });
     },
     setFood: function (num) {
         player.setFoodLevel(num);
@@ -205,13 +156,49 @@ var Player = {
             this.renderBars();
         }
     },
-    // onInteract(event) {
-    // 	log('PlayerInteract!');
-    // 	const blockType = event.Block.getType();
-    // 	const playerName = event.Player.getName();
-    // 	log('blockType: ' + blockType);
-    // 	log('playerName: ' + playerName);
-    // },
+    onProjectileHit: function (event) {
+        // Identify shooter.
+        var shooter = event.getEntity().getShooter();
+        if (!shooter || shooter.getName() !== player.getName()) {
+            log('no shooter! or shooter not me!');
+            return;
+        }
+        // Get loc
+        var loc = null;
+        if (event.getHitEntity()) {
+            loc = event.getHitEntity().getLocation();
+        }
+        else if (event.getHitBlock()) {
+            loc = event.getHitBlock().getLocation();
+        }
+        if (!loc)
+            return;
+        var location = loc.getX() + " " + loc.getY() + " " + loc.getZ();
+        log('location: ' + location);
+        var server = magik.getPlugin().getServer();
+        var cmd = "execute " + player.getName() + " ~ ~ ~ summon lightning_bolt " + location;
+        server.dispatchCommand(server.getConsoleSender(), cmd);
+        // Food or Health cost...
+        if (player.getFoodLevel() > 1) {
+            player.setFoodLevel(player.getFoodLevel() - 1);
+        }
+        else {
+            player['setHealth'](player['getHealth']() - 1);
+        }
+    },
+    onFoodLevelChange: function (event) {
+        var entityType = event.getEntity().getType();
+        var playerName = event.getEntity().getName();
+        log('onFoodLevelChange: entityType: ' + entityType);
+        log('onFoodLevelChange: playerName: ' + playerName);
+    },
+    onInteract: function (event) {
+        // log('PlayerInteract!');
+        // const blockType = event.Block.getType();
+        // const playerName = event.Player.getName();
+        // log('blockType: ' + blockType);
+        // log('playerName: ' + playerName);
+    },
     doEffects: function () {
         // Confusion!
         if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 8 && state.bgl <= 10)) {
