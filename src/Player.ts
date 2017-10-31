@@ -18,11 +18,10 @@ const Player = {
 		this.renderBars();
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
 		
-		magik.Events.on('PlayerInteract', (event) => log('PlayerInteract'));
 		magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
 		magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
 		magik.Events.on('BlockCanBuild', (event) => log('BlockCanBuild'));
-		magik.Events.on('BlockDamage', (event) => log('BlockDamage'));
+		// magik.Events.on('BlockDamage', (event) => log('BlockDamage'));
 		magik.Events.on('BlockPlace', (event) => log('BlockPlace'));
 		magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
 		magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
@@ -33,7 +32,12 @@ const Player = {
 		// magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
 		magik.Events.on('PlayerQuit', (event) => log('PlayerQuit'));
 		magik.Events.on('PlayerTeleport', (event) => log('PlayerTeleport'));
-		magik.Events.on('PlayerInteract', (event) => log('PlayerInteract'));
+		
+		magik.Events.on('BlockDamage', (event) => {
+			// const server = magik.getPlugin().getServer();
+			// server.dispatchCommand(server.getConsoleSender(), `lightning`);
+			magik.shakti();
+		});
 	},
 
 	setFood(num: number) {

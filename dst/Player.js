@@ -16,11 +16,10 @@ var Player = {
         this.doDigestion();
         this.renderBars();
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
-        magik.Events.on('PlayerInteract', function (event) { return log('PlayerInteract'); });
         magik.Events.on('BlockBreak', function (event) { return log('BlockBreak'); });
         magik.Events.on('BlockBurn', function (event) { return log('BlockBurn'); });
         magik.Events.on('BlockCanBuild', function (event) { return log('BlockCanBuild'); });
-        magik.Events.on('BlockDamage', function (event) { return log('BlockDamage'); });
+        // magik.Events.on('BlockDamage', (event) => log('BlockDamage'));
         magik.Events.on('BlockPlace', function (event) { return log('BlockPlace'); });
         magik.Events.on('CreatureSpawn', function (event) { return log('CreatureSpawn'); });
         magik.Events.on('EntityDeath', function (event) { return log('EntityDeath'); });
@@ -31,7 +30,11 @@ var Player = {
         // magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
         magik.Events.on('PlayerQuit', function (event) { return log('PlayerQuit'); });
         magik.Events.on('PlayerTeleport', function (event) { return log('PlayerTeleport'); });
-        magik.Events.on('PlayerInteract', function (event) { return log('PlayerInteract'); });
+        magik.Events.on('BlockDamage', function (event) {
+            // const server = magik.getPlugin().getServer();
+            // server.dispatchCommand(server.getConsoleSender(), `lightning`);
+            magik.shakti();
+        });
     },
     setFood: function (num) {
         player.setFoodLevel(num);
