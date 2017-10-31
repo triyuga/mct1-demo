@@ -39,12 +39,10 @@ const Player = {
 			// getHitBlock()
 			// getHitEntity()
 			const shooter = event.getEntity().getShooter();
-			if (!shooter) {
-				log('no shooter!');
+			if (!shooter || shooter.getName() !== player.getName()) {
+				log('no shooter! or shooter not me!');
 				return;
 			}
-
-			log('shooter.getName()' + shooter.getName());
 			
 			const entityType = event.getEntity() ? event.getEntity().getType() : null;
 			const hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
@@ -203,6 +201,10 @@ const Player = {
 	},
 
 	onConsume(event) {
+		const consumer = event.getPlayer();
+		if (consumer.getName() !== player.getName()) {
+			return;
+		}	
 		const type = event.getItem().getType();
 		if (Food[type]) {
 			log(`You ate a ${type}!`);

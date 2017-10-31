@@ -37,11 +37,10 @@ var Player = {
             // getHitBlock()
             // getHitEntity()
             var shooter = event.getEntity().getShooter();
-            if (!shooter) {
-                log('no shooter!');
+            if (!shooter || shooter.getName() !== player.getName()) {
+                log('no shooter! or shooter not me!');
                 return;
             }
-            log('shooter.getName()' + shooter.getName());
             var entityType = event.getEntity() ? event.getEntity().getType() : null;
             var hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
             var hitBlockType = event.getHitBlock() ? event.getHitBlock().getType() : null;
@@ -182,6 +181,10 @@ var Player = {
         }, 1000);
     },
     onConsume: function (event) {
+        var consumer = event.getPlayer();
+        if (consumer.getName() !== player.getName()) {
+            return;
+        }
         var type = event.getItem().getType();
         if (Food_1.default[type]) {
             log("You ate a " + type + "!");
