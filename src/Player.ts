@@ -38,12 +38,13 @@ const Player = {
 			// getHandlers() 
 			// getHitBlock()
 			// getHitEntity()
-			const sender = event.getPlayer();
-			if (!sender) {
+			const shooter = event.getEntity().getShooter();
+			if (!shooter) {
+				log('no shooter!');
 				return;
 			}
 
-			log('sender.getName()' + sender.getName());
+			log('shooter.getName()' + shooter.getName());
 			
 			const entityType = event.getEntity() ? event.getEntity().getType() : null;
 			const hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;

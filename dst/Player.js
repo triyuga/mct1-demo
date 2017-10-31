@@ -36,11 +36,12 @@ var Player = {
             // getHandlers() 
             // getHitBlock()
             // getHitEntity()
-            var sender = event.getPlayer();
-            if (!sender) {
+            var shooter = event.getEntity().getShooter();
+            if (!shooter) {
+                log('no shooter!');
                 return;
             }
-            log('sender.getName()' + sender.getName());
+            log('shooter.getName()' + shooter.getName());
             var entityType = event.getEntity() ? event.getEntity().getType() : null;
             var hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
             var hitBlockType = event.getHitBlock() ? event.getHitBlock().getType() : null;
