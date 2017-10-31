@@ -129,6 +129,7 @@ const inventoryList = [
 
 // TODO:
 // * Use XP bar for lightning
+// * Rising BGL
 
 const Player = {
 	init() {
@@ -457,6 +458,7 @@ const Player = {
 
 	setupInventory() {
 		const items = [
+			{ type: 'SNOWBALL', amount: 128 },
 			{ type: 'APPLE', amount: 64 },
 			{ type: 'BREAD', amount: 64 },
 			{ type: 'COOKED_FISH', amount: 64 },

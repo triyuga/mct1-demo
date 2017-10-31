@@ -121,6 +121,7 @@ var inventoryList = [
 ];
 // TODO:
 // * Use XP bar for lightning
+// * Rising BGL
 var Player = {
     init: function () {
         this.clearInventory();
@@ -421,6 +422,7 @@ var Player = {
     },
     setupInventory: function () {
         var items = [
+            { type: 'SNOWBALL', amount: 128 },
             { type: 'APPLE', amount: 64 },
             { type: 'BREAD', amount: 64 },
             { type: 'COOKED_FISH', amount: 64 },
