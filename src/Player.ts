@@ -57,9 +57,11 @@ const Player = {
 				const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
 				log('location: ' + location);
 				const server = magik.getPlugin().getServer();
-				const cmd = `/execute ${player.getName()} ~ ~ ~ summon lightning_bolt ${location}`;
+				const cmd = `execute ${player.getName()} ~ ~ ~ summon lightning_bolt ${location}`;
 				log('cmd: ' + cmd);
 				server.dispatchCommand(server.getConsoleSender(), cmd);
+
+				player['performCommand'](`summon SNOWMAN ${location}`);
 			}
 			
 			// const server = magik.getPlugin().getServer();
