@@ -1,6 +1,10 @@
 import * as Bar from './Bar';
 import Utils from './Utils';
 import { getState, setState } from './State';
+import * as fs from 'fs-extra';
+
+
+// Read the file, and pass it to your callback
 
 const magik = magikcraft.io;
 const log = magik.dixit;
@@ -8,11 +12,14 @@ const log = magik.dixit;
 const player = magik.getSender();
 const state = getState();
 
-declare function require(name:string);
-const foodList = require('./food.json');
-const Food:any = {}
+// declare function require(name:string);
+// declare const require: any;
+// const foodList = fs.readFileSync('./men.json, handleJSONFile);
+const foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
+const Food:any = {};
 foodList.forEach(item => Food[item.type] = item);
-const inventoryList = require('./inventory.json');
+const inventoryList = JSON.parse(fs.readFileSync('./inventory.json', 'utf8'));
+// const inventoryList = require('./inventory.json');
 
 // TODO:
 // * Use XP bar for lightning

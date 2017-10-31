@@ -3,14 +3,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
 var State_1 = require("./State");
+var fs = require("fs-extra");
+// Read the file, and pass it to your callback
 var magik = magikcraft.io;
 var log = magik.dixit;
 var player = magik.getSender();
 var state = State_1.getState();
-var foodList = require('./food.json');
+// declare function require(name:string);
+// declare const require: any;
+// const foodList = fs.readFileSync('./men.json, handleJSONFile);
+var foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
 var Food = {};
 foodList.forEach(function (item) { return Food[item.type] = item; });
-var inventoryList = require('./inventory.json');
+var inventoryList = JSON.parse(fs.readFileSync('./inventory.json', 'utf8'));
+// const inventoryList = require('./inventory.json');
 // TODO:
 // * Use XP bar for lightning
 var Player = {

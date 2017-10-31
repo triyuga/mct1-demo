@@ -33,9 +33,9 @@
   dependencies:
     "@types/babel-types" "*"
 
-"@types/node@^8.0.20":
-  version "8.0.20"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.20.tgz#65c7375255c24b184c215a5d0b63247c32f01c91"
+"@types/node@^8.0.47":
+  version "8.0.47"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.47.tgz#968e596f91acd59069054558a00708c445ca30c2"
 
 abab@^1.0.3:
   version "1.0.3"
@@ -713,6 +713,14 @@ fs-extra@^3.0.0:
     jsonfile "^3.0.0"
     universalify "^0.1.0"
 
+fs-extra@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-4.0.2.tgz#f91704c53d1b461f893452b0c307d9997647ab6b"
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
 fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
@@ -1327,6 +1335,12 @@ jsonfile@^3.0.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+jsonfile@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-4.0.0.tgz#8771aae0799b64076b76640fca058f9c10e33ecb"
+  optionalDependencies:
+    graceful-fs "^4.1.6"
+
 jsonify@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
@@ -1420,10 +1434,6 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
-magikcraft-lore-ui-bar@^1.0.14:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/magikcraft-lore-ui-bar/-/magikcraft-lore-ui-bar-1.0.14.tgz#9605fd8bdceec15c90cfaee367371b30272edda5"
-
 magikcraft.io@^1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/magikcraft.io/-/magikcraft.io-1.2.8.tgz#14df9b96cc929fc0fa6e7bb599eb602ff5736d59"
@@ -1502,16 +1512,6 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
-nanoflux-fusion@^0.6.0-beta:
-  version "0.6.0-beta"
-  resolved "https://registry.yarnpkg.com/nanoflux-fusion/-/nanoflux-fusion-0.6.0-beta.tgz#7af30570fc61315b699789bae4b3596edc0ac59b"
-  dependencies:
-    nanoflux latest
-
-nanoflux@latest:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/nanoflux/-/nanoflux-1.1.1.tgz#3da4c1fd3244884e60bd7efaf85a2ffb1e2f46f0"
-
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
@@ -1582,10 +1582,6 @@ once@^1.3.0, once@^1.4.0:
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   dependencies:
     wrappy "1"
-
-only@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/only/-/only-0.0.2.tgz#2afde84d03e50b9a8edc444e30610a70295edfb4"
 
 optimist@^0.6.1:
   version "0.6.1"
@@ -2140,7 +2136,7 @@ universalify@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.0.tgz#9eb1c4651debcc670cc94f1a75762332bb967778"
 
-uuid@^3.0.0, uuid@^3.1.0:
+uuid@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
 
