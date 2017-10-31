@@ -411,7 +411,7 @@ var Player = {
         inventoryList.map(function (item) {
             // const stack = new ItemStack(MATERIAL[item.type], item.quantity);
             // player.getInventory()['setItem'](item.slot, stack);
-            var cmd = "replaceitem entity " + player.getName() + " item.slot " + item.type + " " + item.quantity;
+            var cmd = "replaceitem entity " + player.getName() + " slot.inventory." + item.slot + " " + item.type + " " + item.quantity;
             magik.dixit(cmd);
             server.dispatchCommand(server.getConsoleSender(), cmd);
             // magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
