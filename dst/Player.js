@@ -124,7 +124,7 @@ var inventoryList = [
 var Player = {
     init: function () {
         this.clearInventory();
-        this.refreshInventory();
+        // this.refreshInventory();
         this.setFood(2);
         this.doDigestion();
         this.renderBars();
@@ -409,7 +409,6 @@ var Player = {
         // const thing = new ItemStack(MATERIAL[item]);
         // canon.sender.getInventory().addItem(thing);
         inventoryList.map(function (item) {
-            var cmd = "";
             var stack = new ItemStack(MATERIAL[item.type], item.quantity);
             player.getInventory()['setItem'](item.slot, stack);
             // server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
