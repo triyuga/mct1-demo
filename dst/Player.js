@@ -97,15 +97,19 @@ var Player = {
         // SetState
         State_1.setState(state);
     },
-    doDigestion: function () {
+    doDigestion: function (tickCount) {
+        if (tickCount === void 0) { tickCount = 0; }
         // log('digesting...');
         var that = this;
         magik.setTimeout(function () {
             var updated = false;
+            log('tickCount: ' + tickCount);
+            // Every 10 ticks...
+            if (tickCount % 10 === 0) {
+                log('REDUCE FOOD!');
+                player.setFoodLevel(Math.max((player.getFoodLevel() - 1), 0)); // 0.16  = 125 secs to go from full to empty
+            }
             // Reduce food level.
-            var updatedFoodLevel = Math.max((player.getFoodLevel() - 0.2), 0);
-            log('FOOD: old=' + player.getFoodLevel() + ' newAmount=' + updatedFoodLevel);
-            player.setFoodLevel(updatedFoodLevel); // 0.16  = 125 secs to go from full to empty
             // handle insulin in system
             if (state.insulin > 0) {
                 state.insulin -= 0.1;
@@ -139,7 +143,8 @@ var Player = {
                 player.setFoodLevel(19.5);
             }
             // repeat ongoingly!
-            that.doDigestion();
+            tickCount++;
+            that.doDigestion(tickCount);
         }, 1000);
     },
     onConsume: function (event) {
