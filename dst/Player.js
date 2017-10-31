@@ -269,6 +269,7 @@ var Player = {
             { type: 'BREAD', amount: 64 },
             { type: 'COOKED_FISH', amount: 64 },
             { type: 'POTION', amount: 128 },
+            { type: 'SNOWBALL', amount: 128 },
         ];
         var server = magik.getPlugin().getServer();
         items.map(function (item) {
