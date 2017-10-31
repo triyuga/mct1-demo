@@ -254,10 +254,10 @@ var Player = {
         }
     },
     superJump: function () {
-        this._makeEffect('JUMP', 99999999999, 'WHITE', 3);
+        this._makeEffect('JUMP', 10000000, 'WHITE', 3);
     },
     radiant: function () {
-        this._makeEffect('RADIANT', 99999999999, 'WHITE');
+        this._makeEffect('RADIANT', 10000000, 'WHITE');
     },
     _makeEffect: function (type, milliseconds, color, amplifier) {
         if (color === void 0) { color = 'GREEN'; }

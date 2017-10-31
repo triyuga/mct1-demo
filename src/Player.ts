@@ -278,10 +278,10 @@ const Player = {
 	},
 
 	superJump() {
-		this._makeEffect('JUMP', 99999999999, 'WHITE', 3);
+		this._makeEffect('JUMP', 10000000, 'WHITE', 3);
 	},
 	radiant() {
-		this._makeEffect('RADIANT', 99999999999, 'WHITE');
+		this._makeEffect('RADIANT', 10000000, 'WHITE');
 	},
 
 	_makeEffect(type, milliseconds, color = 'GREEN', amplifier = 1) {
