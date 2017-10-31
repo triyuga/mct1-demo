@@ -103,9 +103,9 @@ var Player = {
         magik.setTimeout(function () {
             var updated = false;
             // Reduce food level.
-            log('player.getFoodLevel(): 1 ' + player.getFoodLevel());
-            // const newAmount = Math.max((player.getFoodLevel()-0.05), 0); 
-            // // log('reduceAmount: ' + reduceAmount);
+            log('player.getFoodLevel():' + player.getFoodLevel());
+            var newAmount = Math.max((player.getFoodLevel() - 0.2), 0);
+            log('newAmount: ' + newAmount);
             // player.setFoodLevel(newAmount); // 0.16  = 125 secs to go from full to empty
             // log('player.getFoodLevel(): 2 ' + player.getFoodLevel());
             // handle insulin in system
@@ -142,7 +142,7 @@ var Player = {
             }
             // repeat ongoingly!
             that.doDigestion();
-        }, 4000);
+        }, 1000);
     },
     onConsume: function (event) {
         var consumer = event.getPlayer();
@@ -197,24 +197,8 @@ var Player = {
             player['setHealth'](player['getHealth']() - 1);
         }
     },
-    // onFoodLevelChange(event) {
-    // 	const entityType = event.getEntity().getType();
-    // 	const playerName = event.getEntity().getName();
-    // 	if (event.getEntity().getType() !== 'PLAYER' || event.getEntity().getName() !== player.getName()) {
-    // 		return;
-    // 	}
-    // 	// Never allow player to be full!
-    // 	log('FoodLevelChange: ' + event.getFoodLevel());
-    // 	if (event.getFoodLevel() >= 20) {
-    // 		event.setFoodLevel(19);
-    // 	}
-    // },
     onInteract: function (event) {
-        // log('PlayerInteract!');
-        // const blockType = event.Block.getType();
-        // const playerName = event.Player.getName();
-        // log('blockType: ' + blockType);
-        // log('playerName: ' + playerName);
+        // Do stuff.
     },
     doEffects: function () {
         // Confusion!
