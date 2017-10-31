@@ -47,10 +47,10 @@ const Player = {
 			log('hitBlockType: ' + hitBlockType);
 
 			let loc:any = null;
-			if (hitEntityType) {
-				loc = hitEntityType.getLocation();
-			} else if (hitBlockType) {
-				loc = hitBlockType.getLocation();
+			if (event.getHitEntity()) {
+				loc = event.getHitEntity().getLocation();
+			} else if (event.getHitBlock()) {
+				loc = event.getHitBlock().getLocation();
 			}
 
 			if (loc) {

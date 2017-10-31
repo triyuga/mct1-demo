@@ -43,11 +43,11 @@ var Player = {
             log('hitEntityType: ' + hitEntityType);
             log('hitBlockType: ' + hitBlockType);
             var loc = null;
-            if (hitEntityType) {
-                loc = hitEntityType.getLocation();
+            if (event.getHitEntity()) {
+                loc = event.getHitEntity().getLocation();
             }
-            else if (hitBlockType) {
-                loc = hitBlockType.getLocation();
+            else if (event.getHitBlock()) {
+                loc = event.getHitBlock().getLocation();
             }
             if (loc) {
                 var location = loc.getX() + " " + loc.getY() + " " + loc.getZ();
