@@ -196,8 +196,8 @@ const Player = {
 		server.dispatchCommand(server.getConsoleSender(), cmd);
 
 		// Food or Health cost...
-		if (player.getFoodLevel() > 1) {
-			player.setFoodLevel(player.getFoodLevel() - 1);
+		if (player.getFoodLevel() > 0) {
+			player.setFoodLevel(Math.max(player.getFoodLevel()-1, 0));
 		}
 		else {
 			player['setHealth'](player['getHealth']() - 1);
