@@ -13,57 +13,57 @@ const player = magik.getSender();
 const state = getState();
 
 // declare function require(name:string);
-declare const require: any;
+// declare const require: any;
 // const foodList = fs.readFileSync('./men.json, handleJSONFile);
-const foodList = require('./food.json');
+// const foodList = require('./food.json');
 // const foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
-// const foodList = [
-// 	{
-// 		"type": "COOKED_CHICKEN",
-// 		"carbs": 10,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "COOKED_FISH",
-// 		"carbs": 11,
-// 		"GI": "low"
-// 	},
-// 	{
-// 		"type": "BREAD",
-// 		"carbs": 14,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "COOKIE",
-// 		"carbs": 30,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "APPLE",
-// 		"carbs": 10,
-// 		"GI": "low"
-// 	},
-// 	{
-// 		"type": "BAKED_POTATO",
-// 		"carbs": 25,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "PUMPKIN_PIE",
-// 		"carbs": 31,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "MUSHROOM_STEW",
-// 		"carbs": 14,
-// 		"GI": "low"
-// 	},
-// 	{
-// 		"type": "BEETROOT",
-// 		"carbs": 31,
-// 		"GI": "high"
-// 	}
-// ];
+const foodList = [
+	{
+		"type": "COOKED_CHICKEN",
+		"carbs": 10,
+		"GI": "high"
+	},
+	{
+		"type": "COOKED_FISH",
+		"carbs": 11,
+		"GI": "low"
+	},
+	{
+		"type": "BREAD",
+		"carbs": 14,
+		"GI": "high"
+	},
+	{
+		"type": "COOKIE",
+		"carbs": 30,
+		"GI": "high"
+	},
+	{
+		"type": "APPLE",
+		"carbs": 10,
+		"GI": "low"
+	},
+	{
+		"type": "BAKED_POTATO",
+		"carbs": 25,
+		"GI": "high"
+	},
+	{
+		"type": "PUMPKIN_PIE",
+		"carbs": 31,
+		"GI": "high"
+	},
+	{
+		"type": "MUSHROOM_STEW",
+		"carbs": 14,
+		"GI": "low"
+	},
+	{
+		"type": "BEETROOT",
+		"carbs": 31,
+		"GI": "high"
+	}
+];
 
 const Food:any = {};
 foodList.forEach(item => Food[item.type] = item);
