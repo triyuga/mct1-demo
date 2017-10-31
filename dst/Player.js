@@ -104,7 +104,9 @@ var Player = {
             var updated = false;
             // Reduce food level.
             log('player.getFoodLevel(): 1 ' + player.getFoodLevel());
-            player.setFoodLevel(Math.max(player.getFoodLevel() - 0.16, 0)); // 0.16  = 125 secs to go from full to empty
+            var reduceAmount = Math.max(player.getFoodLevel() - 0.16, 0);
+            log('reduceAmount: ' + reduceAmount);
+            player.setFoodLevel(reduceAmount); // 0.16  = 125 secs to go from full to empty
             log('player.getFoodLevel(): 2 ' + player.getFoodLevel());
             // handle insulin in system
             if (state.insulin > 0) {
