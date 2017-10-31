@@ -447,7 +447,7 @@ const Player = {
 			// const stack = new ItemStack(MATERIAL[item.type], item.quantity);
 			// player.getInventory()['setItem'](item.slot, stack);
 			const slot = (item.slot <= 8) ? `slot.hotbar.${item.slot}` : `slot.inventory.${item.slot-1}`
-			const cmd = `replaceitem entity ${player.getName()}${slot} ${item.type} ${item.quantity}`;
+			const cmd = `replaceitem entity ${player.getName()} ${slot} ${item.type} ${item.quantity}`;
 			magik.dixit(cmd);
 			server.dispatchCommand(server.getConsoleSender(), cmd);
 			// magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
