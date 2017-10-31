@@ -16,54 +16,54 @@ const state = getState();
 // declare const require: any;
 // const foodList = fs.readFileSync('./men.json, handleJSONFile);
 
-const foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
-// const foodList = [
-// 	{
-// 		"type": "COOKED_CHICKEN",
-// 		"carbs": 10,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "COOKED_FISH",
-// 		"carbs": 11,
-// 		"GI": "low"
-// 	},
-// 	{
-// 		"type": "BREAD",
-// 		"carbs": 14,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "COOKIE",
-// 		"carbs": 30,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "APPLE",
-// 		"carbs": 10,
-// 		"GI": "low"
-// 	},
-// 	{
-// 		"type": "BAKED_POTATO",
-// 		"carbs": 25,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "PUMPKIN_PIE",
-// 		"carbs": 31,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "MUSHROOM_STEW",
-// 		"carbs": 14,
-// 		"GI": "low"
-// 	},
-// 	{
-// 		"type": "BEETROOT",
-// 		"carbs": 31,
-// 		"GI": "high"
-// 	}
-// ];
+// const foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
+const foodList = [
+	{
+		"type": "COOKED_CHICKEN",
+		"carbs": 10,
+		"GI": "high"
+	},
+	{
+		"type": "COOKED_FISH",
+		"carbs": 11,
+		"GI": "low"
+	},
+	{
+		"type": "BREAD",
+		"carbs": 14,
+		"GI": "high"
+	},
+	{
+		"type": "COOKIE",
+		"carbs": 30,
+		"GI": "high"
+	},
+	{
+		"type": "APPLE",
+		"carbs": 10,
+		"GI": "low"
+	},
+	{
+		"type": "BAKED_POTATO",
+		"carbs": 25,
+		"GI": "high"
+	},
+	{
+		"type": "PUMPKIN_PIE",
+		"carbs": 31,
+		"GI": "high"
+	},
+	{
+		"type": "MUSHROOM_STEW",
+		"carbs": 14,
+		"GI": "low"
+	},
+	{
+		"type": "BEETROOT",
+		"carbs": 31,
+		"GI": "high"
+	}
+];
 
 const Food:any = {};
 foodList.forEach(item => Food[item.type] = item);
@@ -435,8 +435,8 @@ const Player = {
 	},
 
 	refreshInventory() {
-		const MATERIAL = Java.type("org.bukkit.Material");
-        const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
+		// const MATERIAL = Java.type("org.bukkit.Material");
+        // const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
 		const server = magik.getPlugin().getServer();
 
 		// event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
@@ -444,10 +444,12 @@ const Player = {
 		// canon.sender.getInventory().addItem(thing);
 		
 		inventoryList.map(item => {
-			const stack = new ItemStack(MATERIAL[item.type], item.quantity);
-			player.getInventory()['setItem'](item.slot, stack);
+			// const stack = new ItemStack(MATERIAL[item.type], item.quantity);
+			// player.getInventory()['setItem'](item.slot, stack);
 			
-			// server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
+			const cmd = `replaceitem entity ${player.getName()} item.slot ${item.type} ${item.quantity}`;
+			magik.dixit(cmd);
+			server.dispatchCommand(server.getConsoleSender(), cmd);
 			// magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
 		});
 	},

@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
 var State_1 = require("./State");
-var fs = require("fs-extra");
 // Read the file, and pass it to your callback
 var magik = magikcraft.io;
 var log = magik.dixit;
@@ -12,54 +11,54 @@ var state = State_1.getState();
 // declare function require(name:string);
 // declare const require: any;
 // const foodList = fs.readFileSync('./men.json, handleJSONFile);
-var foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
-// const foodList = [
-// 	{
-// 		"type": "COOKED_CHICKEN",
-// 		"carbs": 10,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "COOKED_FISH",
-// 		"carbs": 11,
-// 		"GI": "low"
-// 	},
-// 	{
-// 		"type": "BREAD",
-// 		"carbs": 14,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "COOKIE",
-// 		"carbs": 30,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "APPLE",
-// 		"carbs": 10,
-// 		"GI": "low"
-// 	},
-// 	{
-// 		"type": "BAKED_POTATO",
-// 		"carbs": 25,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "PUMPKIN_PIE",
-// 		"carbs": 31,
-// 		"GI": "high"
-// 	},
-// 	{
-// 		"type": "MUSHROOM_STEW",
-// 		"carbs": 14,
-// 		"GI": "low"
-// 	},
-// 	{
-// 		"type": "BEETROOT",
-// 		"carbs": 31,
-// 		"GI": "high"
-// 	}
-// ];
+// const foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
+var foodList = [
+    {
+        "type": "COOKED_CHICKEN",
+        "carbs": 10,
+        "GI": "high"
+    },
+    {
+        "type": "COOKED_FISH",
+        "carbs": 11,
+        "GI": "low"
+    },
+    {
+        "type": "BREAD",
+        "carbs": 14,
+        "GI": "high"
+    },
+    {
+        "type": "COOKIE",
+        "carbs": 30,
+        "GI": "high"
+    },
+    {
+        "type": "APPLE",
+        "carbs": 10,
+        "GI": "low"
+    },
+    {
+        "type": "BAKED_POTATO",
+        "carbs": 25,
+        "GI": "high"
+    },
+    {
+        "type": "PUMPKIN_PIE",
+        "carbs": 31,
+        "GI": "high"
+    },
+    {
+        "type": "MUSHROOM_STEW",
+        "carbs": 14,
+        "GI": "low"
+    },
+    {
+        "type": "BEETROOT",
+        "carbs": 31,
+        "GI": "high"
+    }
+];
 var Food = {};
 foodList.forEach(function (item) { return Food[item.type] = item; });
 // const inventoryList = JSON.parse(fs.readFileSync('./inventory.json', 'utf8'));
@@ -403,16 +402,18 @@ var Player = {
         }
     },
     refreshInventory: function () {
-        var MATERIAL = Java.type("org.bukkit.Material");
-        var ItemStack = Java.type("org.bukkit.inventory.ItemStack");
+        // const MATERIAL = Java.type("org.bukkit.Material");
+        // const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
         var server = magik.getPlugin().getServer();
         // event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
         // const thing = new ItemStack(MATERIAL[item]);
         // canon.sender.getInventory().addItem(thing);
         inventoryList.map(function (item) {
-            var stack = new ItemStack(MATERIAL[item.type], item.quantity);
-            player.getInventory()['setItem'](item.slot, stack);
-            // server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
+            // const stack = new ItemStack(MATERIAL[item.type], item.quantity);
+            // player.getInventory()['setItem'](item.slot, stack);
+            var cmd = "replaceitem entity " + player.getName() + " item.slot " + item.type + " " + item.quantity;
+            magik.dixit(cmd);
+            server.dispatchCommand(server.getConsoleSender(), cmd);
             // magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
         });
     },
