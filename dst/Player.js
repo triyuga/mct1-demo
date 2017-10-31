@@ -8,6 +8,9 @@ var magik = magikcraft.io;
 var log = magik.dixit;
 var player = magik.getSender();
 var state = State_1.getState();
+// Use XP bar for lightning
+// Make RADIANT
+// Increase jump
 var Player = {
     init: function () {
         this.clearInventory();
@@ -15,6 +18,8 @@ var Player = {
         this.setFood(2);
         this.doDigestion();
         this.renderBars();
+        this.superJump();
+        this.radiant();
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
         magik.Events.on('ProjectileHit', this.onProjectileHit);
         // magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
@@ -248,13 +253,19 @@ var Player = {
             }, milliseconds);
         }
     },
-    _makeEffect: function (type, milliseconds, color) {
+    superJump: function () {
+        this._makeEffect('JUMP', 99999999999, 'WHITE', 3);
+    },
+    radiant: function () {
+        this._makeEffect('RADIANT', 99999999999, 'WHITE');
+    },
+    _makeEffect: function (type, milliseconds, color, amplifier) {
         if (color === void 0) { color = 'GREEN'; }
+        if (amplifier === void 0) { amplifier = 1; }
         var PotionEffect = magik.type("potion.PotionEffect");
         var PotionEffectType = magik.type("potion.PotionEffectType");
         var Color = magik.type("Color");
         var duration = milliseconds / 1000 * 40; // 20 tick. 1 tick = 0.05 seconds
-        var amplifier = 1;
         var c = Color[color];
         var l = PotionEffectType[type];
         var effect = new PotionEffect(l, duration, amplifier, true, true, c);
