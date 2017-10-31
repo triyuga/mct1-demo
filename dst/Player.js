@@ -18,8 +18,10 @@ var Player = {
         this.setFood(2);
         this.doDigestion();
         this.renderBars();
+        // Super Powers!
         this.superJump();
-        this.radiant();
+        this.superGlow();
+        this.superSpeed();
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
         magik.Events.on('ProjectileHit', this.onProjectileHit);
         // magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
@@ -253,11 +255,14 @@ var Player = {
             }, milliseconds);
         }
     },
+    superSpeed: function () {
+        this._makeEffect('SPEED', 10000000, 'WHITE', 2);
+    },
     superJump: function () {
         this._makeEffect('JUMP', 10000000, 'WHITE', 3);
     },
-    radiant: function () {
-        this._makeEffect('RADIANT', 10000000, 'WHITE');
+    superGlow: function () {
+        this._makeEffect('GLOWING', 10000000, 'WHITE');
     },
     _makeEffect: function (type, milliseconds, color, amplifier) {
         if (color === void 0) { color = 'GREEN'; }

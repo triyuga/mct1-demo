@@ -21,8 +21,11 @@ const Player = {
 		this.setFood(2);
 		this.doDigestion();
 		this.renderBars();
+		
+		// Super Powers!
 		this.superJump();
-		this.radiant();
+		this.superGlow();
+		this.superSpeed();
 
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
 		magik.Events.on('ProjectileHit', this.onProjectileHit);
@@ -277,11 +280,14 @@ const Player = {
 		}
 	},
 
+	superSpeed() {
+		this._makeEffect('SPEED', 10000000, 'WHITE', 2);
+	},
 	superJump() {
 		this._makeEffect('JUMP', 10000000, 'WHITE', 3);
 	},
-	radiant() {
-		this._makeEffect('RADIANT', 10000000, 'WHITE');
+	superGlow() {
+		this._makeEffect('GLOWING', 10000000, 'WHITE');
 	},
 
 	_makeEffect(type, milliseconds, color = 'GREEN', amplifier = 1) {
