@@ -36,6 +36,11 @@ var Player = {
             // getHandlers() 
             // getHitBlock()
             // getHitEntity()
+            var sender = event.getPlayer();
+            if (!sender) {
+                return;
+            }
+            log('sender.getName()' + sender.getName());
             var entityType = event.getEntity() ? event.getEntity().getType() : null;
             var hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
             var hitBlockType = event.getHitBlock() ? event.getHitBlock().getType() : null;
@@ -74,7 +79,7 @@ var Player = {
         magik.Events.on('BlockDamage', function (event) {
             // const server = magik.getPlugin().getServer();
             // server.dispatchCommand(server.getConsoleSender(), `lightning`);
-            magik.shakti();
+            // magik.shakti();
         });
     },
     setFood: function (num) {

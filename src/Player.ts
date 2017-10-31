@@ -38,6 +38,13 @@ const Player = {
 			// getHandlers() 
 			// getHitBlock()
 			// getHitEntity()
+			const sender = event.getPlayer();
+			if (!sender) {
+				return;
+			}
+
+			log('sender.getName()' + sender.getName());
+			
 			const entityType = event.getEntity() ? event.getEntity().getType() : null;
 			const hitEntityType = event.getHitEntity() ? event.getHitEntity().getType() : null;
 			const hitBlockType = event.getHitBlock() ? event.getHitBlock().getType() : null;
@@ -53,6 +60,7 @@ const Player = {
 				loc = event.getHitBlock().getLocation();
 			}
 
+			
 			if (loc) {
 				const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
 				log('location: ' + location);
@@ -84,7 +92,7 @@ const Player = {
 		magik.Events.on('BlockDamage', (event) => {
 			// const server = magik.getPlugin().getServer();
 			// server.dispatchCommand(server.getConsoleSender(), `lightning`);
-			magik.shakti();
+			// magik.shakti();
 		});
 	},
 
