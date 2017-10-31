@@ -2,19 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
-var Food_1 = require("./Food");
 var State_1 = require("./State");
 var magik = magikcraft.io;
 var log = magik.dixit;
 var player = magik.getSender();
 var state = State_1.getState();
-// Use XP bar for lightning
-// Make RADIANT
-// Increase jump
+var foodList = require('./food.json');
+var Food = {};
+foodList.forEach(function (item) { return Food[item.type] = item; });
+var inventoryList = require('./inventory.json');
+// TODO:
+// * Use XP bar for lightning
 var Player = {
     init: function () {
         this.clearInventory();
-        this.setupInventory();
+        this.refreshInventory();
         this.setFood(2);
         this.doDigestion();
         this.renderBars();
@@ -95,9 +97,10 @@ var Player = {
             .show();
         // digestionBar(s)
         state.digestionQueue.slice(0, 2).map(function (item, i) {
+            var food = Food[item.type];
             state["digestionBar" + i] = Bar.bar()
-                .text("Digesting: " + item.type)
-                .color(Bar.color.PURPLE)
+                .text("Digesting: " + food.type + " (" + food.carbs + " carbs)")
+                .color((food.GI === 'high') ? Bar.color.PURPLE : Bar.color.PINK)
                 .style(Bar.style.NOTCHED_20)
                 .progress(100 - item.percentDigested)
                 .show();
@@ -159,7 +162,7 @@ var Player = {
             return;
         }
         var type = event.getItem().getType();
-        if (Food_1.default[type]) {
+        if (Food[type]) {
             log("You ate a " + type + "!");
             var item = {
                 timestamp: Utils_1.default.makeTimestamp(),
@@ -257,10 +260,10 @@ var Player = {
         }
     },
     superSpeed: function () {
-        this._makeEffect('SPEED', 10000000, 'WHITE', 2);
+        this._makeEffect('SPEED', 10000000, 'WHITE', 3);
     },
     superJump: function () {
-        this._makeEffect('JUMP', 10000000, 'WHITE', 2);
+        this._makeEffect('JUMP', 10000000, 'WHITE', 3);
     },
     superGlow: function () {
         this._makeEffect('GLOWING', 10000000, 'WHITE');
@@ -290,17 +293,18 @@ var Player = {
             }
         }
     },
-    setupInventory: function () {
-        var items = [
-            { type: 'APPLE', amount: 64 },
-            { type: 'BREAD', amount: 64 },
-            { type: 'COOKED_FISH', amount: 64 },
-            { type: 'POTION', amount: 128 },
-            { type: 'SNOWBALL', amount: 128 },
-        ];
+    refreshInventory: function () {
+        var MATERIAL = Java.type("org.bukkit.Material");
+        var ItemStack = Java.type("org.bukkit.inventory.ItemStack");
         var server = magik.getPlugin().getServer();
-        items.map(function (item) {
-            server.dispatchCommand(server.getConsoleSender(), "give " + player.getName() + " " + item.type + " " + item.amount);
+        // event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
+        // const thing = new ItemStack(MATERIAL[item]);
+        // canon.sender.getInventory().addItem(thing);
+        inventoryList.map(function (item) {
+            var cmd = "";
+            var stack = new ItemStack(MATERIAL[item.type], item.quantity);
+            player.getInventory()['setItem'](item.slot, stack);
+            // server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
             // magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
         });
     },

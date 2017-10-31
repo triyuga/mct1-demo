@@ -1,6 +1,5 @@
 import * as Bar from './Bar';
 import Utils from './Utils';
-import Food from './Food';
 import { getState, setState } from './State';
 
 const magik = magikcraft.io;
@@ -9,15 +8,19 @@ const log = magik.dixit;
 const player = magik.getSender();
 const state = getState();
 
-// Use XP bar for lightning
-// Make RADIANT
-// Increase jump
+declare function require(name:string);
+const foodList = require('./food.json');
+const Food:any = {}
+foodList.forEach(item => Food[item.type] = item);
+const inventoryList = require('./inventory.json');
 
+// TODO:
+// * Use XP bar for lightning
 
 const Player = {
 	init() {
 		this.clearInventory();
-		this.setupInventory();
+		this.refreshInventory();
 		this.setFood(2);
 		this.doDigestion();
 		this.renderBars();
@@ -103,9 +106,10 @@ const Player = {
 
 		// digestionBar(s)
 		state.digestionQueue.slice(0, 2).map((item, i) => {
+			const food = Food[item.type];
 			state[`digestionBar${i}`] = Bar.bar()
-				.text(`Digesting: ${item.type}`)
-				.color(Bar.color.PURPLE)
+				.text(`Digesting: ${food.type} (${food.carbs} carbs)`)
+				.color((food.GI === 'high') ? Bar.color.PURPLE : Bar.color.PINK)
 				.style(Bar.style.NOTCHED_20)
 				.progress(100 - item.percentDigested)
 				.show();
@@ -283,10 +287,10 @@ const Player = {
 	},
 
 	superSpeed() {
-		this._makeEffect('SPEED', 10000000, 'WHITE', 2);
+		this._makeEffect('SPEED', 10000000, 'WHITE', 3);
 	},
 	superJump() {
-		this._makeEffect('JUMP', 10000000, 'WHITE', 2);
+		this._makeEffect('JUMP', 10000000, 'WHITE', 3);
 	},
 	superGlow() {
 		this._makeEffect('GLOWING', 10000000, 'WHITE');
@@ -317,19 +321,21 @@ const Player = {
         }
 	},
 
-	setupInventory() {
-		const items = [
-			{ type: 'APPLE', amount: 64 },
-			{ type: 'BREAD', amount: 64 },
-			{ type: 'COOKED_FISH', amount: 64 },
-			{ type: 'POTION', amount: 128 },
-			{ type: 'SNOWBALL', amount: 128 },
-		];
-
+	refreshInventory() {
+		const MATERIAL = Java.type("org.bukkit.Material");
+        const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
 		const server = magik.getPlugin().getServer();
 
-		items.map(item => {
-			server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
+		// event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
+		// const thing = new ItemStack(MATERIAL[item]);
+		// canon.sender.getInventory().addItem(thing);
+		
+		inventoryList.map(item => {
+			const cmd = ``;
+			const stack = new ItemStack(MATERIAL[item.type], item.quantity);
+			player.getInventory()['setItem'](item.slot, stack);
+			
+			// server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
 			// magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
 		});
 	},
