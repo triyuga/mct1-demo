@@ -108,6 +108,9 @@ const Player = {
 		const that = this;
 		magik.setTimeout(function() {
 			let updated = false;
+
+			// Reduce food level.
+			player.setFoodLevel(Math.max(player.getFoodLevel()-0.16/*125secs to go from full to empty*/, 0));
 			
 			// handle insulin in system
 			if (state.insulin > 0) {
@@ -175,7 +178,6 @@ const Player = {
 		// Identify shooter.
 		const shooter = event.getEntity().getShooter();
 		if (!shooter || shooter.getName() !== player.getName()) {
-			log('no shooter! or shooter not me!');
 			return;
 		}
 		
@@ -190,7 +192,6 @@ const Player = {
 		if (!loc) return;
 		
 		const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
-		log('location: ' + location);
 		const server = magik.getPlugin().getServer();
 		const cmd = `execute ${player.getName()} ~ ~ ~ summon lightning_bolt ${location}`;
 		server.dispatchCommand(server.getConsoleSender(), cmd);
