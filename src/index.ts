@@ -10,4 +10,5 @@ export const spells = {
     setFood: (num) => Player.setFood(num),
     getInventory: () => Player.getInventory(),
     refreshInventory: () => Player.refreshInventory(),
+    setupInventory: () => Player.setupInventory(),
 }

@@ -10,4 +10,5 @@ exports.spells = {
     setFood: function (num) { return Player_1.default.setFood(num); },
     getInventory: function () { return Player_1.default.getInventory(); },
     refreshInventory: function () { return Player_1.default.refreshInventory(); },
+    setupInventory: function () { return Player_1.default.setupInventory(); },
 };
