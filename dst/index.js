@@ -9,4 +9,5 @@ exports.spells = {
     setHeatlh: function (num) { return Player_1.default.setHealth(num); },
     setFood: function (num) { return Player_1.default.setFood(num); },
     getInventory: function () { return Player_1.default.getInventory(); },
+    refreshInventory: function () { return Player_1.default.refreshInventory(); },
 };
