@@ -115,6 +115,9 @@ var Player = {
             if (state.digestionQueue[0]) {
                 state.digestionQueue[0].percentDigested += 5;
                 state.bgl += 0.2;
+                if (player['getHealth']() < 20) {
+                    player['setHealth'](Math.max((player['getHealth']() + 0.5), 20));
+                }
                 if (state.digestionQueue[0].percentDigested >= 100) {
                     // finished digesting... remove from queue...
                     state.digestionQueue.splice(0, 1);
@@ -189,8 +192,13 @@ var Player = {
     onFoodLevelChange: function (event) {
         var entityType = event.getEntity().getType();
         var playerName = event.getEntity().getName();
-        log('onFoodLevelChange: entityType: ' + entityType);
-        log('onFoodLevelChange: playerName: ' + playerName);
+        if (event.getEntity().getType() !== 'PLAYER' || event.getEntity().getName() !== player.getName()) {
+            return;
+        }
+        // Never allow player to be full!
+        if (event.getFoodLevel() >= 20) {
+            event.setFoodLevel(19.5);
+        }
     },
     onInteract: function (event) {
         // log('PlayerInteract!');
