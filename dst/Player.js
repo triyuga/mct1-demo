@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
 var State_1 = require("./State");
-var fs = require("fs-extra");
 // Read the file, and pass it to your callback
 var magik = magikcraft.io;
 var log = magik.dixit;
@@ -12,11 +11,114 @@ var state = State_1.getState();
 // declare function require(name:string);
 // declare const require: any;
 // const foodList = fs.readFileSync('./men.json, handleJSONFile);
-var foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
+// const foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
+var foodList = [
+    {
+        "type": "COOKED_CHICKEN",
+        "carbs": 10,
+        "GI": "high"
+    },
+    {
+        "type": "COOKED_FISH",
+        "carbs": 11,
+        "GI": "low"
+    },
+    {
+        "type": "BREAD",
+        "carbs": 14,
+        "GI": "high"
+    },
+    {
+        "type": "COOKIE",
+        "carbs": 30,
+        "GI": "high"
+    },
+    {
+        "type": "APPLE",
+        "carbs": 10,
+        "GI": "low"
+    },
+    {
+        "type": "BAKED_POTATO",
+        "carbs": 25,
+        "GI": "high"
+    },
+    {
+        "type": "PUMPKIN_PIE",
+        "carbs": 31,
+        "GI": "high"
+    },
+    {
+        "type": "MUSHROOM_STEW",
+        "carbs": 14,
+        "GI": "low"
+    },
+    {
+        "type": "BEETROOT",
+        "carbs": 31,
+        "GI": "high"
+    }
+];
 var Food = {};
 foodList.forEach(function (item) { return Food[item.type] = item; });
-var inventoryList = JSON.parse(fs.readFileSync('./inventory.json', 'utf8'));
+// const inventoryList = JSON.parse(fs.readFileSync('./inventory.json', 'utf8'));
 // const inventoryList = require('./inventory.json');
+var inventoryList = [
+    {
+        "type": "COOKED_CHICKEN",
+        "quantity": 64,
+        "refresh": true,
+        "slot": 15
+    },
+    {
+        "type": "COOKED_FISH",
+        "quantity": 64,
+        "refresh": true,
+        "slot": 16
+    },
+    {
+        "type": "BREAD",
+        "quantity": 64,
+        "refresh": true,
+        "slot": 17
+    },
+    {
+        "type": "COOKIE",
+        "quantity": 64,
+        "refresh": true,
+        "slot": 24
+    },
+    {
+        "type": "APPLE",
+        "quantity": 64,
+        "refresh": true,
+        "slot": 25
+    },
+    {
+        "type": "BAKED_POTATO",
+        "quantity": 64,
+        "refresh": true,
+        "slot": 26
+    },
+    {
+        "type": "PUMPKIN_PIE",
+        "quantity": 64,
+        "refresh": true,
+        "slot": 33
+    },
+    {
+        "type": "MUSHROOM_STEW",
+        "quantity": 64,
+        "refresh": true,
+        "slot": 34
+    },
+    {
+        "type": "BEETROOT",
+        "quantity": 64,
+        "refresh": true,
+        "slot": 35
+    }
+];
 // TODO:
 // * Use XP bar for lightning
 var Player = {
