@@ -1,5 +1,5 @@
 import edbee from './edbee';
-import Emitter from './emitter';
+import emitter from './emitter';
 const magik = magikcraft.io;
 const log = magik.dixit;
 
@@ -9,7 +9,7 @@ const eventHandlers = {
 
 const Events = {
 	test: 'test',
-	on: Emitter.on,
+	on: emitter.on,
 
 	registerAll: () => {
 		for(let name in eventHandlers) {
@@ -18,7 +18,7 @@ const Events = {
 	},
 
 	unregisterAll: (event) => {
-		Emitter.removeAllListeners();
+		emitter.removeAllListeners();
 		// event.getHandlerList().unregisterAll(magik.getPlugin());
 		const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
 		log('listeners: '+ JSON.stringify(listeners));
