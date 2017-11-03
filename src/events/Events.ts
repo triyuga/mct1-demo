@@ -1,19 +1,19 @@
-import entityDamageByEntityEvent from './entityDamageByEntityEvent';
+import EntityDamageByEntityEvent from './EntityDamageByEntityEvent';
 import Emitter from './Emitter';
 const magik = magikcraft.io;
 const log = magik.dixit;
 
 const eventHandlers = {
-	entityDamageByEntityEvent,
+	EntityDamageByEntityEvent,
 }
 
-const Eventer = {
+const Events = {
 	test: 'test',
 	on: Emitter.on,
 
 	registerAll: () => {
 		for(let name in eventHandlers) {
-			eventHandlers[name]();
+			eventHandlers[name](magik.getPlugin());
 		}
 	},
 
@@ -25,5 +25,5 @@ const Eventer = {
 	},
 };
 
-log('Eventer.test: ' + Eventer.test);
-export default Eventer;
+log('Events.test: ' + Events.test);
+export default Events;

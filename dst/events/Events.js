@@ -1,18 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var entityDamageByEntityEvent_1 = require("./entityDamageByEntityEvent");
+var EntityDamageByEntityEvent_1 = require("./EntityDamageByEntityEvent");
 var Emitter_1 = require("./Emitter");
 var magik = magikcraft.io;
 var log = magik.dixit;
 var eventHandlers = {
-    entityDamageByEntityEvent: entityDamageByEntityEvent_1.default,
+    EntityDamageByEntityEvent: EntityDamageByEntityEvent_1.default,
 };
-var Eventer = {
+var Events = {
     test: 'test',
     on: Emitter_1.default.on,
     registerAll: function () {
         for (var name in eventHandlers) {
-            eventHandlers[name]();
+            eventHandlers[name](magik.getPlugin());
         }
     },
     unregisterAll: function (event) {
@@ -22,5 +22,5 @@ var Eventer = {
         log('listeners: ' + JSON.stringify(listeners));
     },
 };
-log('Eventer.test: ' + Eventer.test);
-exports.default = Eventer;
+log('Events.test: ' + Events.test);
+exports.default = Events;
