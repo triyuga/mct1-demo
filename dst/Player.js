@@ -33,18 +33,11 @@ var Player = {
             State_1.setState(state);
             log('digesting');
         }
-        else {
-            log('ALREADY digesting');
-        }
-        log('state: 4' + JSON.stringify(state));
         if (!state.listening) {
             log('listening');
             this.enableEventListeners();
             state.listening = true;
             State_1.setState(state);
-        }
-        else {
-            log('ALREADY listening');
         }
     },
     reset: function () {
@@ -69,9 +62,16 @@ var Player = {
         });
         Events_1.default.on('PlayerDeathEvent', function (event) {
             log('PlayerDeathEvent: ' + event.getDeathMessage());
+            state.dead = true;
+            State_1.setState(state);
+            // this.reset();
+        });
+        Events_1.default.on('PlayerRespawnEvent', function (event) {
+            log('PlayerRespawnEvent: ' + event.getRespawnLocation());
+            state.dead = false;
+            State_1.setState(state);
             _this.reset();
         });
-        Events_1.default.on('PlayerRespawnEvent', function (event) { return log('PlayerRespawnEvent: ' + event.getRespawnLocation()); });
         Events_1.default.on('EntityDamageByEntityEvent', function (event) { return log('EntityDamageByEntityEvent: ' + event.getCause()); });
         Events_1.default.on('EntityDamageEvent', function (event) { return log('EntityDamageEvent: ' + event.getCause()); });
     },
@@ -145,7 +145,6 @@ var Player = {
         // log('digesting...');
         var that = this;
         magik.setTimeout(function () {
-            var updated = false;
             // Every 10 ticks...
             if (tickCount % 10 === 0) {
                 // Reduce food level.
@@ -158,7 +157,6 @@ var Player = {
                 if (state.bgl < 2 && player.getFoodLevel() >= 20) {
                     player.setFoodLevel(15);
                 }
-                updated = true;
             }
             // handle digestionQueue
             if (state.digestionQueue[0]) {
@@ -171,14 +169,11 @@ var Player = {
                     // finished digesting... remove from queue...
                     state.digestionQueue.splice(0, 1);
                 }
-                updated = true;
             }
-            // update if changes...
-            if (updated) {
-                State_1.setState(state);
-                that.renderBars();
-                that.doEffects();
-            }
+            state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
+            State_1.setState(state);
+            that.renderBars();
+            that.doEffects();
             // Never allow player to be full!
             if (player.getFoodLevel() >= 20) {
                 player.setFoodLevel(19.5);
@@ -242,21 +237,26 @@ var Player = {
         // 	player['setHealth'](player['getHealth']() - 1);
         // }
     },
-    onInteract: function (event) {
-        // Do stuff.
-    },
     doEffects: function () {
-        // Confusion!
-        if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 8 && state.bgl <= 10)) {
-            this.doConfusion(2500);
+        if ((state.bgl >= 4 && state.bgl <= 8)) {
+            // Super powers!
+            this.makeSuperPowers();
         }
-        else if (state.bgl < 2 || state.bgl > 10) {
-            this.doConfusion(5000);
-        }
-        // Layer additional effects.
-        if (state.bgl < 0 || state.bgl > 12) {
-            this.doBlindness(5000);
-            this.doPoison(5000);
+        else {
+            // Negative Effects!
+            this.clearSuperPowers();
+            // Confusion!
+            if ((state.bgl < 4 && state.bgl >= 3) || (state.bgl > 8 && state.bgl <= 12)) {
+                this.doConfusion(2500);
+            }
+            else if (state.bgl < 3 || state.bgl > 16) {
+                this.doConfusion(5000);
+            }
+            // Layer additional effects.
+            if (state.bgl < 2 || state.bgl >= 16) {
+                this.doBlindness(5000);
+                this.doPoison(5000);
+            }
         }
     },
     clearNegativeEffects: function () {

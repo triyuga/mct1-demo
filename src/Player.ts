@@ -39,19 +39,12 @@ const Player = {
 			setState(state);
 			log('digesting');
 		}
-		else {
-			log('ALREADY digesting');
-		}
 
-		log('state: 4' + JSON.stringify(state));
 		if (!state.listening) {
 			log('listening');
 			this.enableEventListeners();
 			state.listening = true;
 			setState(state);
-		}
-		else {
-			log('ALREADY listening');
 		}
 	},
 
@@ -59,7 +52,7 @@ const Player = {
 		this.clearNegativeEffects();
 		this.clearSuperPowers();
 		this.clearInventory();
-		
+
 		this.setupInventory();
 		this.renderBars();
 		// Super Powers!
@@ -78,9 +71,16 @@ const Player = {
 		});
 		Events.on('PlayerDeathEvent', (event) => {
 			log('PlayerDeathEvent: ' + event.getDeathMessage());
+			state.dead = true;
+			setState(state);
+			// this.reset();
+		});
+		Events.on('PlayerRespawnEvent', (event) => {
+			log('PlayerRespawnEvent: ' + event.getRespawnLocation())
+			state.dead = false;
+			setState(state);
 			this.reset();
 		});
-		Events.on('PlayerRespawnEvent', (event) => log('PlayerRespawnEvent: ' + event.getRespawnLocation()));
 		Events.on('EntityDamageByEntityEvent', (event) => log('EntityDamageByEntityEvent: ' + event.getCause()));
 		Events.on('EntityDamageEvent', (event) => log('EntityDamageEvent: ' + event.getCause()));
 	},
@@ -156,7 +156,6 @@ const Player = {
 		// log('digesting...');
 		const that = this;
 		magik.setTimeout(function() {
-			let updated = false;
 
 			// Every 10 ticks...
 			if (tickCount % 10 === 0) {
@@ -171,7 +170,6 @@ const Player = {
 				if (state.bgl < 2 && player.getFoodLevel() >= 20) {
 					player.setFoodLevel(15);
 				}
-				updated = true;
 			}
 
 			// handle digestionQueue
@@ -185,15 +183,13 @@ const Player = {
 					// finished digesting... remove from queue...
 					state.digestionQueue.splice(0,1);
 				}
-				updated = true;
 			}
 
-			// update if changes...
-			if (updated) {
-				setState(state);
-				that.renderBars();
-				that.doEffects();
-			}
+			
+			state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
+			setState(state);
+			that.renderBars();
+			that.doEffects();
 
 			// Never allow player to be full!
 			if (player.getFoodLevel() >= 20) {
@@ -264,23 +260,27 @@ const Player = {
 		// }
 	},
 
-	onInteract(event) {
-		// Do stuff.
-	},
-
 	doEffects() {
-		// Confusion!
-		if ((state.bgl < 4 && state.bgl >= 2) || (state.bgl >= 8 && state.bgl <= 10)) {
-			this.doConfusion(2500);
+		if ((state.bgl >= 4 && state.bgl <= 8)) {
+			// Super powers!
+			this.makeSuperPowers();
 		}
-		// More Confusion!
-		else if (state.bgl < 2 || state.bgl > 10) {
-			this.doConfusion(5000);
-		}
-		// Layer additional effects.
-		if (state.bgl < 0 || state.bgl > 12) {
-			this.doBlindness(5000);
-			this.doPoison(5000);
+		else {
+			// Negative Effects!
+			this.clearSuperPowers();
+			// Confusion!
+			if ((state.bgl < 4 && state.bgl >= 3) || (state.bgl > 8 && state.bgl <= 12)) {
+				this.doConfusion(2500);
+			}
+			// More Confusion!
+			else if (state.bgl < 3 || state.bgl > 16) {
+				this.doConfusion(5000);
+			}
+			// Layer additional effects.
+			if (state.bgl < 2 || state.bgl >= 16) {
+				this.doBlindness(5000);
+				this.doPoison(5000);
+			}
 		}
 	},
 

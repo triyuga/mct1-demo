@@ -4,9 +4,11 @@ const KEY = 'mct1-demo';
 
 export function getState() {
 	const state = magik.playerMap.get(KEY) || {};
-	log('state 1: ' + JSON.stringify(state));
+	// log('state 1: ' + JSON.stringify(state));
 	state.listening = state.listening !== undefined ? state.listening : false;
 	state.digesting = state.digesting !== undefined ? state.digesting : false;
+	state.dead = state.dead !== undefined ? state.dead : false;
+	state.inHeathyRange = state.inHeathyRange !== undefined ? state.inHeathyRange : true;
 	state.bgl = state.bgl !== undefined ? state.bgl : 5;
 	state.insulin = state.insulin !== undefined ? state.insulin : 0;
 	state.digestionQueue = state.digestionQueue ? state.digestionQueue.sort((a,b) => a.timestamp - b.timestamp) : [];
@@ -17,13 +19,15 @@ export function getState() {
 	state.confusionEffect = state.confusionEffect ? true : false;
 	state.blindnessEffect = state.blindnessEffect ? true : false;
 	state.poisonEffect = state.poisonEffect ? true : false;
-	log('state: 2' + JSON.stringify(state));
+	// log('state: 2' + JSON.stringify(state));
 	return state;
 }
 
 export function setState(state) {
 	state.listening = state.listening !== undefined ? state.listening : false;
 	state.digesting = state.digesting !== undefined ? state.digesting : false;
+	state.dead = state.dead !== undefined ? state.dead : false;
+	state.inHeathyRange = state.inHeathyRange !== undefined ? state.inHeathyRange : true;
 	state.bgl = state.bgl !== undefined ? state.bgl : 5;
 	state.insulin = state.insulin !== undefined ? state.insulin : 0;
 	state.digestionQueue = state.digestionQueue ? state.digestionQueue.sort((a,b) => a.timestamp - b.timestamp) : [];
