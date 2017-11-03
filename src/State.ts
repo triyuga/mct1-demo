@@ -5,7 +5,7 @@ const KEY = 'mct1-demo';
 export function getState() {
 	const state = magik.playerMap.get(KEY) || {};
 	log('state 1: ' + JSON.stringify(state));
-	state.listening = state.listening !== undefined ? true : false;
+	state.listening = state.listening !== undefined ? state.listening : false;
 	state.bgl = state.bgl !== undefined ? state.bgl : 5;
 	state.insulin = state.insulin !== undefined ? state.insulin : 0;
 	state.digestionQueue = state.digestionQueue ? state.digestionQueue.sort((a,b) => a.timestamp - b.timestamp) : [];
@@ -21,7 +21,7 @@ export function getState() {
 }
 
 export function setState(state) {
-	state.listening = state.listening !== undefined ? true : false;
+	state.listening = state.listening !== undefined ? state.listening : false;
 	state.bgl = state.bgl !== undefined ? state.bgl : 5;
 	state.insulin = state.insulin !== undefined ? state.insulin : 0;
 	state.digestionQueue = state.digestionQueue ? state.digestionQueue.sort((a,b) => a.timestamp - b.timestamp) : [];

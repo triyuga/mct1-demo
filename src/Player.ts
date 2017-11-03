@@ -12,6 +12,7 @@ const log = magik.dixit;
 
 const player = magik.getSender();
 const state = getState();
+log('state: 3' + JSON.stringify(state));
 
 import InventoryList from './InventoryList';
 import FoodList from './FoodList';
@@ -44,7 +45,7 @@ const Player = {
 		this.superNightVision();
 
 
-		log('state: 3' + JSON.stringify(state));
+		log('state: 4' + JSON.stringify(state));
 		if (!state.listening) {
 			log('listening');
 			this.enableEventListeners();

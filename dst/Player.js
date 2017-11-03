@@ -10,6 +10,7 @@ var magik = magikcraft.io;
 var log = magik.dixit;
 var player = magik.getSender();
 var state = State_1.getState();
+log('state: 3' + JSON.stringify(state));
 var InventoryList_1 = require("./InventoryList");
 var FoodList_1 = require("./FoodList");
 var Food = {};
@@ -35,7 +36,7 @@ var Player = {
         this.superJump();
         this.superGlow();
         this.superNightVision();
-        log('state: 3' + JSON.stringify(state));
+        log('state: 4' + JSON.stringify(state));
         if (!state.listening) {
             log('listening');
             this.enableEventListeners();
