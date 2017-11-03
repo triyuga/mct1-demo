@@ -39,6 +39,7 @@ export function setState(state) {
 	state.blindnessEffect = state.blindnessEffect ? true : false;
 	state.poisonEffect = state.poisonEffect ? true : false;
 	magik.playerMap.put(KEY, state);
+	return state;
 }
 
 export function resetState(state) {
@@ -61,4 +62,5 @@ export function resetState(state) {
 	state.blindnessEffect = false;
 	state.poisonEffect = false;
 	magik.playerMap.put(KEY, state);
+	return state;
 }

@@ -29,20 +29,19 @@ var Player = {
         if (!state.digesting) {
             this.doDigestion();
             state.digesting = true;
-            State_1.setState(state);
+            state = State_1.setState(state);
             log('digesting');
         }
         if (!state.listening) {
             log('listening');
             this.enableEventListeners();
             state.listening = true;
-            State_1.setState(state);
+            state = State_1.setState(state);
         }
     },
     reset: function () {
         // Reset State
-        State_1.resetState(state);
-        state = State_1.getState();
+        state = State_1.resetState(state);
         this.clearNegativeEffects();
         this.clearSuperPowers();
         this.clearInventory();
@@ -65,13 +64,13 @@ var Player = {
         Events_1.default.on('PlayerDeathEvent', function (event) {
             log('PlayerDeathEvent: ' + event.getDeathMessage());
             state.dead = true;
-            State_1.setState(state);
+            state = State_1.setState(state);
             // this.reset();
         });
         Events_1.default.on('PlayerRespawnEvent', function (event) {
             log('PlayerRespawnEvent: ' + event.getRespawnLocation());
             state.dead = false;
-            State_1.setState(state);
+            state = State_1.setState(state);
             _this.reset();
         });
         Events_1.default.on('EntityDamageByEntityEvent', function (event) {
@@ -113,12 +112,12 @@ var Player = {
     setInsulin: function (num) {
         if (num === void 0) { num = 0; }
         state.insulin = num;
-        State_1.setState(state);
+        state = State_1.setState(state);
     },
     setBGL: function (num) {
         if (num === void 0) { num = 0; }
         state.bgl = num;
-        State_1.setState(state);
+        state = State_1.setState(state);
     },
     renderBars: function () {
         // First, clear all bars.... 
@@ -167,7 +166,7 @@ var Player = {
                 .show();
         });
         // SetState
-        State_1.setState(state);
+        state = State_1.setState(state);
     },
     doDigestion: function (tickCount) {
         if (tickCount === void 0) { tickCount = 0; }
@@ -205,7 +204,7 @@ var Player = {
                 }
             }
             state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
-            State_1.setState(state);
+            state = State_1.setState(state);
             that.renderBars();
             that.doEffects();
             // Never allow player to be full!
@@ -232,14 +231,14 @@ var Player = {
                 percentDigested: 0,
             };
             state.digestionQueue.push(item);
-            State_1.setState(state);
+            state = State_1.setState(state);
             this.renderBars();
             // event.setCancelled(true);
         }
         else if (type == 'POTION') {
             log("You drank an INSULIN POTION!");
             state.insulin += 2;
-            State_1.setState(state);
+            state = State_1.setState(state);
             this.renderBars();
         }
     },
@@ -309,10 +308,10 @@ var Player = {
         if (!state.confusionEffect) {
             this._makeEffect('CONFUSION', milliseconds);
             state.confusionEffect = true;
-            State_1.setState(state);
+            state = State_1.setState(state);
             magik.setTimeout(function () {
                 state.confusionEffect = false;
-                State_1.setState(state);
+                state = State_1.setState(state);
             }, milliseconds);
         }
     },
@@ -320,10 +319,10 @@ var Player = {
         if (!state.blindnessEffect) {
             this._makeEffect('BLINDNESS', milliseconds);
             state.blindnessEffect = true;
-            State_1.setState(state);
+            state = State_1.setState(state);
             magik.setTimeout(function () {
                 state.blindnessEffect = false;
-                State_1.setState(state);
+                state = State_1.setState(state);
             }, milliseconds);
         }
     },
@@ -331,10 +330,10 @@ var Player = {
         if (!state.poisonEffect) {
             this._makeEffect('POISON', milliseconds);
             state.poisonEffect = true;
-            State_1.setState(state);
+            state = State_1.setState(state);
             magik.setTimeout(function () {
                 state.poisonEffect = false;
-                State_1.setState(state);
+                state = State_1.setState(state);
             }, milliseconds);
         }
     },

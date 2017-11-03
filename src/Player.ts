@@ -35,7 +35,7 @@ const Player = {
 		if (!state.digesting) {
 			this.doDigestion();
 			state.digesting = true;
-			setState(state);
+			state = setState(state);
 			log('digesting');
 		}
 
@@ -43,14 +43,13 @@ const Player = {
 			log('listening');
 			this.enableEventListeners();
 			state.listening = true;
-			setState(state);
+			state = setState(state);
 		}
 	},
 
 	reset() {
 		// Reset State
-		resetState(state);
-		state = getState();
+		state = resetState(state);
 
 		this.clearNegativeEffects();
 		this.clearSuperPowers();
@@ -75,13 +74,13 @@ const Player = {
 		Events.on('PlayerDeathEvent', (event) => {
 			log('PlayerDeathEvent: ' + event.getDeathMessage());
 			state.dead = true;
-			setState(state);
+			state = setState(state);
 			// this.reset();
 		});
 		Events.on('PlayerRespawnEvent', (event) => {
 			log('PlayerRespawnEvent: ' + event.getRespawnLocation())
 			state.dead = false;
-			setState(state);
+			state = setState(state);
 			this.reset();
 		});
 		Events.on('EntityDamageByEntityEvent', (event) => { 
@@ -125,12 +124,12 @@ const Player = {
 
 	setInsulin(num: number = 0) {
 		state.insulin = num;
-		setState(state);
+		state = setState(state);
 	},
 
 	setBGL(num: number = 0) {
 		state.bgl = num;
-		setState(state);
+		state = setState(state);
 	},
 
 	renderBars() {
@@ -179,7 +178,7 @@ const Player = {
 		});
 
 		// SetState
-		setState(state);
+		state = setState(state);
 	},
 
 	doDigestion(tickCount = 0) {
@@ -222,7 +221,7 @@ const Player = {
 
 			
 			state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
-			setState(state);
+			state = setState(state);
 			that.renderBars();
 			that.doEffects();
 
@@ -252,14 +251,14 @@ const Player = {
 				percentDigested: 0,
 			};
 			state.digestionQueue.push(item);
-			setState(state);
+			state = setState(state);
 			this.renderBars();
 			// event.setCancelled(true);
 		}
 		else if (type == 'POTION') { // important! use double arrow (not triple)
 			log(`You drank an INSULIN POTION!`);
 			state.insulin += 2;
-			setState(state);
+			state = setState(state);
 			this.renderBars();
 		}
 	},
@@ -336,10 +335,10 @@ const Player = {
 		if (!state.confusionEffect) {
 			this._makeEffect('CONFUSION', milliseconds);
 			state.confusionEffect = true;
-			setState(state);
+			state = setState(state);
 			magik.setTimeout(() => {
 				state.confusionEffect = false;
-				setState(state);
+				state = setState(state);
 			}, milliseconds);
 		}
 	},
@@ -348,10 +347,10 @@ const Player = {
 		if (!state.blindnessEffect) {
 			this._makeEffect('BLINDNESS', milliseconds);
 			state.blindnessEffect = true;
-			setState(state);
+			state = setState(state);
 			magik.setTimeout(() => {
 				state.blindnessEffect = false;
-				setState(state);
+				state = setState(state);
 			}, milliseconds);
 		}
 	},
@@ -360,10 +359,10 @@ const Player = {
 		if (!state.poisonEffect) {
 			this._makeEffect('POISON', milliseconds);
 			state.poisonEffect = true;
-			setState(state);
+			state = setState(state);
 			magik.setTimeout(() => {
 				state.poisonEffect = false;
-				setState(state);
+				state = setState(state);
 			}, milliseconds);
 		}
 	},
