@@ -7,13 +7,13 @@ declare const Java: any;
 
 const EventPriority = Java.type("org.bukkit.event.EventPriority");
 const EventCallback = Java.type("io.magikcraft.EventCallback");
-const _EntityDamageByEntityEvent = Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent");
+// const _EntityDamageByEntityEvent = Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent");
 
 
 const EntityDamageByEntityEvent = {
     register: () => {
         magik.getPlugin().registerEvent(
-            _EntityDamageByEntityEvent.class,
+            Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent").class,
             EventPriority.MONITOR,
             true,
             new EventCallback({
@@ -24,7 +24,7 @@ const EntityDamageByEntityEvent = {
     },
 
     unregister: () => {
-        _EntityDamageByEntityEvent.getHandlerList().unregister(magik.getPlugin()); // unregister listeners owned by plugin from PlayerMoveEvent
+        Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent").getHandlerList().unregister(magik.getPlugin()); // unregister listeners owned by plugin from PlayerMoveEvent
     },
 }
 
