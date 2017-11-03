@@ -1,10 +1,10 @@
-import EntityDamageByEntityEvent from './EntityDamageByEntityEvent';
+import edbee from './edbee';
 import Emitter from './Emitter';
 const magik = magikcraft.io;
 const log = magik.dixit;
 
 const eventHandlers = {
-	EntityDamageByEntityEvent,
+	edbee,
 }
 
 const Events = {

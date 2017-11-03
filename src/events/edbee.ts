@@ -3,11 +3,11 @@
 const magik = magikcraft.io;
 const log = magik.dixit;
 
-const EntityDamageByEntityEvent = () => {
+const edbee = () => {
     log('EntityDamageByEntityEvent');
 }
 
-export default EntityDamageByEntityEvent;
+export default edbee;
 
 // import Emitter from './Emitter';
 // const magik = magikcraft.io;

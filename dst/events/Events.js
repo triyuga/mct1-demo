@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var EntityDamageByEntityEvent_1 = require("./EntityDamageByEntityEvent");
+var edbee_1 = require("./edbee");
 var Emitter_1 = require("./Emitter");
 var magik = magikcraft.io;
 var log = magik.dixit;
 var eventHandlers = {
-    EntityDamageByEntityEvent: EntityDamageByEntityEvent_1.default,
+    edbee: edbee_1.default,
 };
 var Events = {
     test: 'test',
