@@ -51,9 +51,8 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
   "exclude": [
-    "spells/**/*.*",
-    "_old/**/*.*",
-    "**/*.test.ts",
-    "node_modules/**/*.*"
+    "spells",
+    "_old",
+    "node_modules"
   ]
 }

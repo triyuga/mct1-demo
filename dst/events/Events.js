@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var edbee_1 = require("./edbee");
-var emitter_1 = require("./emitter");
+var Emitter_1 = require("./Emitter");
 var magik = magikcraft.io;
 var log = magik.dixit;
 var eventHandlers = {
@@ -9,18 +9,17 @@ var eventHandlers = {
 };
 var Events = {
     test: 'test',
-    on: emitter_1.default.on,
+    on: Emitter_1.default.on,
     registerAll: function () {
         for (var name in eventHandlers) {
             eventHandlers[name](magik.getPlugin());
         }
     },
     unregisterAll: function (event) {
-        emitter_1.default.removeAllListeners();
+        Emitter_1.default.removeAllListeners();
         // event.getHandlerList().unregisterAll(magik.getPlugin());
         var listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
         log('listeners: ' + JSON.stringify(listeners));
     },
 };
-log('Events.test: ' + Events.test);
 exports.default = Events;

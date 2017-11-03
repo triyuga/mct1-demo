@@ -46,8 +46,8 @@ var Player = {
         // Events.on('PlayerItemConsumeEvent', this.onConsume);
         // const cmd = `cast EntityDamageEvent`;
         // player['performCommand'](cmd);
-        magik.Events.on('CreatureSpawn', function (event) { return log('CreatureSpawn'); });
-        magik.Events.on('EntityDeath', function (event) { return log('EntityDeath'); });
+        // magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
+        // magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
     },
     disableEventListeners: function () {
         magik.Events.off('ProjectileHit', this.onProjectileHit);

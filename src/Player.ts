@@ -57,8 +57,8 @@ const Player = {
 		// const cmd = `cast EntityDamageEvent`;
 		// player['performCommand'](cmd);
 
-		magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
-		magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
+		// magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
+		// magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
 	},
 
 	disableEventListeners() {
