@@ -300,6 +300,7 @@ const Player = {
 		const type = event.getItem().getType();
 		if (Food[type]) {
 			if (type == 'APPLE') {
+				log('running disableEventListeners!');
 				this.disableEventListeners();
 				log('ran disableEventListeners!');
 				return;
