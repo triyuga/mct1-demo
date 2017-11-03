@@ -24,7 +24,7 @@ const EntityDamageByEntityEvent = {
     },
 
     unregister: () => {
-        _EntityDamageByEntityEvent.class.getHandlerList().unregister(magik.getPlugin()); // unregister listeners owned by plugin from PlayerMoveEvent
+        _EntityDamageByEntityEvent.getHandlerList().unregister(magik.getPlugin()); // unregister listeners owned by plugin from PlayerMoveEvent
     },
 }
 
