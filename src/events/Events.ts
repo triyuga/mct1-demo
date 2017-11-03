@@ -3,6 +3,8 @@ import Emitter from './Emitter';
 const magik = magikcraft.io;
 const log = magik.dixit;
 
+const HandlerList = Java.type("org.bukkit.event.HandlerList");
+
 const eventHandlers = {
 	EntityDamageByEntityEvent,
 }
@@ -13,18 +15,22 @@ const Events = {
 
 	registerAll: () => {
 		for(let name in eventHandlers) {
-			eventHandlers[name](magik.getPlugin());
+			eventHandlers[name]();
 		}
 
-		Emitter.on('EntityDamageByEntityEvent', (event) => log('here 2'))
-		
+		this.unregisterAll();
 	},
 
 	unregisterAll: (event) => {
-		Emitter.removeAllListeners();
-		// event.getHandlerList().unregisterAll(magik.getPlugin());
-		const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
-		log('listeners: '+ JSON.stringify(listeners));
+		
+		const listeners = HandlerList.getRegisteredListeners();
+		log('listeners...');
+		log('listeners: ' + JSON.stringify(listeners));
+		
+		// Emitter.removeAllListeners();
+		// // event.getHandlerList().unregisterAll(magik.getPlugin());
+		// const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
+		// log('listeners: '+ JSON.stringify(listeners));
 	},
 };
 
