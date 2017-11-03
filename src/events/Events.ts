@@ -1,5 +1,5 @@
 import edbee from './edbee';
-import Emitter from './Emitter';
+import Emitter from './emitter';
 const magik = magikcraft.io;
 const log = magik.dixit;
 
