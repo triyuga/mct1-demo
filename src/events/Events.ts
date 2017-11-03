@@ -27,7 +27,10 @@ const Events = {
 		
 		// HandlerList.unregisterAll(magik.getPlugin());
 		// log('unregisterAll listeners...');
-		// const listeners = HandlerList.getRegisteredListeners(magik.getPlugin());
+		HandlerList.getRegisteredListeners(magik.getPlugin()).map((registeredListener) => {
+			const listener = registeredListener.getListener();
+			log('listener: ' +  listener);
+		});
 
 		// log('listeners: ' + JSON.stringify(listeners));
 		

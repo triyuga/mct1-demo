@@ -23,7 +23,10 @@ var Events = {
         }
         // HandlerList.unregisterAll(magik.getPlugin());
         // log('unregisterAll listeners...');
-        // const listeners = HandlerList.getRegisteredListeners(magik.getPlugin());
+        HandlerList.getRegisteredListeners(magik.getPlugin()).map(function (registeredListener) {
+            var listener = registeredListener.getListener();
+            log('listener: ' + listener);
+        });
         // log('listeners: ' + JSON.stringify(listeners));
         // Emitter.removeAllListeners();
         // // event.getHandlerList().unregisterAll(magik.getPlugin());
