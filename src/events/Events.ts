@@ -17,6 +17,7 @@ const Events = {
 		for(let name in eventHandlers) {
 			eventHandlers[name]();
 		}
+		HandlerList.bakeAll();
 	},
 
 	unregisterAll: () => {

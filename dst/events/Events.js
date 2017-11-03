@@ -15,6 +15,7 @@ var Events = {
         for (var name in eventHandlers) {
             eventHandlers[name]();
         }
+        HandlerList.bakeAll();
     },
     unregisterAll: function () {
         var listeners = HandlerList.getRegisteredListeners(magik.getPlugin());
