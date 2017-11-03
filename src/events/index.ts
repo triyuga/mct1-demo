@@ -7,7 +7,7 @@ const eventHandlers = {
 	EntityDamageByEntityEvent,
 }
 
-const Events = {
+export const Events = {
 	on: EventEmitter.on,
 
 	registerAll: () => {
@@ -24,4 +24,4 @@ const Events = {
 	},
 };
 
-export default Events;
+// export default Events;
