@@ -1,6 +1,6 @@
 import * as Bar from './Bar';
 import Utils from './Utils';
-import { getState, setState } from './State';
+import { getState, setState, resetState } from './State';
 // import * as fs from 'fs-extra'; 
 
 import Events from './Events';
@@ -49,8 +49,7 @@ const Player = {
 
 	reset() {
 		// Reset State
-		setState({});
-		state = getState();
+		resetState(state);
 
 		this.clearNegativeEffects();
 		this.clearSuperPowers();
@@ -459,29 +458,3 @@ const Player = {
 }
 
 export default Player;
-
-
-
-
-// const actionType = event.getAction().getType();
-// const handType = event.getHand().getType(); // EquipmentSlot
-// const itemType = event.getItem().getType(); // ItemStack
-// const materialType = event.getMaterial().getType(); // Material
-// const hasItem = event.hasItem(); // Check if this event involved an item
-// magik.dixit('actionType: ' + actionType);
-// magik.dixit('handType: ' + handType);
-// magik.dixit('itemType: ' + itemType);
-// magik.dixit('materialType: ' + materialType);
-// magik.dixit('hasItem: ' + hasItem);
-// // getBlockFace(); // BlockFace
-// // getClickedBlock().getType();
-// // getHandlerList(); // HandlerList
-// // getHandlers(); // HandlerList
-// // hasBlock() // Check if this event involved a block
-// // isBlockInHand() // boolean whether this was a block placement event
-// // isCancelled() // boolean
-// // setCancelled(boolean cancel) // 
-// // setUseInteractedBlock(Event.Result useInteractedBlock) 
-// // setUseItemInHand(Event.Result useItemInHand) 
-// // useInteractedBlock() // Event.Result This controls the action to take with the block (if any) that was clicked on.
-// // useItemInHand() // Event.Result	
