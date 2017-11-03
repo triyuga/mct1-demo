@@ -25,16 +25,8 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 // * low GI, digest slower, BGL still goes down in Insulin in system
 var Player = {
     init: function () {
-        this.clearInventory();
-        // this.refreshInventory();
-        this.setupInventory();
+        this.reset();
         this.setFood(2);
-        this.renderBars();
-        // Super Powers!
-        this.superSpeed();
-        this.superJump();
-        this.superGlow();
-        this.superNightVision();
         if (!state.digesting) {
             this.doDigestion();
             state.digesting = true;
@@ -55,12 +47,32 @@ var Player = {
             log('ALREADY listening');
         }
     },
+    reset: function () {
+        this.clearEffects();
+        this.clearInventory();
+        this.setupInventory();
+        this.renderBars();
+        // Super Powers!
+        this.superSpeed();
+        this.superJump();
+        this.superGlow();
+        this.superNightVision();
+    },
     enableEventListeners: function () {
         var _this = this;
         Events_1.default.registerAll();
-        Events_1.default.on('ProjectileHitEvent', function (event) { log('ProjectileHitEvent'); _this.onProjectileHit(event); });
-        Events_1.default.on('PlayerItemConsumeEvent', function (event) { log('PlayerItemConsumeEvent'); _this.onConsume(event); });
-        Events_1.default.on('PlayerDeathEvent', function (event) { return log('PlayerDeathEvent: ' + event.getDeathMessage()); });
+        Events_1.default.on('ProjectileHitEvent', function (event) {
+            log('ProjectileHitEvent');
+            _this.onProjectileHit(event);
+        });
+        Events_1.default.on('PlayerItemConsumeEvent', function (event) {
+            log('PlayerItemConsumeEvent');
+            _this.onConsume(event);
+        });
+        Events_1.default.on('PlayerDeathEvent', function (event) {
+            log('PlayerDeathEvent: ' + event.getDeathMessage());
+            _this.reset();
+        });
         Events_1.default.on('PlayerRespawnEvent', function (event) { return log('PlayerRespawnEvent: ' + event.getRespawnLocation()); });
         Events_1.default.on('EntityDamageByEntityEvent', function (event) { return log('EntityDamageByEntityEvent: ' + event.getCause()); });
         Events_1.default.on('EntityDamageEvent', function (event) { return log('EntityDamageEvent: ' + event.getCause()); });
@@ -248,6 +260,11 @@ var Player = {
             this.doBlindness(5000);
             this.doPoison(5000);
         }
+    },
+    clearEffects: function () {
+        player['getActivePotionEffects']().map(function (effect) {
+            player['removePotionEffect'](effect.getType());
+        });
     },
     doConfusion: function (milliseconds) {
         if (!state.confusionEffect) {

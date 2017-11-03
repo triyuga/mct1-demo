@@ -30,18 +30,8 @@ FoodList.forEach(item => Food[item.type] = item);
 
 const Player = {
 	init() {
-		
-		this.clearInventory();
-		// this.refreshInventory();
-		this.setupInventory();
+		this.reset();
 		this.setFood(2);
-		this.renderBars();
-		
-		// Super Powers!
-		this.superSpeed();
-		this.superJump();
-		this.superGlow();
-		this.superNightVision();
 
 		if (!state.digesting) {
 			this.doDigestion();
@@ -65,11 +55,33 @@ const Player = {
 		}
 	},
 
+	reset() {
+		this.clearEffects();
+		this.clearInventory();
+		this.setupInventory();
+		this.renderBars();
+		
+		// Super Powers!
+		this.superSpeed();
+		this.superJump();
+		this.superGlow();
+		this.superNightVision();
+	},
+
 	enableEventListeners() {
 		Events.registerAll();
-		Events.on('ProjectileHitEvent', (event) => { log('ProjectileHitEvent'); this.onProjectileHit(event) } );
-		Events.on('PlayerItemConsumeEvent', (event) => { log('PlayerItemConsumeEvent'); this.onConsume(event) } );
-		Events.on('PlayerDeathEvent', (event) => log('PlayerDeathEvent: ' + event.getDeathMessage()));
+		Events.on('ProjectileHitEvent', (event) => { 
+			log('ProjectileHitEvent'); 
+			this.onProjectileHit(event) 
+		});
+		Events.on('PlayerItemConsumeEvent', (event) => { 
+			log('PlayerItemConsumeEvent'); 
+			this.onConsume(event) 
+		});
+		Events.on('PlayerDeathEvent', (event) => {
+			log('PlayerDeathEvent: ' + event.getDeathMessage());
+			this.reset();
+		});
 		Events.on('PlayerRespawnEvent', (event) => log('PlayerRespawnEvent: ' + event.getRespawnLocation()));
 		Events.on('EntityDamageByEntityEvent', (event) => log('EntityDamageByEntityEvent: ' + event.getCause()));
 		Events.on('EntityDamageEvent', (event) => log('EntityDamageEvent: ' + event.getCause()));
@@ -272,6 +284,12 @@ const Player = {
 			this.doBlindness(5000);
 			this.doPoison(5000);
 		}
+	},
+
+	clearEffects() {
+		player['getActivePotionEffects']().map(effect => {
+			player['removePotionEffect'](effect.getType());
+		});
 	},
 
 	doConfusion(milliseconds) {
