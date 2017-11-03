@@ -9,7 +9,7 @@ var eventHandlers = {
 };
 var Events = {
     test: 'test',
-    on: Emitter_1.default.on,
+    on: function (eventName, callback) { return Emitter_1.default.on(eventName, callback); },
     registerAll: function () {
         for (var name in eventHandlers) {
             eventHandlers[name](magik.getPlugin());

@@ -9,7 +9,7 @@ const eventHandlers = {
 
 const Events = {
 	test: 'test',
-	on: Emitter.on,
+	on: (eventName, callback) => Emitter.on(eventName, callback),
 
 	registerAll: () => {
 		for(let name in eventHandlers) {
