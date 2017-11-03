@@ -3,7 +3,7 @@ import Utils from './Utils';
 import { getState, setState } from './State';
 // import * as fs from 'fs-extra'; 
 
-import { Events } from './events';
+import Events from './events';
 
 // Read the file, and pass it to your callback
 

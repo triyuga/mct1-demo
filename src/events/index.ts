@@ -7,7 +7,8 @@ const eventHandlers = {
 	EntityDamageByEntityEvent,
 }
 
-export const Events = {
+const Events = {
+	test: 'test',
 	on: EventEmitter.on,
 
 	registerAll: () => {
@@ -16,12 +17,13 @@ export const Events = {
 		}
 	},
 
-	unregisterAll: (event) => {
-		EventEmitter.removeAllListeners();
-		// event.getHandlerList().unregisterAll(magik.getPlugin());
-		const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
-		log('listeners: '+ JSON.stringify(listeners));
-	},
+	// unregisterAll: (event) => {
+	// 	EventEmitter.removeAllListeners();
+	// 	// event.getHandlerList().unregisterAll(magik.getPlugin());
+	// 	const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
+	// 	log('listeners: '+ JSON.stringify(listeners));
+	// },
 };
 
-// export default Events;
+log('Events.test: ' + Events.test);
+export default Events;
