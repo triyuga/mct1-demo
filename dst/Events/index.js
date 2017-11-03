@@ -7,7 +7,7 @@ var log = magik.dixit;
 var eventHandlers = {
     EntityDamageByEntityEvent: EntityDamageByEntityEvent_1.default,
 };
-var Events = {
+var Eventer = {
     test: 'test',
     on: EventEmitter_1.default.on,
     registerAll: function () {
@@ -16,5 +16,5 @@ var Events = {
         }
     },
 };
-log('Events.test: ' + Events.test);
-exports.default = Events;
+log('Eventer.test: ' + Eventer.test);
+exports.default = Eventer;

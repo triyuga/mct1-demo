@@ -3,7 +3,7 @@ import Utils from './Utils';
 import { getState, setState } from './State';
 // import * as fs from 'fs-extra'; 
 
-import Events from './events';
+import Eventer from './events';
 
 // Read the file, and pass it to your callback
 
@@ -49,8 +49,8 @@ const Player = {
 		magik.Events.on('ProjectileHit', this.onProjectileHit);
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
 
-		Events.registerAll();
-		Events.on('EntityDamageByEntityEvent', (event) => log('EntityDamageByEntityEvent: ' + event.getCause()));
+		Eventer.registerAll();
+		Eventer.on('EntityDamageByEntityEvent', (event) => log('EntityDamageByEntityEvent: ' + event.getCause()));
 		// Events.on('ProjectileHit', this.onProjectileHit);
 		// Events.on('PlayerItemConsumeEvent', this.onConsume);
 

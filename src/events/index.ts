@@ -7,7 +7,7 @@ const eventHandlers = {
 	EntityDamageByEntityEvent,
 }
 
-const Events = {
+const Eventer = {
 	test: 'test',
 	on: EventEmitter.on,
 
@@ -25,5 +25,5 @@ const Events = {
 	// },
 };
 
-log('Events.test: ' + Events.test);
-export default Events;
+log('Eventer.test: ' + Eventer.test);
+export default Eventer;
