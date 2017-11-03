@@ -23,7 +23,6 @@ var Events = {
             log('javaType: ' + javaType);
             magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
-                    log('GOT EVENT: ' + type);
                     Emitter.emit(type, event);
                 }
             }));
