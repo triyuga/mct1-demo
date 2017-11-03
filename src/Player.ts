@@ -11,8 +11,7 @@ const magik = magikcraft.io;
 const log = magik.dixit;
 
 const player = magik.getSender();
-const state = getState();
-log('state: 3' + JSON.stringify(state));
+let state = getState();
 
 import InventoryList from './InventoryList';
 import FoodList from './FoodList';
@@ -49,6 +48,10 @@ const Player = {
 	},
 
 	reset() {
+		// Reset State
+		setState({});
+		state = getState();
+
 		this.clearNegativeEffects();
 		this.clearSuperPowers();
 		this.clearInventory();

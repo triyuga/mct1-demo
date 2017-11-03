@@ -10,7 +10,6 @@ var magik = magikcraft.io;
 var log = magik.dixit;
 var player = magik.getSender();
 var state = State_1.getState();
-log('state: 3' + JSON.stringify(state));
 var InventoryList_1 = require("./InventoryList");
 var FoodList_1 = require("./FoodList");
 var Food = {};
@@ -41,6 +40,9 @@ var Player = {
         }
     },
     reset: function () {
+        // Reset State
+        State_1.setState({});
+        state = State_1.getState();
         this.clearNegativeEffects();
         this.clearSuperPowers();
         this.clearInventory();
