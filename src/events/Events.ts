@@ -21,9 +21,9 @@ const Events = {
 	},
 
 	unregisterAll: () => {
-		for(let name in eventHandlers) {
-			eventHandlers[name].unregister();
-		}
+		// for(let name in eventHandlers) {
+		// 	eventHandlers[name].unregister();
+		// }
 		
 		// HandlerList.unregisterAll(magik.getPlugin());
 		// log('unregisterAll listeners...');

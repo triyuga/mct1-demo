@@ -18,9 +18,9 @@ var Events = {
         // HandlerList.bakeAll();
     },
     unregisterAll: function () {
-        for (var name in eventHandlers) {
-            eventHandlers[name].unregister();
-        }
+        // for(let name in eventHandlers) {
+        // 	eventHandlers[name].unregister();
+        // }
         // HandlerList.unregisterAll(magik.getPlugin());
         // log('unregisterAll listeners...');
         HandlerList.getRegisteredListeners(magik.getPlugin()).map(function (registeredListener) {
