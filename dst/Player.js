@@ -43,6 +43,7 @@ var Player = {
         Events_1.default.registerAll();
         Events_1.default.on('EntityDamageByEntityEvent', function (event) { return log('EntityDamageByEntityEvent: ' + event.getCause()); });
         Events_1.default.unregisterAll();
+        Events_1.default.registerAll();
         // Events.on('ProjectileHit', this.onProjectileHit);
         // Events.on('PlayerItemConsumeEvent', this.onConsume);
         // const cmd = `cast EntityDamageEvent`;
