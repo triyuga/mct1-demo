@@ -35,7 +35,6 @@ const Player = {
 		// this.refreshInventory();
 		this.setupInventory();
 		this.setFood(2);
-		this.doDigestion();
 		this.renderBars();
 		
 		// Super Powers!
@@ -45,12 +44,25 @@ const Player = {
 		this.superNightVision();
 
 
+		if (!state.digesting) {
+			this.doDigestion();
+			state.digesting = true;
+			setState(state);
+			log('digesting');
+		}
+		else {
+			log('ALREADY digesting');
+		}
+
 		log('state: 4' + JSON.stringify(state));
 		if (!state.listening) {
 			log('listening');
 			this.enableEventListeners();
 			state.listening = true;
 			setState(state);
+		}
+		else {
+			log('ALREADY listening');
 		}
 	},
 
@@ -68,11 +80,6 @@ const Player = {
 
 		// magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
 		// magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
-	},
-
-	disableEventListeners() {
-		magik.Events.off('ProjectileHit', this.onProjectileHit);
-		magik.Events.off('PlayerItemConsumeEvent', this.onConsume);
 	},
 
 	setFood(num: number) {
@@ -204,12 +211,6 @@ const Player = {
 		}	
 		const type = event.getItem().getType();
 		if (Food[type]) {
-			if (type == 'APPLE') {
-				log('running disableEventListeners!');
-				this.disableEventListeners();
-				log('ran disableEventListeners!');
-				return;
-			}
 			log(`You ate a ${type}!`);
 			const item = {
 				timestamp: Utils.makeTimestamp(),

@@ -29,19 +29,30 @@ var Player = {
         // this.refreshInventory();
         this.setupInventory();
         this.setFood(2);
-        this.doDigestion();
         this.renderBars();
         // Super Powers!
         this.superSpeed();
         this.superJump();
         this.superGlow();
         this.superNightVision();
+        if (!state.digesting) {
+            this.doDigestion();
+            state.digesting = true;
+            State_1.setState(state);
+            log('digesting');
+        }
+        else {
+            log('ALREADY digesting');
+        }
         log('state: 4' + JSON.stringify(state));
         if (!state.listening) {
             log('listening');
             this.enableEventListeners();
             state.listening = true;
             State_1.setState(state);
+        }
+        else {
+            log('ALREADY listening');
         }
     },
     enableEventListeners: function () {
@@ -55,10 +66,6 @@ var Player = {
         // player['performCommand'](cmd);
         // magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
         // magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
-    },
-    disableEventListeners: function () {
-        magik.Events.off('ProjectileHit', this.onProjectileHit);
-        magik.Events.off('PlayerItemConsumeEvent', this.onConsume);
     },
     setFood: function (num) {
         player.setFoodLevel(num);
@@ -181,12 +188,6 @@ var Player = {
         }
         var type = event.getItem().getType();
         if (Food[type]) {
-            if (type == 'APPLE') {
-                log('running disableEventListeners!');
-                this.disableEventListeners();
-                log('ran disableEventListeners!');
-                return;
-            }
             log("You ate a " + type + "!");
             var item = {
                 timestamp: Utils_1.default.makeTimestamp(),
