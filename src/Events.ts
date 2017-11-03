@@ -23,8 +23,11 @@ const Events = {
 
 	registerAll: () => {
 		for (let type in eventTypes) {
+			const javaType = eventTypes[type];
+			log('registering event: ' + type);
+			log('javaType: ' + javaType);
 			magik.getPlugin().registerEvent(
-				Java.type(eventTypes[type]).class,
+				Java.type(javaType).class,
 				EventPriority.MONITOR,
 				true,
 				new EventCallback({

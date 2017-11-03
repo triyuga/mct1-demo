@@ -18,7 +18,10 @@ var Events = {
     on: function (eventName, callback) { return Emitter.on(eventName, callback); },
     registerAll: function () {
         var _loop_1 = function (type) {
-            magik.getPlugin().registerEvent(Java.type(eventTypes[type]).class, EventPriority.MONITOR, true, new EventCallback({
+            var javaType = eventTypes[type];
+            log('registering event: ' + type);
+            log('javaType: ' + javaType);
+            magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
                     Emitter.emit(type, event);
                 }

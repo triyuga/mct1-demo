@@ -43,7 +43,6 @@ const Player = {
 		this.superGlow();
 		this.superNightVision();
 
-
 		if (!state.digesting) {
 			this.doDigestion();
 			state.digesting = true;
