@@ -4,7 +4,7 @@ var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
 var State_1 = require("./State");
 // import * as fs from 'fs-extra'; 
-var Events_1 = require("./events/Events");
+var Events_1 = require("./Events");
 // Read the file, and pass it to your callback
 var magik = magikcraft.io;
 var log = magik.dixit;
@@ -56,16 +56,14 @@ var Player = {
         }
     },
     enableEventListeners: function () {
-        magik.Events.on('ProjectileHit', this.onProjectileHit);
-        magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
+        var _this = this;
         Events_1.default.registerAll();
+        Events_1.default.on('ProjectileHitEvent', function (event) { return _this.onProjectileHit; });
+        Events_1.default.on('PlayerItemConsumeEvent', function (event) { return _this.onConsume; });
+        Events_1.default.on('PlayerDeathEvent', function (event) { return log('PlayerDeathEvent: ' + event.getDeathMessage()); });
+        Events_1.default.on('PlayerRespawnEvent', function (event) { return log('PlayerRespawnEvent: ' + event.getRespawnLocation()); });
         Events_1.default.on('EntityDamageByEntityEvent', function (event) { return log('EntityDamageByEntityEvent: ' + event.getCause()); });
-        // Events.on('ProjectileHit', this.onProjectileHit);
-        // Events.on('PlayerItemConsumeEvent', this.onConsume);
-        // const cmd = `cast EntityDamageEvent`;
-        // player['performCommand'](cmd);
-        // magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
-        // magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
+        Events_1.default.on('EntityDamageEvent', function (event) { return log('EntityDamageEvent: ' + event.getCause()); });
     },
     setFood: function (num) {
         player.setFoodLevel(num);

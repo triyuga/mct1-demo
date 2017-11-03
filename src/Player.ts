@@ -3,7 +3,7 @@ import Utils from './Utils';
 import { getState, setState } from './State';
 // import * as fs from 'fs-extra'; 
 
-import Events from './events/Events';
+import Events from './Events';
 
 // Read the file, and pass it to your callback
 
@@ -67,19 +67,13 @@ const Player = {
 	},
 
 	enableEventListeners() {
-		magik.Events.on('ProjectileHit', this.onProjectileHit);
-		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
 		Events.registerAll();
+		Events.on('ProjectileHitEvent', (event) => this.onProjectileHit);
+		Events.on('PlayerItemConsumeEvent', (event) => this.onConsume);
+		Events.on('PlayerDeathEvent', (event) => log('PlayerDeathEvent: ' + event.getDeathMessage()));
+		Events.on('PlayerRespawnEvent', (event) => log('PlayerRespawnEvent: ' + event.getRespawnLocation()));
 		Events.on('EntityDamageByEntityEvent', (event) => log('EntityDamageByEntityEvent: ' + event.getCause()));
-
-		// Events.on('ProjectileHit', this.onProjectileHit);
-		// Events.on('PlayerItemConsumeEvent', this.onConsume);
-
-		// const cmd = `cast EntityDamageEvent`;
-		// player['performCommand'](cmd);
-
-		// magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
-		// magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
+		Events.on('EntityDamageEvent', (event) => log('EntityDamageEvent: ' + event.getCause()));
 	},
 
 	setFood(num: number) {
