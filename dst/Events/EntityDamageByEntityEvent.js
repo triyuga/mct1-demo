@@ -7,13 +7,18 @@ var CommandCallback = Java.type("io.magikcraft.CommandCallback");
 var EventPriority = Java.type("org.bukkit.event.EventPriority");
 var EventCallback = Java.type("io.magikcraft.EventCallback");
 var EntityDamageByEntityEvent = function () {
-    magik.getPlugin().registerEvent(Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent").class, EventPriority.MONITOR, true, new EventCallback({
-        callback: function (event) {
-            magik.dixit('EntityDamageByEntityEvent');
-            // Emitter.emit('EntityDamageByEntityEvent', event);
-            // const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
-            // log('listeners: '+ JSON.stringify(listeners));
-        }
-    }));
+    log('EntityDamageByEntityEvent');
+    // magik.getPlugin().registerEvent(
+    //     Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent").class,
+    //     EventPriority.MONITOR,
+    //     true,
+    //     new EventCallback({
+    //         callback: function (event: any) {
+    //             magik.dixit('EntityDamageByEntityEvent');
+    //             // Emitter.emit('EntityDamageByEntityEvent', event);
+    //             // const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
+    //             // log('listeners: '+ JSON.stringify(listeners));
+    //         }
+    //     }));	
 };
 exports.default = EntityDamageByEntityEvent;
