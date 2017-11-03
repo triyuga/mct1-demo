@@ -43,6 +43,8 @@ const Player = {
 		this.superGlow();
 		this.superNightVision();
 
+
+		log('state: 3' + JSON.stringify(state));
 		if (!state.listening) {
 			log('listening');
 			this.enableEventListeners();
