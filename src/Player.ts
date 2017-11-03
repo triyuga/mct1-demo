@@ -56,16 +56,14 @@ const Player = {
 	},
 
 	reset() {
-		this.clearEffects();
+		this.clearNegativeEffects();
+		this.clearSuperPowers();
 		this.clearInventory();
+		
 		this.setupInventory();
 		this.renderBars();
-		
 		// Super Powers!
-		this.superSpeed();
-		this.superJump();
-		this.superGlow();
-		this.superNightVision();
+		this.makeSuperPowers();
 	},
 
 	enableEventListeners() {
@@ -286,10 +284,17 @@ const Player = {
 		}
 	},
 
-	clearEffects() {
-		player['getActivePotionEffects']().map(effect => {
-			player['removePotionEffect'](effect.getType());
-		});
+	clearNegativeEffects() {
+		const PotionEffectType = magik.type("potion.PotionEffectType");
+		if (player['hasPotionEffect'](PotionEffectType.CONFUSION) == true) {
+			player['removePotionEffect'](PotionEffectType.CONFUSION);
+		}
+		if (player['hasPotionEffect'](PotionEffectType.BLINDNESS) == true) {
+			player['removePotionEffect'](PotionEffectType.BLINDNESS);
+		}
+		if (player['hasPotionEffect'](PotionEffectType.POISON) == true) {
+			player['removePotionEffect'](PotionEffectType.POISON);
+		}
 	},
 
 	doConfusion(milliseconds) {
@@ -328,17 +333,27 @@ const Player = {
 		}
 	},
 
-	superSpeed() {
+	makeSuperPowers() {
 		this._makeEffect('SPEED', 10000000, 'WHITE', 3);
-	},
-	superJump() {
 		this._makeEffect('JUMP', 10000000, 'WHITE', 3);
-	},
-	superGlow() {
 		this._makeEffect('GLOWING', 10000000, 'WHITE');
-	},
-	superNightVision() {
 		this._makeEffect('NIGHT_VISION', 10000000, 'WHITE');
+	},
+
+	clearSuperPowers() {
+		const PotionEffectType = magik.type("potion.PotionEffectType");
+		if (player['hasPotionEffect'](PotionEffectType.SPEED) == true) {
+			player['removePotionEffect'](PotionEffectType.SPEED);
+		}
+		if (player['hasPotionEffect'](PotionEffectType.JUMP) == true) {
+			player['removePotionEffect'](PotionEffectType.JUMP);
+		}
+		if (player['hasPotionEffect'](PotionEffectType.GLOWING) == true) {
+			player['removePotionEffect'](PotionEffectType.GLOWING);
+		}
+		if (player['hasPotionEffect'](PotionEffectType.NIGHT_VISION) == true) {
+			player['removePotionEffect'](PotionEffectType.NIGHT_VISION);
+		}
 	},
 
 	_makeEffect(type, milliseconds, color = 'GREEN', amplifier = 1) {

@@ -48,15 +48,13 @@ var Player = {
         }
     },
     reset: function () {
-        this.clearEffects();
+        this.clearNegativeEffects();
+        this.clearSuperPowers();
         this.clearInventory();
         this.setupInventory();
         this.renderBars();
         // Super Powers!
-        this.superSpeed();
-        this.superJump();
-        this.superGlow();
-        this.superNightVision();
+        this.makeSuperPowers();
     },
     enableEventListeners: function () {
         var _this = this;
@@ -261,10 +259,17 @@ var Player = {
             this.doPoison(5000);
         }
     },
-    clearEffects: function () {
-        player['getActivePotionEffects']().map(function (effect) {
-            player['removePotionEffect'](effect.getType());
-        });
+    clearNegativeEffects: function () {
+        var PotionEffectType = magik.type("potion.PotionEffectType");
+        if (player['hasPotionEffect'](PotionEffectType.CONFUSION) == true) {
+            player['removePotionEffect'](PotionEffectType.CONFUSION);
+        }
+        if (player['hasPotionEffect'](PotionEffectType.BLINDNESS) == true) {
+            player['removePotionEffect'](PotionEffectType.BLINDNESS);
+        }
+        if (player['hasPotionEffect'](PotionEffectType.POISON) == true) {
+            player['removePotionEffect'](PotionEffectType.POISON);
+        }
     },
     doConfusion: function (milliseconds) {
         if (!state.confusionEffect) {
@@ -299,17 +304,26 @@ var Player = {
             }, milliseconds);
         }
     },
-    superSpeed: function () {
+    makeSuperPowers: function () {
         this._makeEffect('SPEED', 10000000, 'WHITE', 3);
-    },
-    superJump: function () {
         this._makeEffect('JUMP', 10000000, 'WHITE', 3);
-    },
-    superGlow: function () {
         this._makeEffect('GLOWING', 10000000, 'WHITE');
-    },
-    superNightVision: function () {
         this._makeEffect('NIGHT_VISION', 10000000, 'WHITE');
+    },
+    clearSuperPowers: function () {
+        var PotionEffectType = magik.type("potion.PotionEffectType");
+        if (player['hasPotionEffect'](PotionEffectType.SPEED) == true) {
+            player['removePotionEffect'](PotionEffectType.SPEED);
+        }
+        if (player['hasPotionEffect'](PotionEffectType.JUMP) == true) {
+            player['removePotionEffect'](PotionEffectType.JUMP);
+        }
+        if (player['hasPotionEffect'](PotionEffectType.GLOWING) == true) {
+            player['removePotionEffect'](PotionEffectType.GLOWING);
+        }
+        if (player['hasPotionEffect'](PotionEffectType.NIGHT_VISION) == true) {
+            player['removePotionEffect'](PotionEffectType.NIGHT_VISION);
+        }
     },
     _makeEffect: function (type, milliseconds, color, amplifier) {
         if (color === void 0) { color = 'GREEN'; }
