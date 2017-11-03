@@ -16,8 +16,8 @@ var Events = {
             eventHandlers[name]();
         }
     },
-    unregisterAll: function (event) {
-        var listeners = HandlerList.getRegisteredListeners();
+    unregisterAll: function () {
+        var listeners = HandlerList.getRegisteredListeners(magik.getPlugin());
         log('listeners...');
         log('listeners: ' + JSON.stringify(listeners));
         // Emitter.removeAllListeners();

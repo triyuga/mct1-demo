@@ -19,9 +19,9 @@ const Events = {
 		}
 	},
 
-	unregisterAll: (event) => {
+	unregisterAll: () => {
 		
-		const listeners = HandlerList.getRegisteredListeners();
+		const listeners = HandlerList.getRegisteredListeners(magik.getPlugin());
 		log('listeners...');
 		log('listeners: ' + JSON.stringify(listeners));
 		
