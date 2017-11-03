@@ -141,6 +141,8 @@ var Player = {
         this.superJump();
         this.superGlow();
         this.superNightVision();
+    },
+    enableEventListeners: function () {
         magik.Events.on('ProjectileHit', this.onProjectileHit);
         // Handle eatFood and takeInsulin events.
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
@@ -161,6 +163,10 @@ var Player = {
         // magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
         // magik.Events.on('PlayerQuit', (event) => log('PlayerQuit'));
         // magik.Events.on('PlayerTeleport', (event) => log('PlayerTeleport'));
+    },
+    disableEventListeners: function () {
+        magik.Events.off('ProjectileHit', this.onProjectileHit);
+        magik.Events.off('PlayerItemConsumeEvent', this.onConsume);
     },
     setFood: function (num) {
         player.setFoodLevel(num);
@@ -276,12 +282,18 @@ var Player = {
         }, 1000);
     },
     onConsume: function (event) {
+        log('onConsume!');
         var consumer = event.getPlayer();
         if (consumer.getName() !== player.getName()) {
             return;
         }
         var type = event.getItem().getType();
         if (Food[type]) {
+            if (type === 'APPLE') {
+                this.disableEventListeners();
+                log('ran disableEventListeners!');
+                return;
+            }
             log("You ate a " + type + "!");
             var item = {
                 timestamp: Utils_1.default.makeTimestamp(),
