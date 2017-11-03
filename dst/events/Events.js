@@ -13,13 +13,16 @@ var Events = {
     on: function (eventName, callback) { return Emitter_1.default.on(eventName, callback); },
     registerAll: function () {
         for (var name in eventHandlers) {
-            eventHandlers[name]();
+            eventHandlers[name].register();
         }
         // HandlerList.bakeAll();
     },
     unregisterAll: function () {
-        HandlerList.unregisterAll(magik.getPlugin());
-        log('unregisterAll listeners...');
+        for (var name in eventHandlers) {
+            eventHandlers[name].unregister();
+        }
+        // HandlerList.unregisterAll(magik.getPlugin());
+        // log('unregisterAll listeners...');
         // const listeners = HandlerList.getRegisteredListeners(magik.getPlugin());
         // log('listeners: ' + JSON.stringify(listeners));
         // Emitter.removeAllListeners();

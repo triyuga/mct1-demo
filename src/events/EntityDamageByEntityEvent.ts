@@ -7,17 +7,37 @@ declare const Java: any;
 
 const EventPriority = Java.type("org.bukkit.event.EventPriority");
 const EventCallback = Java.type("io.magikcraft.EventCallback");
+const _EntityDamageByEntityEvent = Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent");
 
-const EntityDamageByEntityEvent = () => {
-    magik.getPlugin().registerEvent(
-        Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent").class,
-        EventPriority.MONITOR,
-        true,
-        new EventCallback({
-            callback: function (event: any) {
-                Emitter.emit('EntityDamageByEntityEvent', event);
-            }
-        }));	
+
+const EntityDamageByEntityEvent = {
+    register: () => {
+        magik.getPlugin().registerEvent(
+            _EntityDamageByEntityEvent.class,
+            EventPriority.MONITOR,
+            true,
+            new EventCallback({
+                callback: function (event: any) {
+                    Emitter.emit('EntityDamageByEntityEvent', event);
+                }
+            }));	
+    },
+
+    unregister: () => {
+        _EntityDamageByEntityEvent.getHandlerList().unregister(magik.getPlugin()); // unregister listeners owned by plugin from PlayerMoveEvent
+    },
 }
+
+// const EntityDamageByEntityEvent = () => {
+//     magik.getPlugin().registerEvent(
+//         Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent").class,
+//         EventPriority.MONITOR,
+//         true,
+//         new EventCallback({
+//             callback: function (event: any) {
+//                 Emitter.emit('EntityDamageByEntityEvent', event);
+//             }
+//         }));	
+// }
 
 export default EntityDamageByEntityEvent;
