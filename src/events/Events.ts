@@ -17,12 +17,12 @@ const Eventer = {
 		}
 	},
 
-	// unregisterAll: (event) => {
-	// 	EventEmitter.removeAllListeners();
-	// 	// event.getHandlerList().unregisterAll(magik.getPlugin());
-	// 	const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
-	// 	log('listeners: '+ JSON.stringify(listeners));
-	// },
+	unregisterAll: (event) => {
+		EventEmitter.removeAllListeners();
+		// event.getHandlerList().unregisterAll(magik.getPlugin());
+		const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
+		log('listeners: '+ JSON.stringify(listeners));
+	},
 };
 
 log('Eventer.test: ' + Eventer.test);
