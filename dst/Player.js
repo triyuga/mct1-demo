@@ -72,8 +72,35 @@ var Player = {
             State_1.setState(state);
             _this.reset();
         });
-        Events_1.default.on('EntityDamageByEntityEvent', function (event) { return log('EntityDamageByEntityEvent: ' + event.getCause()); });
-        Events_1.default.on('EntityDamageEvent', function (event) { return log('EntityDamageEvent: ' + event.getCause()); });
+        Events_1.default.on('EntityDamageByEntityEvent', function (event) {
+            log('EntityDamageByEntityEvent: ' + event.getCause());
+            var entityType = event.getEntityType(); // EntityType
+            var cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
+            var damagerType = event.getDamager().getType();
+            if (damagerType == 'PLAYER') {
+                if (cause == 'ENTITY_ATTACK') {
+                    magik.dixit('set fire to ' + entityType + '!!!');
+                    event.getEntity().setFireTicks(200);
+                    var loc = event.getEntity().getLocation();
+                    var location = loc.getX() + " " + loc.getY() + " " + loc.getZ();
+                    var server = magik.getPlugin().getServer();
+                    var cmd = "execute " + event.getDamager().getName() + " ~ ~ ~ summon lightning_bolt " + location;
+                    server.dispatchCommand(server.getConsoleSender(), cmd);
+                }
+            }
+        });
+        Events_1.default.on('EntityDamageEvent', function (event) {
+            // log('EntityDamageEvent: ' + event.getCause());
+            var entityType = event.getEntityType(); // EntityType
+            var cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
+            if (entityType == 'PLAYER') {
+                if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
+                    magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
+                    event.setDamage(0);
+                    event.setCancelled(true);
+                }
+            }
+        });
     },
     setFood: function (num) {
         player.setFoodLevel(num);
@@ -145,6 +172,11 @@ var Player = {
         // log('digesting...');
         var that = this;
         magik.setTimeout(function () {
+            // Skip if dead!
+            if (state.dead) {
+                that.doDigestion(tickCount);
+                return;
+            }
             // Every 10 ticks...
             if (tickCount % 10 === 0) {
                 // Reduce food level.
