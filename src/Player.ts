@@ -50,7 +50,7 @@ const Player = {
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
 
 		Events.registerAll();
-		Events.on('EntityDamageByEntityEvent', (event) => log('EntityDamageByEntityEvent: ' + event.getCause()));
+		Events.on('entityDamageByEntityEvent', (event) => log('entityDamageByEntityEvent: ' + event.getCause()));
 		// Events.on('ProjectileHit', this.onProjectileHit);
 		// Events.on('PlayerItemConsumeEvent', this.onConsume);
 

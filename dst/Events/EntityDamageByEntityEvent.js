@@ -6,7 +6,7 @@ var log = magik.dixit;
 var CommandCallback = Java.type("io.magikcraft.CommandCallback");
 var EventPriority = Java.type("org.bukkit.event.EventPriority");
 var EventCallback = Java.type("io.magikcraft.EventCallback");
-var EntityDamageByEntityEvent = function () {
+var entityDamageByEntityEvent = function () {
     log('EntityDamageByEntityEvent');
     // magik.getPlugin().registerEvent(
     //     Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent").class,
@@ -21,4 +21,4 @@ var EntityDamageByEntityEvent = function () {
     //         }
     //     }));	
 };
-exports.default = EntityDamageByEntityEvent;
+exports.default = entityDamageByEntityEvent;

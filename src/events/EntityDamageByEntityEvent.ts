@@ -9,7 +9,7 @@ const CommandCallback = Java.type("io.magikcraft.CommandCallback");
 const EventPriority = Java.type("org.bukkit.event.EventPriority");
 const EventCallback = Java.type("io.magikcraft.EventCallback");
 
-const EntityDamageByEntityEvent = () => {
+const entityDamageByEntityEvent = () => {
     log('EntityDamageByEntityEvent');
     // magik.getPlugin().registerEvent(
     //     Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent").class,
@@ -26,4 +26,4 @@ const EntityDamageByEntityEvent = () => {
     //     }));	
 }
 
-export default EntityDamageByEntityEvent;
+export default entityDamageByEntityEvent;
