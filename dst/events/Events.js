@@ -1,5 +1,4 @@
 "use strict";
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var EntityDamageByEntityEvent_1 = require("./EntityDamageByEntityEvent");
 var Emitter_1 = require("./Emitter");
@@ -16,7 +15,6 @@ var Events = {
         for (var name in eventHandlers) {
             eventHandlers[name]();
         }
-        _this.unregisterAll();
     },
     unregisterAll: function (event) {
         var listeners = HandlerList.getRegisteredListeners();

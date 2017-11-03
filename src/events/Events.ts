@@ -17,8 +17,6 @@ const Events = {
 		for(let name in eventHandlers) {
 			eventHandlers[name]();
 		}
-
-		this.unregisterAll();
 	},
 
 	unregisterAll: (event) => {

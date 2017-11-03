@@ -51,6 +51,9 @@ const Player = {
 
 		Events.registerAll();
 		Events.on('EntityDamageByEntityEvent', (event) => log('EntityDamageByEntityEvent: ' + event.getCause()));
+		
+		Events.unregisterAll();
+
 		// Events.on('ProjectileHit', this.onProjectileHit);
 		// Events.on('PlayerItemConsumeEvent', this.onConsume);
 

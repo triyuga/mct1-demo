@@ -42,6 +42,7 @@ var Player = {
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
         Events_1.default.registerAll();
         Events_1.default.on('EntityDamageByEntityEvent', function (event) { return log('EntityDamageByEntityEvent: ' + event.getCause()); });
+        Events_1.default.unregisterAll();
         // Events.on('ProjectileHit', this.onProjectileHit);
         // Events.on('PlayerItemConsumeEvent', this.onConsume);
         // const cmd = `cast EntityDamageEvent`;
