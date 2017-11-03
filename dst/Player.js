@@ -35,15 +35,18 @@ var Player = {
         this.superJump();
         this.superGlow();
         this.superNightVision();
-        this.enableEventListeners();
+        if (!state.listening) {
+            log('listening');
+            this.enableEventListeners();
+            state.listening = true;
+            State_1.setState(state);
+        }
     },
     enableEventListeners: function () {
         magik.Events.on('ProjectileHit', this.onProjectileHit);
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
         Events_1.default.registerAll();
         Events_1.default.on('EntityDamageByEntityEvent', function (event) { return log('EntityDamageByEntityEvent: ' + event.getCause()); });
-        Events_1.default.unregisterAll();
-        Events_1.default.registerAll();
         // Events.on('ProjectileHit', this.onProjectileHit);
         // Events.on('PlayerItemConsumeEvent', this.onConsume);
         // const cmd = `cast EntityDamageEvent`;

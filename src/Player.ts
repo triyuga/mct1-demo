@@ -29,6 +29,7 @@ FoodList.forEach(item => Food[item.type] = item);
 
 const Player = {
 	init() {
+		
 		this.clearInventory();
 		// this.refreshInventory();
 		this.setupInventory();
@@ -42,18 +43,19 @@ const Player = {
 		this.superGlow();
 		this.superNightVision();
 
-		this.enableEventListeners();
+		if (!state.listening) {
+			log('listening');
+			this.enableEventListeners();
+			state.listening = true;
+			setState(state);
+		}
 	},
 
 	enableEventListeners() {
 		magik.Events.on('ProjectileHit', this.onProjectileHit);
 		magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
-
 		Events.registerAll();
 		Events.on('EntityDamageByEntityEvent', (event) => log('EntityDamageByEntityEvent: ' + event.getCause()));
-		
-		Events.unregisterAll();
-		Events.registerAll();
 
 		// Events.on('ProjectileHit', this.onProjectileHit);
 		// Events.on('PlayerItemConsumeEvent', this.onConsume);
