@@ -152,8 +152,8 @@ var Player = {
         magik.Events.on('EntityDeath', function (event) { return log('EntityDeath'); });
     },
     disableEventListeners: function () {
-        // magik.Events.off('ProjectileHit', this.onProjectileHit);
-        // magik.Events.off('PlayerItemConsumeEvent', this.onConsume);
+        magik.Events.off('ProjectileHit', this.onProjectileHit);
+        magik.Events.off('PlayerItemConsumeEvent', this.onConsume);
     },
     setFood: function (num) {
         player.setFoodLevel(num);

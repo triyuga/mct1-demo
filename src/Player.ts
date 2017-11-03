@@ -166,8 +166,8 @@ const Player = {
 	},
 
 	disableEventListeners() {
-		// magik.Events.off('ProjectileHit', this.onProjectileHit);
-		// magik.Events.off('PlayerItemConsumeEvent', this.onConsume);
+		magik.Events.off('ProjectileHit', this.onProjectileHit);
+		magik.Events.off('PlayerItemConsumeEvent', this.onConsume);
 	},
 
 	setFood(num: number) {
