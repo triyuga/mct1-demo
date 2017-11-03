@@ -19,7 +19,7 @@ export function getState() {
 	state.confusionEffect = state.confusionEffect ? true : false;
 	state.blindnessEffect = state.blindnessEffect ? true : false;
 	state.poisonEffect = state.poisonEffect ? true : false;
-	// log('state: 2' + JSON.stringify(state));
+	log('state: 2' + JSON.stringify(state));
 	return state;
 }
 
