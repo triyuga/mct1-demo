@@ -11,6 +11,7 @@ var EntityDamageByEntityEvent = function (plugin) {
     plugin.registerEvent(Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent").class, EventPriority.MONITOR, true, new EventCallback({
         callback: function (event) {
             Emitter_1.default.emit('EntityDamageByEntityEvent', event);
+            log('here 1');
             var listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
             log('listeners: ' + JSON.stringify(listeners));
         }

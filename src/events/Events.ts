@@ -15,6 +15,9 @@ const Events = {
 		for(let name in eventHandlers) {
 			eventHandlers[name](magik.getPlugin());
 		}
+
+		Emitter.on('EntityDamageByEntityEvent', (event) => log('here 2'))
+		
 	},
 
 	unregisterAll: (event) => {

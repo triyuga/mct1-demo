@@ -14,6 +14,7 @@ var Events = {
         for (var name in eventHandlers) {
             eventHandlers[name](magik.getPlugin());
         }
+        Emitter_1.default.on('EntityDamageByEntityEvent', function (event) { return log('here 2'); });
     },
     unregisterAll: function (event) {
         Emitter_1.default.removeAllListeners();

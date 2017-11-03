@@ -17,6 +17,7 @@ const EntityDamageByEntityEvent = (plugin) => {
         new EventCallback({
             callback: function (event: any) {
                 Emitter.emit('EntityDamageByEntityEvent', event);
+                log('here 1');
 
                 const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
                 log('listeners: '+ JSON.stringify(listeners));
