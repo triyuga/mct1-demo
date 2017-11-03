@@ -1,12 +1,12 @@
-[
+const FoodList = [
 	{
 		"type": "COOKED_CHICKEN",
-		"carbs": 3,
-		"GI": "low"
+		"carbs": 10,
+		"GI": "high"
 	},
 	{
 		"type": "COOKED_FISH",
-		"carbs": 2,
+		"carbs": 11,
 		"GI": "low"
 	},
 	{
@@ -22,26 +22,28 @@
 	{
 		"type": "APPLE",
 		"carbs": 10,
-		"GI": "high"
+		"GI": "low"
 	},
 	{
 		"type": "BAKED_POTATO",
-		"carbs": 15,
+		"carbs": 25,
 		"GI": "high"
 	},
 	{
 		"type": "PUMPKIN_PIE",
-		"carbs": 30,
+		"carbs": 31,
 		"GI": "high"
 	},
 	{
 		"type": "MUSHROOM_STEW",
-		"carbs": 8,
+		"carbs": 14,
 		"GI": "low"
 	},
 	{
-		"type": "BEETROOT_SOUP",
-		"carbs": 10,
-		"GI": "low"
+		"type": "BEETROOT",
+		"carbs": 31,
+		"GI": "high"
 	}
-]
+];
+
+export default FoodList;

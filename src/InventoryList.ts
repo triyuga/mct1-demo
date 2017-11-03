@@ -1,4 +1,4 @@
-[
+const inventoryList = [
 	{
 		"type": "COOKED_CHICKEN",
 		"quantity": 64,
@@ -53,4 +53,6 @@
 		"refresh": true,
 		"slot": 35
 	}
-]
+];
+
+export default inventoryList;

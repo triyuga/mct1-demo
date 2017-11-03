@@ -3,123 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
 var State_1 = require("./State");
+// import * as fs from 'fs-extra'; 
+var Events_1 = require("./events/Events");
 // Read the file, and pass it to your callback
 var magik = magikcraft.io;
 var log = magik.dixit;
 var player = magik.getSender();
 var state = State_1.getState();
-// declare function require(name:string);
-// declare const require: any;
-// const foodList = fs.readFileSync('./men.json, handleJSONFile);
-// const foodList = require('./food.json');
-// const foodList = JSON.parse(fs.readFileSync('./food.json', 'utf8'));
-var foodList = [
-    {
-        "type": "COOKED_CHICKEN",
-        "carbs": 10,
-        "GI": "high"
-    },
-    {
-        "type": "COOKED_FISH",
-        "carbs": 11,
-        "GI": "low"
-    },
-    {
-        "type": "BREAD",
-        "carbs": 14,
-        "GI": "high"
-    },
-    {
-        "type": "COOKIE",
-        "carbs": 30,
-        "GI": "high"
-    },
-    {
-        "type": "APPLE",
-        "carbs": 10,
-        "GI": "low"
-    },
-    {
-        "type": "BAKED_POTATO",
-        "carbs": 25,
-        "GI": "high"
-    },
-    {
-        "type": "PUMPKIN_PIE",
-        "carbs": 31,
-        "GI": "high"
-    },
-    {
-        "type": "MUSHROOM_STEW",
-        "carbs": 14,
-        "GI": "low"
-    },
-    {
-        "type": "BEETROOT",
-        "carbs": 31,
-        "GI": "high"
-    }
-];
+var InventoryList_1 = require("./InventoryList");
+var FoodList_1 = require("./FoodList");
 var Food = {};
-foodList.forEach(function (item) { return Food[item.type] = item; });
-// const inventoryList = JSON.parse(fs.readFileSync('./inventory.json', 'utf8'));
-// const inventoryList = require('./inventory.json');
-var inventoryList = [
-    {
-        "type": "COOKED_CHICKEN",
-        "quantity": 64,
-        "refresh": true,
-        "slot": 15
-    },
-    {
-        "type": "COOKED_FISH",
-        "quantity": 64,
-        "refresh": true,
-        "slot": 16
-    },
-    {
-        "type": "BREAD",
-        "quantity": 64,
-        "refresh": true,
-        "slot": 17
-    },
-    {
-        "type": "COOKIE",
-        "quantity": 64,
-        "refresh": true,
-        "slot": 24
-    },
-    {
-        "type": "APPLE",
-        "quantity": 64,
-        "refresh": true,
-        "slot": 25
-    },
-    {
-        "type": "BAKED_POTATO",
-        "quantity": 64,
-        "refresh": true,
-        "slot": 26
-    },
-    {
-        "type": "PUMPKIN_PIE",
-        "quantity": 64,
-        "refresh": true,
-        "slot": 33
-    },
-    {
-        "type": "MUSHROOM_STEW",
-        "quantity": 64,
-        "refresh": true,
-        "slot": 34
-    },
-    {
-        "type": "BEETROOT",
-        "quantity": 64,
-        "refresh": true,
-        "slot": 35
-    }
-];
+FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 // TODO:
 // * Use XP bar for lightning
 // * BGL going down due to insulin = get health
@@ -146,8 +40,12 @@ var Player = {
     enableEventListeners: function () {
         magik.Events.on('ProjectileHit', this.onProjectileHit);
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
-        var cmd = "cast EntityDamageEvent";
-        player['performCommand'](cmd);
+        Events_1.default.registerAll();
+        Events_1.default.on('EntityDamageByEntityEvent', function (event) { return log('EntityDamageByEntityEvent: ' + event.getCause()); });
+        // Events.on('ProjectileHit', this.onProjectileHit);
+        // Events.on('PlayerItemConsumeEvent', this.onConsume);
+        // const cmd = `cast EntityDamageEvent`;
+        // player['performCommand'](cmd);
         magik.Events.on('CreatureSpawn', function (event) { return log('CreatureSpawn'); });
         magik.Events.on('EntityDeath', function (event) { return log('EntityDeath'); });
     },
@@ -422,7 +320,7 @@ var Player = {
         // event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
         // const thing = new ItemStack(MATERIAL[item]);
         // canon.sender.getInventory().addItem(thing);
-        inventoryList.map(function (item) {
+        InventoryList_1.default.map(function (item) {
             // const stack = new ItemStack(MATERIAL[item.type], item.quantity);
             // player.getInventory()['setItem'](item.slot, stack);
             var slot = (item.slot <= 8) ? "slot.hotbar." + item.slot : "slot.inventory." + (item.slot - 1);
