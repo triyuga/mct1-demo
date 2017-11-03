@@ -16,11 +16,10 @@ const EntityDamageByEntityEvent = (plugin) => {
         true,
         new EventCallback({
             callback: function (event: any) {
-                log('EntityDamageByEntityEvent');
-                // Emitter.emit('EntityDamageByEntityEvent', event);
+                Emitter.emit('EntityDamageByEntityEvent', event);
 
-                // const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
-                // log('listeners: '+ JSON.stringify(listeners));
+                const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
+                log('listeners: '+ JSON.stringify(listeners));
             }
         }));	
 }
