@@ -13,7 +13,7 @@ const eventTypes = {
 	PlayerRespawnEvent: 'org.bukkit.event.player.PlayerRespawnEvent',
 	EntityDamageByEntityEvent: 'org.bukkit.event.entity.EntityDamageByEntityEvent',
 	EntityDamageEvent: 'org.bukkit.event.entity.EntityDamageEvent',
-	ProjectileHit: 'org.bukkit.event.entity.ProjectileHitEvent',
+	ProjectileHitEvent: 'org.bukkit.event.entity.ProjectileHitEvent',
 	PlayerItemConsumeEvent: 'org.bukkit.event.player.PlayerItemConsumeEvent',
 };
 
