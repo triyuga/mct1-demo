@@ -4,14 +4,14 @@ var EntityDamageByEntityEvent_1 = require("./EntityDamageByEntityEvent");
 var EventEmitter_1 = require("./EventEmitter");
 var magik = magikcraft.io;
 var log = magik.dixit;
-var events = {
+var eventHandlers = {
     EntityDamageByEntityEvent: EntityDamageByEntityEvent_1.default,
 };
 var Events = {
     on: EventEmitter_1.default.on,
     registerAll: function () {
-        for (var name in events) {
-            events[name]();
+        for (var name in eventHandlers) {
+            eventHandlers[name]();
         }
     },
     unregisterAll: function (event) {

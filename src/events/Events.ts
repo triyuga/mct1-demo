@@ -3,7 +3,7 @@ import EventEmitter from './EventEmitter';
 const magik = magikcraft.io;
 const log = magik.dixit;
 
-const events = {
+const eventHandlers = {
 	EntityDamageByEntityEvent,
 }
 
@@ -11,8 +11,8 @@ const Events = {
 	on: EventEmitter.on,
 
 	registerAll: () => {
-		for(let name in events) {
-			events[name]();
+		for(let name in eventHandlers) {
+			eventHandlers[name]();
 		}
 	},
 
