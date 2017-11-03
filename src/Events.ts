@@ -32,6 +32,7 @@ const Events = {
 				true,
 				new EventCallback({
 					callback: function (event: any) {
+						log('GOT EVENT: ' + type);
 						Emitter.emit(type, event);
 					}
 				})

@@ -56,10 +56,9 @@ var Player = {
         }
     },
     enableEventListeners: function () {
-        var _this = this;
         Events_1.default.registerAll();
-        Events_1.default.on('ProjectileHitEvent', function (event) { return _this.onProjectileHit; });
-        Events_1.default.on('PlayerItemConsumeEvent', function (event) { return _this.onConsume; });
+        Events_1.default.on('ProjectileHitEvent', this.onProjectileHit);
+        Events_1.default.on('PlayerItemConsumeEvent', this.onConsume);
         Events_1.default.on('PlayerDeathEvent', function (event) { return log('PlayerDeathEvent: ' + event.getDeathMessage()); });
         Events_1.default.on('PlayerRespawnEvent', function (event) { return log('PlayerRespawnEvent: ' + event.getRespawnLocation()); });
         Events_1.default.on('EntityDamageByEntityEvent', function (event) { return log('EntityDamageByEntityEvent: ' + event.getCause()); });

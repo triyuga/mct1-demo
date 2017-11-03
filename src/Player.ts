@@ -67,8 +67,8 @@ const Player = {
 
 	enableEventListeners() {
 		Events.registerAll();
-		Events.on('ProjectileHitEvent', (event) => this.onProjectileHit);
-		Events.on('PlayerItemConsumeEvent', (event) => this.onConsume);
+		Events.on('ProjectileHitEvent', this.onProjectileHit);
+		Events.on('PlayerItemConsumeEvent', this.onConsume);
 		Events.on('PlayerDeathEvent', (event) => log('PlayerDeathEvent: ' + event.getDeathMessage()));
 		Events.on('PlayerRespawnEvent', (event) => log('PlayerRespawnEvent: ' + event.getRespawnLocation()));
 		Events.on('EntityDamageByEntityEvent', (event) => log('EntityDamageByEntityEvent: ' + event.getCause()));
