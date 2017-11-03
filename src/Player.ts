@@ -50,6 +50,7 @@ const Player = {
 	reset() {
 		// Reset State
 		resetState(state);
+		state = getState();
 
 		this.clearNegativeEffects();
 		this.clearSuperPowers();

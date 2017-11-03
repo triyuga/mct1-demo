@@ -5,7 +5,7 @@ var log = magik.dixit;
 var KEY = 'mct1-demo';
 function getState() {
     var state = magik.playerMap.get(KEY) || {};
-    // log('state 1: ' + JSON.stringify(state));
+    log('state 1: ' + JSON.stringify(state));
     state.listening = state.listening !== undefined ? state.listening : false;
     state.digesting = state.digesting !== undefined ? state.digesting : false;
     state.dead = state.dead !== undefined ? state.dead : false;

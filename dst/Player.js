@@ -42,6 +42,7 @@ var Player = {
     reset: function () {
         // Reset State
         State_1.resetState(state);
+        state = State_1.getState();
         this.clearNegativeEffects();
         this.clearSuperPowers();
         this.clearInventory();

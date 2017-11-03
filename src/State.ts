@@ -4,7 +4,7 @@ const KEY = 'mct1-demo';
 
 export function getState() {
 	const state = magik.playerMap.get(KEY) || {};
-	// log('state 1: ' + JSON.stringify(state));
+	log('state 1: ' + JSON.stringify(state));
 	state.listening = state.listening !== undefined ? state.listening : false;
 	state.digesting = state.digesting !== undefined ? state.digesting : false;
 	state.dead = state.dead !== undefined ? state.dead : false;
