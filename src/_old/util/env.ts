@@ -1,1 +1,0 @@
-export const isNode = (typeof magikcraft === "undefined");
