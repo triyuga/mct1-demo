@@ -1,5 +1,5 @@
 import EntityDamageByEntityEvent from './EntityDamageByEntityEvent';
-import EventEmitter from './EventEmitter';
+import Emitter from './Emitter';
 const magik = magikcraft.io;
 const log = magik.dixit;
 
@@ -9,7 +9,7 @@ const eventHandlers = {
 
 const Eventer = {
 	test: 'test',
-	on: EventEmitter.on,
+	on: Emitter.on,
 
 	registerAll: () => {
 		for(let name in eventHandlers) {
@@ -18,7 +18,7 @@ const Eventer = {
 	},
 
 	unregisterAll: (event) => {
-		EventEmitter.removeAllListeners();
+		Emitter.removeAllListeners();
 		// event.getHandlerList().unregisterAll(magik.getPlugin());
 		const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
 		log('listeners: '+ JSON.stringify(listeners));

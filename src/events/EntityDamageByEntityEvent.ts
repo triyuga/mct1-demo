@@ -1,13 +1,13 @@
 // https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/PlayerInteractEntityEvent.html
 
-import EventEmitter from './EventEmitter';
+import Emitter from './Emitter';
 const magik = magikcraft.io;
 const log = magik.dixit;
 declare const Java: any;
 
-const CommandCallback = Java.type("io.magikcraft.CommandCallback"),
-    EventPriority = Java.type("org.bukkit.event.EventPriority"),
-    EventCallback = Java.type("io.magikcraft.EventCallback");
+const CommandCallback = Java.type("io.magikcraft.CommandCallback");
+const EventPriority = Java.type("org.bukkit.event.EventPriority");
+const EventCallback = Java.type("io.magikcraft.EventCallback");
 
 export default function EntityDamageByEntityEvent() {
     magik.getPlugin().registerEvent(
@@ -17,7 +17,7 @@ export default function EntityDamageByEntityEvent() {
         new EventCallback({
             callback: function (event: any) {
                 magik.dixit('EntityDamageByEntityEvent');
-                EventEmitter.emit('EntityDamageByEntityEvent', event);
+                Emitter.emit('EntityDamageByEntityEvent', event);
 
                 const listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
                 log('listeners: '+ JSON.stringify(listeners));
