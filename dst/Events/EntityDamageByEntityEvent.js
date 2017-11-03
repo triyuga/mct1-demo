@@ -6,7 +6,7 @@ var log = magik.dixit;
 var CommandCallback = Java.type("io.magikcraft.CommandCallback");
 var EventPriority = Java.type("org.bukkit.event.EventPriority");
 var EventCallback = Java.type("io.magikcraft.EventCallback");
-function EntityDamageByEntityEvent() {
+function default_1() {
     magik.getPlugin().registerEvent(Java.type("org.bukkit.event.entity.EntityDamageByEntityEvent").class, EventPriority.MONITOR, true, new EventCallback({
         callback: function (event) {
             magik.dixit('EntityDamageByEntityEvent');
@@ -16,4 +16,4 @@ function EntityDamageByEntityEvent() {
         }
     }));
 }
-exports.default = EntityDamageByEntityEvent;
+exports.default = default_1;
