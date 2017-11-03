@@ -141,32 +141,19 @@ var Player = {
         this.superJump();
         this.superGlow();
         this.superNightVision();
+        this.enableEventListeners();
     },
     enableEventListeners: function () {
         magik.Events.on('ProjectileHit', this.onProjectileHit);
-        // Handle eatFood and takeInsulin events.
         magik.Events.on('PlayerItemConsumeEvent', this.onConsume);
-        // magik.Events.on('FoodLevelChange', this.onFoodLevelChange);
         var cmd = "cast EntityDamageEvent";
         player['performCommand'](cmd);
-        // magik.Events.on('BlockBreak', (event) => log('BlockBreak'));
-        // magik.Events.on('BlockBurn', (event) => log('BlockBurn'));
-        // magik.Events.on('BlockCanBuild', (event) => log('BlockCanBuild'));
-        // magik.Events.on('BlockDamage', (event) => log('BlockDamage'));
-        // magik.Events.on('BlockPlace', (event) => log('BlockPlace'));
-        // magik.Events.on('CreatureSpawn', (event) => log('CreatureSpawn'));
-        // magik.Events.on('EntityDeath', (event) => log('EntityDeath'));
-        // magik.Events.on('EntityRegainHealth', (event) => log('EntityRegainHealth'));
-        // magik.Events.on('FoodLevelChange', (event) => log('FoodLevelChange'));
-        // magik.Events.on('PlayerItemConsumeEvent', (event) => log('PlayerItemConsumeEvent'));
-        // magik.Events.on('PlayerJoin', (event) => log('PlayerJoin'));
-        // magik.Events.on('PlayerMove', (event) => log('PlayerMove'));
-        // magik.Events.on('PlayerQuit', (event) => log('PlayerQuit'));
-        // magik.Events.on('PlayerTeleport', (event) => log('PlayerTeleport'));
+        magik.Events.on('CreatureSpawn', function (event) { return log('CreatureSpawn'); });
+        magik.Events.on('EntityDeath', function (event) { return log('EntityDeath'); });
     },
     disableEventListeners: function () {
-        magik.Events.off('ProjectileHit', this.onProjectileHit);
-        magik.Events.off('PlayerItemConsumeEvent', this.onConsume);
+        // magik.Events.off('ProjectileHit', this.onProjectileHit);
+        // magik.Events.off('PlayerItemConsumeEvent', this.onConsume);
     },
     setFood: function (num) {
         player.setFoodLevel(num);
