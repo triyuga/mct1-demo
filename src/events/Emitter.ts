@@ -1,3 +1,3 @@
-import events from 'events';
-const Emitter = new events.EventEmitter();
+import { EventEmitter } from 'events';
+const Emitter = new EventEmitter();
 export default Emitter;
