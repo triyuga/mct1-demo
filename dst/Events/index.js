@@ -1,22 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var _1 = require("../");
-var log = require("../util/log");
-var Bukkit = require("../lib/bukkit");
-var Carbs_1 = require("../Carbs");
+var EntityDamageByEntityEvent_1 = require("./EntityDamageByEntityEvent");
+var EventEmitter_1 = require("./EventEmitter");
 var magik = magikcraft.io;
-function handleConsumeEvent(event) {
-    if (event.getItem().getType() == Bukkit.Material.APPLE) {
-        Carbs_1.Food.apple.eat();
-        return;
-    }
-    if (event.getItem().getItemMeta() instanceof Bukkit.PotionMeta) {
-        _1.takeInsulin();
-        return;
-    }
-    log.info(event.getItem().toString());
-}
-function registerEventHandlers() {
-    magik.Events.on('PlayerItemConsumeEvent', handleConsumeEvent);
-}
-exports.registerEventHandlers = registerEventHandlers;
+var log = magik.dixit;
+var eventHandlers = {
+    EntityDamageByEntityEvent: EntityDamageByEntityEvent_1.default,
+};
+var Events = {
+    on: EventEmitter_1.default.on,
+    registerAll: function () {
+        for (var name in eventHandlers) {
+            eventHandlers[name]();
+        }
+    },
+    unregisterAll: function (event) {
+        EventEmitter_1.default.removeAllListeners();
+        // event.getHandlerList().unregisterAll(magik.getPlugin());
+        var listeners = event.getHandlerList().getRegisteredListeners(magik.getPlugin());
+        log('listeners: ' + JSON.stringify(listeners));
+    },
+};
+exports.default = Events;
