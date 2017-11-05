@@ -84,21 +84,21 @@ const Player = {
 			this.reset();
 		});
 		Events.on('EntityDamageByEntityEvent', (event) => { 
-			log('EntityDamageByEntityEvent: ' + event.getCause());
-			const entityType = event.getEntityType(); // EntityType
-			const cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
-			const damagerType = event.getDamager().getType();
-			if (damagerType == 'PLAYER') {
-				if (cause == 'ENTITY_ATTACK') {
-					magik.dixit('set fire to '+ entityType + '!!!');
-					event.getEntity().setFireTicks(200);
-					const loc = event.getEntity().getLocation();
-					const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
-					const server = magik.getPlugin().getServer();
-					const cmd = `execute ${event.getDamager().getName()} ~ ~ ~ summon lightning_bolt ${location}`;
-					server.dispatchCommand(server.getConsoleSender(), cmd);
-				}
-			}
+			// log('EntityDamageByEntityEvent: ' + event.getCause());
+			// const entityType = event.getEntityType(); // EntityType
+			// const cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
+			// const damagerType = event.getDamager().getType();
+			// if (damagerType == 'PLAYER') {
+			// 	if (cause == 'ENTITY_ATTACK') {
+			// 		magik.dixit('set fire to '+ entityType + '!!!');
+			// 		event.getEntity().setFireTicks(200);
+			// 		const loc = event.getEntity().getLocation();
+			// 		const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
+			// 		const server = magik.getPlugin().getServer();
+			// 		const cmd = `execute ${event.getDamager().getName()} ~ ~ ~ summon lightning_bolt ${location}`;
+			// 		server.dispatchCommand(server.getConsoleSender(), cmd);
+			// 	}
+			// }
 		});
 		Events.on('EntityDamageEvent', (event) => {
 			// log('EntityDamageEvent: ' + event.getCause());
@@ -187,6 +187,7 @@ const Player = {
 		magik.setTimeout(function() {
 			// Skip if dead!
 			if (state.dead) {
+				log('skip digestion coz dead!');
 				that.doDigestion(tickCount);
 				return;
 			}
