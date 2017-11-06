@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var instanceUUID_1 = require("./instanceUUID");
 var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
 var State_1 = require("./State");
@@ -22,6 +23,7 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 // * low GI, digest slower, BGL still goes down in Insulin in system
 var Player = {
     init: function () {
+        log('instanceUUID:' + instanceUUID_1.default);
         this.destroyBars();
         State_1.setState({});
         this._init();

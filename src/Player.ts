@@ -29,6 +29,7 @@ FoodList.forEach(item => Food[item.type] = item);
 
 const Player = {
 	init() {
+		log('instanceUUID:' + instanceUUID);
 		this.destroyBars();
 		setState({});
 		this._init();
