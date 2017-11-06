@@ -31,6 +31,26 @@ const Player = {
 		player.setFoodLevel(2);
 	},
 
+	doCountdown(countdown = 30) {
+		magik.setTimeout(() => {
+			countdown--;
+			if (countdown > 0) {
+				log('' + countdown);
+				this.doCountdown(countdown);
+			}
+			else {
+				const server = magik.getPlugin().getServer();
+				const loc = player.getLocation();
+				const location = `${loc.getX()} ${loc.getY()+1} ${loc.getZ()}`;
+				const cmd = `execute ${player.getName()} ~ ~ ~ summon LIGHTNING_BOLT ${location}`;
+				server.dispatchCommand(server.getConsoleSender(), cmd);
+				server.dispatchCommand(server.getConsoleSender(), cmd);
+				server.dispatchCommand(server.getConsoleSender(), cmd);
+				this.init();
+			}
+		}, 1000);
+	},
+
 	_init() {
 		let state = getState();
 		// Start digestion if not already started.
