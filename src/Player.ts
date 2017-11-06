@@ -409,7 +409,7 @@ const Player = {
 		this._makeEffect('SPEED', 10000000, 'WHITE', 2);
 		this._makeEffect('JUMP', 10000000, 'WHITE', 2);
 		this._makeEffect('GLOWING', 10000000, 'WHITE');
-		this._makeEffect('NIGHT_VISION', 10000000, 'WHITE');
+		// this._makeEffect('NIGHT_VISION', 10000000, 'WHITE');
 	},
 
 	cancelSuperPowers() {
