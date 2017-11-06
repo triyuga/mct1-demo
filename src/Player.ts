@@ -181,6 +181,10 @@ const Player = {
 			if (event.getPlayer().getName() != player.getName()) {
 				return;
 			}
+			let state = getState();
+			state.listening = false;
+			state.digesting = false;			
+			setState(state)
 			Events.unregisterAll();
 		});
 	},
