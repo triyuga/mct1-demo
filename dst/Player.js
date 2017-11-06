@@ -164,10 +164,10 @@ var Player = {
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
-            var state = State_1.getState();
-            state.listening = false;
-            state.digesting = false;
-            State_1.setState(state);
+            // let state = getState();
+            // state.listening = false;
+            // state.digesting = false;			
+            State_1.setState({});
             Events_1.default.unregisterAll();
         });
     },
