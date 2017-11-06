@@ -50,9 +50,13 @@ const Player = {
 			const loc = player.getLocation();
 			const locations = [
 				`${loc.getX()+distance} ${loc.getY()} ${loc.getZ()+distance}`,
-				`${loc.getX()-distance} ${loc.getY()} ${loc.getZ()+distance}`,
-				`${loc.getX()+distance} ${loc.getY()} ${loc.getZ()-distance}`,
-				`${loc.getX()-distance} ${loc.getY()} ${loc.getZ()-distance}`,
+                `${loc.getX()-distance} ${loc.getY()} ${loc.getZ()+distance}`,
+                `${loc.getX()+distance} ${loc.getY()} ${loc.getZ()-distance}`,
+                `${loc.getX()-distance} ${loc.getY()} ${loc.getZ()-distance}`,
+                `${loc.getX()+distance} ${loc.getY()} ${loc.getZ()}`,
+                `${loc.getX()-distance} ${loc.getY()} ${loc.getZ()}`,
+                `${loc.getX()} ${loc.getY()} ${loc.getZ()+distance}`,
+                `${loc.getX()} ${loc.getY()} ${loc.getZ()-distance}`,
 			];
 			locations.forEach(location => {
 				const server = magik.getPlugin().getServer();
@@ -67,7 +71,7 @@ const Player = {
 			else {
 				this.init();
 			}
-		}, (200));
+		}, (100));
 	},
 
 	_init() {
