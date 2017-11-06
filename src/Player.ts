@@ -111,7 +111,7 @@ const Player = {
 				log('digestionQueue 1.1: ' + JSON.stringify(state.digestionQueue));
 				const item = {
 					timestamp: Utils.makeTimestamp(),
-					type: type,
+					type: Food[type].type,
 					percentDigested: 0,
 				};
 				log('item: ' + JSON.stringify(item));
@@ -219,7 +219,7 @@ const Player = {
 			.show();
 
 		// digestionBar(s)
-		log('digestionQueue 3.1: ' + JSON.stringify(state.digestionQueue));
+		// log('digestionQueue 3.1: ' + JSON.stringify(state.digestionQueue));
 		state.digestionQueue.slice(0, 2).map((item, i) => {
 			const food = Food[item.type];
 			state[`digestionBar${i}`] = Bar.bar()
@@ -229,7 +229,7 @@ const Player = {
 				.progress(100 - item.percentDigested)
 				.show();
 		});
-		log('digestionQueue 3.2: ' + JSON.stringify(state.digestionQueue));
+		// log('digestionQueue 3.2: ' + JSON.stringify(state.digestionQueue));
 
 		// SetState
 		setState(state);
@@ -263,7 +263,7 @@ const Player = {
 			}
 
 			// handle digestionQueue
-			log('digestionQueue 2.1: ' + JSON.stringify(state.digestionQueue));
+			// log('digestionQueue 2.1: ' + JSON.stringify(state.digestionQueue));
 			if (state.digestionQueue[0]) {
 				state.digestionQueue[0].percentDigested += 5;
 				state.bgl += 0.2;
@@ -275,7 +275,7 @@ const Player = {
 					state.digestionQueue.splice(0,1);
 				}
 			}
-			log('digestionQueue 2.2: ' + JSON.stringify(state.digestionQueue));
+			// log('digestionQueue 2.2: ' + JSON.stringify(state.digestionQueue));
 
 			state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
 			setState(state);

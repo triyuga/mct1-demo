@@ -98,7 +98,7 @@ var Player = {
                 log('digestionQueue 1.1: ' + JSON.stringify(state.digestionQueue));
                 var item = {
                     timestamp: Utils_1.default.makeTimestamp(),
-                    type: type,
+                    type: Food[type].type,
                     percentDigested: 0,
                 };
                 log('item: ' + JSON.stringify(item));
@@ -200,7 +200,7 @@ var Player = {
             .progress((state.insulin / 20) * 100) // insulin as percentage, rounded to 1 decimal
             .show();
         // digestionBar(s)
-        log('digestionQueue 3.1: ' + JSON.stringify(state.digestionQueue));
+        // log('digestionQueue 3.1: ' + JSON.stringify(state.digestionQueue));
         state.digestionQueue.slice(0, 2).map(function (item, i) {
             var food = Food[item.type];
             state["digestionBar" + i] = Bar.bar()
@@ -210,7 +210,7 @@ var Player = {
                 .progress(100 - item.percentDigested)
                 .show();
         });
-        log('digestionQueue 3.2: ' + JSON.stringify(state.digestionQueue));
+        // log('digestionQueue 3.2: ' + JSON.stringify(state.digestionQueue));
         // SetState
         State_1.setState(state);
     },
@@ -240,7 +240,7 @@ var Player = {
                 }
             }
             // handle digestionQueue
-            log('digestionQueue 2.1: ' + JSON.stringify(state.digestionQueue));
+            // log('digestionQueue 2.1: ' + JSON.stringify(state.digestionQueue));
             if (state.digestionQueue[0]) {
                 state.digestionQueue[0].percentDigested += 5;
                 state.bgl += 0.2;
@@ -252,7 +252,7 @@ var Player = {
                     state.digestionQueue.splice(0, 1);
                 }
             }
-            log('digestionQueue 2.2: ' + JSON.stringify(state.digestionQueue));
+            // log('digestionQueue 2.2: ' + JSON.stringify(state.digestionQueue));
             state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
             State_1.setState(state);
             that.renderBars();
