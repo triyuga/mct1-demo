@@ -19,6 +19,9 @@ function _ensureCompleteState(state) {
 
 export function getState() {
 	let state = magik.playerMap.get(KEY) || {};
+	if (state == 'undefined') {
+		state = {};
+	}
 	state = _ensureCompleteState(state);
 	return state;
 }
