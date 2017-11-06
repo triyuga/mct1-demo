@@ -8,6 +8,7 @@ var log = magik.dixit;
 // const HandlerList = Java.type("org.bukkit.event.HandlerList");
 var EventPriority = Java.type("org.bukkit.event.EventPriority");
 var EventCallback = Java.type("io.magikcraft.EventCallback");
+var State_1 = require("./State");
 var eventTypes = {
     PlayerDeathEvent: 'org.bukkit.event.entity.PlayerDeathEvent',
     PlayerRespawnEvent: 'org.bukkit.event.player.PlayerRespawnEvent',
@@ -18,14 +19,22 @@ var eventTypes = {
 };
 var Events = {
     on: function (eventName, callback) { return Emitter.on(eventName, callback); },
-    registerAll: function (instanceUUID) {
+    registerAll: function () {
         var _loop_1 = function (type) {
             var javaType = eventTypes[type];
             // log('registering event: ' + type);
             // log('javaType: ' + javaType);
+            var instanceUUID = State_1.getState().instanceUUID;
+            log('INIT instanceUUID: ' + instanceUUID);
             magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
-                    event.instanceUUID = instanceUUID; // enrich event with instanceUUID.
+                    var state = State_1.getState();
+                    log('instanceUUID: ' + instanceUUID);
+                    log('state.instanceUUID: ' + state.instanceUUID);
+                    if (state.instanceUUID !== instanceUUID) {
+                        return;
+                    }
+                    event.instanceUUID = state.instanceUUID; // enrich event with instanceUUID.
                     Emitter.emit(type, event);
                 }
             }));

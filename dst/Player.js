@@ -52,13 +52,10 @@ var Player = {
     },
     enableEventListeners: function () {
         var _this = this;
-        var state = State_1.getState();
-        Events_1.default.registerAll(state.instanceUUID);
+        Events_1.default.registerAll();
         // ProjectileHitEvent
         Events_1.default.on('ProjectileHitEvent', function (event) {
             var state = State_1.getState();
-            if (event.instanceUUID !== state.instanceUUID)
-                return;
             // Identify shooter. Skip if not player.
             var shooter = event.getEntity().getShooter();
             if (!shooter || shooter.getName() !== player.getName()) {
@@ -88,8 +85,6 @@ var Player = {
         // PlayerItemConsumeEvent
         Events_1.default.on('PlayerItemConsumeEvent', function (event) {
             var state = State_1.getState();
-            if (event.instanceUUID !== state.instanceUUID)
-                return;
             log('digestionQueue 1.0: ' + JSON.stringify(state.digestionQueue));
             // Identify consumer. Skip if not player.
             var consumer = event.getPlayer();
@@ -122,28 +117,24 @@ var Player = {
         });
         // PlayerDeathEvent
         Events_1.default.on('PlayerDeathEvent', function (event) {
-            var state = State_1.getState();
-            if (event.instanceUUID !== state.instanceUUID)
-                return;
             // Skip if not this player.
             if (event.getPlayer().getName() !== player.getName()) {
                 return;
             }
             log('PlayerDeathEvent: ' + event.getDeathMessage());
+            var state = State_1.getState();
             state.dead = true;
             State_1.setState(state);
             // this.reset();
         });
         // PlayerRespawnEvent
         Events_1.default.on('PlayerRespawnEvent', function (event) {
-            var state = State_1.getState();
-            if (event.instanceUUID !== state.instanceUUID)
-                return;
             // Skip if not this player.
             if (event.getPlayer().getName() !== player.getName()) {
                 return;
             }
             log('PlayerRespawnEvent: ' + event.getRespawnLocation());
+            var state = State_1.getState();
             state.dead = false;
             State_1.setState(state);
             // Re-init
@@ -151,9 +142,6 @@ var Player = {
         });
         // EntityDamageEvent
         Events_1.default.on('EntityDamageEvent', function (event) {
-            var state = State_1.getState();
-            if (event.instanceUUID !== state.instanceUUID)
-                return;
             // Cancel lightning and fire damage for player.
             var entityType = event.getEntityType();
             if (entityType == 'PLAYER') {

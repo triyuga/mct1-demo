@@ -10,6 +10,7 @@ declare const Java: any;
 const EventPriority = Java.type("org.bukkit.event.EventPriority");
 const EventCallback = Java.type("io.magikcraft.EventCallback");
 
+import { getState, setState } from './State';
 
 const eventTypes = {
 	PlayerDeathEvent: 'org.bukkit.event.entity.PlayerDeathEvent',
@@ -24,11 +25,15 @@ const Events = {
 
 	on: (eventName, callback) => Emitter.on(eventName, callback),
 
-	registerAll: (instanceUUID) => {
+	registerAll: () => {
+		
+		
 		for (let type in eventTypes) {
 			const javaType = eventTypes[type];
 			// log('registering event: ' + type);
 			// log('javaType: ' + javaType);
+			const instanceUUID = getState().instanceUUID;
+			log('INIT instanceUUID: ' + instanceUUID);
 
 			magik.getPlugin().registerEvent(
 				Java.type(javaType).class,
@@ -36,7 +41,16 @@ const Events = {
 				true,
 				new EventCallback({
 					callback: function (event: any) {
-						event.instanceUUID = instanceUUID; // enrich event with instanceUUID.
+						const state = getState();
+						
+						log('instanceUUID: ' + instanceUUID);
+						log('state.instanceUUID: ' + state.instanceUUID);
+						
+						if (state.instanceUUID !== instanceUUID) {
+							return;
+						}
+
+						event.instanceUUID = state.instanceUUID; // enrich event with instanceUUID.
 						Emitter.emit(type, event);
 					}
 				})

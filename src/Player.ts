@@ -64,13 +64,11 @@ const Player = {
 	},
 
 	enableEventListeners() {
-		let state = getState();	
-		Events.registerAll(state.instanceUUID);
+		Events.registerAll();
 		
 		// ProjectileHitEvent
 		Events.on('ProjectileHitEvent', (event) => { 
-			let state = getState();
-			if (event.instanceUUID !== state.instanceUUID) return;
+			let state = getState();	
 			// Identify shooter. Skip if not player.
 			const shooter = event.getEntity().getShooter();
 			if (!shooter || shooter.getName() !== player.getName()) {
@@ -100,8 +98,6 @@ const Player = {
 		// PlayerItemConsumeEvent
 		Events.on('PlayerItemConsumeEvent', (event) => { 
 			let state = getState();
-			if (event.instanceUUID !== state.instanceUUID) return;
-
 			log('digestionQueue 1.0: ' + JSON.stringify(state.digestionQueue));
 			// Identify consumer. Skip if not player.
 			const consumer = event.getPlayer();
@@ -136,14 +132,12 @@ const Player = {
 
 		// PlayerDeathEvent
 		Events.on('PlayerDeathEvent', (event) => {
-			let state = getState();
-			if (event.instanceUUID !== state.instanceUUID) return;
-			
 			// Skip if not this player.
 			if (event.getPlayer().getName() !== player.getName()) {
 				return;
 			}
 			log('PlayerDeathEvent: ' + event.getDeathMessage());
+			let state = getState();
 			state.dead = true;
 			setState(state);
 			// this.reset();
@@ -151,14 +145,12 @@ const Player = {
 
 		// PlayerRespawnEvent
 		Events.on('PlayerRespawnEvent', (event) => {
-			let state = getState();
-			if (event.instanceUUID !== state.instanceUUID) return;
-
 			// Skip if not this player.
 			if (event.getPlayer().getName() !== player.getName()) {
 				return;
 			}
 			log('PlayerRespawnEvent: ' + event.getRespawnLocation())
+			let state = getState();
 			state.dead = false;
 			setState(state);
 			
@@ -168,9 +160,6 @@ const Player = {
 
 		// EntityDamageEvent
 		Events.on('EntityDamageEvent', (event) => {
-			let state = getState();
-			if (event.instanceUUID !== state.instanceUUID) return;
-
 			// Cancel lightning and fire damage for player.
 			const entityType = event.getEntityType();
 			if (entityType == 'PLAYER') {
