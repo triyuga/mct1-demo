@@ -20,20 +20,23 @@ var eventTypes = {
 };
 var Events = {
     on: function (eventName, callback) { return Emitter.on(eventName, callback); },
-    registerAll: function (instanceUUID) {
+    unregisterAll: function () {
+        Emitter.removeAllListeners();
+    },
+    registerAll: function () {
         var _loop_1 = function (type) {
             var javaType = eventTypes[type];
             Emitter.removeAllListeners();
             magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
                     var state = State_1.getState();
-                    log('-----.instanceUUID: ' + instanceUUID);
-                    log('state.instanceUUID: ' + state.instanceUUID);
-                    if (state.instanceUUID === instanceUUID) {
-                        // Only emit if state.instanceUUID !== instanceUUID at time of registration.								
-                        Emitter.emit(type, event);
-                        // return;
-                    }
+                    // log('-----.instanceUUID: ' + instanceUUID);
+                    // log('state.instanceUUID: ' + state.instanceUUID);
+                    // if (state.instanceUUID === instanceUUID) {
+                    // Only emit if state.instanceUUID !== instanceUUID at time of registration.								
+                    Emitter.emit(type, event);
+                    // return;
+                    // }
                 }
             }));
         };

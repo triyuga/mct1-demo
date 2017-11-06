@@ -1,4 +1,3 @@
-import * as uuid from 'node-uuid';
 import * as Bar from './Bar';
 import Utils from './Utils';
 import { getState, setState } from './State';
@@ -29,9 +28,7 @@ FoodList.forEach(item => Food[item.type] = item);
 
 const Player = {
 	init() {
-		const instanceUUID = uuid.v4();
 		this.destroyBars();
-		setState({instanceUUID: instanceUUID});
 		this._init();
 		player.setFoodLevel(2);
 	},
@@ -66,7 +63,7 @@ const Player = {
 
 	enableEventListeners() {
 		let state = getState();
-		Events.registerAll(state.instanceUUID);
+		Events.registerAll();
 		
 		// ProjectileHitEvent
 		Events.on('ProjectileHitEvent', (event) => { 

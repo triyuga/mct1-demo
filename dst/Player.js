@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var uuid = require("node-uuid");
 var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
 var State_1 = require("./State");
@@ -23,9 +22,7 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 // * low GI, digest slower, BGL still goes down in Insulin in system
 var Player = {
     init: function () {
-        var instanceUUID = uuid.v4();
         this.destroyBars();
-        State_1.setState({ instanceUUID: instanceUUID });
         this._init();
         player.setFoodLevel(2);
     },
@@ -55,7 +52,7 @@ var Player = {
     enableEventListeners: function () {
         var _this = this;
         var state = State_1.getState();
-        Events_1.default.registerAll(state.instanceUUID);
+        Events_1.default.registerAll();
         // ProjectileHitEvent
         Events_1.default.on('ProjectileHitEvent', function (event) {
             var state = State_1.getState();

@@ -26,12 +26,14 @@ const Events = {
 
 	on: (eventName, callback) => Emitter.on(eventName, callback),
 
-	registerAll: (instanceUUID) => {
+	unregisterAll: () => {
+		Emitter.removeAllListeners();
+	},
+
+	registerAll: () => {
 		for (let type in eventTypes) {
 			const javaType = eventTypes[type];
-			
 			Emitter.removeAllListeners();
-			
 			magik.getPlugin().registerEvent(
 				Java.type(javaType).class,
 				EventPriority.MONITOR,
@@ -39,13 +41,13 @@ const Events = {
 				new EventCallback({
 					callback: function (event: any) {
 						const state = getState();
-						log('-----.instanceUUID: ' + instanceUUID);
-						log('state.instanceUUID: ' + state.instanceUUID);
-						if (state.instanceUUID === instanceUUID) {
+						// log('-----.instanceUUID: ' + instanceUUID);
+						// log('state.instanceUUID: ' + state.instanceUUID);
+						// if (state.instanceUUID === instanceUUID) {
 							// Only emit if state.instanceUUID !== instanceUUID at time of registration.								
 							Emitter.emit(type, event);
 							// return;
-						}
+						// }
 
 						
 					}
