@@ -35,7 +35,7 @@ const Player = {
 
 	_init() {
 		let state = getState();
-
+		log('state: '+ JSON.stringify(state));
 		// Start digestion if not already started.
 		if (!state.digesting) {
 			this.doDigestion();

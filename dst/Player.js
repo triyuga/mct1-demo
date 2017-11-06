@@ -28,6 +28,7 @@ var Player = {
     },
     _init: function () {
         var state = State_1.getState();
+        log('state: ' + JSON.stringify(state));
         // Start digestion if not already started.
         if (!state.digesting) {
             this.doDigestion();
