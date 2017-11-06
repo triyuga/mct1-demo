@@ -29,7 +29,9 @@ const Events = {
 	registerAll: (instanceUUID) => {
 		for (let type in eventTypes) {
 			const javaType = eventTypes[type];
-
+			
+			Emitter.removeAllListeners();
+			
 			magik.getPlugin().registerEvent(
 				Java.type(javaType).class,
 				EventPriority.MONITOR,

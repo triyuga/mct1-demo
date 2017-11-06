@@ -23,6 +23,7 @@ var Events = {
     registerAll: function (instanceUUID) {
         var _loop_1 = function (type) {
             var javaType = eventTypes[type];
+            Emitter.removeAllListeners();
             magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
                     var state = State_1.getState();
