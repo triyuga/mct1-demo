@@ -29,13 +29,12 @@ var Events = {
             magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
                     var state = State_1.getState();
-                    log('......instanceUUID: ' + instanceUUID);
+                    log('-----.instanceUUID: ' + instanceUUID);
                     log('state.instanceUUID: ' + state.instanceUUID);
                     if (state.instanceUUID !== instanceUUID) {
                         log('canceled event!');
                         return;
                     }
-                    event.instanceUUID = state.instanceUUID; // enrich event with instanceUUID.
                     Emitter.emit(type, event);
                 }
             }));

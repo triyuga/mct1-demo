@@ -43,7 +43,7 @@ const Events = {
 					callback: function (event: any) {
 						const state = getState();
 						
-						log('......instanceUUID: ' + instanceUUID);
+						log('-----.instanceUUID: ' + instanceUUID);
 						log('state.instanceUUID: ' + state.instanceUUID);
 						
 						if (state.instanceUUID !== instanceUUID) {
@@ -51,7 +51,6 @@ const Events = {
 							return;
 						}
 
-						event.instanceUUID = state.instanceUUID; // enrich event with instanceUUID.
 						Emitter.emit(type, event);
 					}
 				})
