@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var uuid = require("node-uuid");
+var instanceUUID_1 = require("./instanceUUID");
 var magik = magikcraft.io;
 var log = magik.dixit;
-var KEY = 'mct1-demo';
+var KEY = 'mct1-demo-' + instanceUUID_1.default;
 function _ensureCompleteState(state) {
-    state.instanceUUID = state.instanceUUID || uuid.v4();
+    state.instanceUUID = state.instanceUUID || instanceUUID_1.default;
     state.listening = state.listening !== undefined ? state.listening : false;
     state.digesting = state.digesting !== undefined ? state.digesting : false;
     state.dead = state.dead !== undefined ? state.dead : false;
@@ -21,7 +21,6 @@ function _ensureCompleteState(state) {
 function getState() {
     var state = magik.playerMap.get(KEY) || {};
     state = _ensureCompleteState(state);
-    // log('state: ' + JSON.stringify(state));
     return state;
 }
 exports.getState = getState;

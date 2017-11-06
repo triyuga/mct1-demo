@@ -1,3 +1,4 @@
+import instanceUUID from './instanceUUID';
 import * as Bar from './Bar';
 import Utils from './Utils';
 import { getState, setState } from './State';
@@ -35,7 +36,6 @@ const Player = {
 	},
 
 	_init() {
-
 		let state = getState();
 
 		// Start digestion if not already started.

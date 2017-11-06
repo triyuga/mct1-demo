@@ -1,10 +1,12 @@
-import * as uuid from 'node-uuid';
+import instanceUUID from './instanceUUID';
 const magik = magikcraft.io;
 const log = magik.dixit;
-const KEY = 'mct1-demo';
+
+
+const KEY = 'mct1-demo-' + instanceUUID;
 
 function _ensureCompleteState(state) {
-	state.instanceUUID = state.instanceUUID || uuid.v4();
+	state.instanceUUID = state.instanceUUID || instanceUUID;
 	state.listening = state.listening !== undefined ? state.listening : false;
 	state.digesting = state.digesting !== undefined ? state.digesting : false;
 	state.dead = state.dead !== undefined ? state.dead : false;
@@ -21,7 +23,6 @@ function _ensureCompleteState(state) {
 export function getState() {
 	let state = magik.playerMap.get(KEY) || {};
 	state = _ensureCompleteState(state);
-	// log('state: ' + JSON.stringify(state));
 	return state;
 }
 

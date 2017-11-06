@@ -9,6 +9,7 @@ var log = magik.dixit;
 var EventPriority = Java.type("org.bukkit.event.EventPriority");
 var EventCallback = Java.type("io.magikcraft.EventCallback");
 var State_1 = require("./State");
+var instanceUUID_1 = require("./instanceUUID");
 var eventTypes = {
     PlayerDeathEvent: 'org.bukkit.event.entity.PlayerDeathEvent',
     PlayerRespawnEvent: 'org.bukkit.event.player.PlayerRespawnEvent',
@@ -22,11 +23,10 @@ var Events = {
     registerAll: function () {
         var _loop_1 = function (type) {
             var javaType = eventTypes[type];
-            var instanceUUID = State_1.getState().instanceUUID;
             magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
                     var state = State_1.getState();
-                    if (state.instanceUUID !== instanceUUID) {
+                    if (state.instanceUUID !== instanceUUID_1.default) {
                         // Do not emit if state.instanceUUID !== instanceUUID at time of registration.								
                         // log('-----.instanceUUID: ' + instanceUUID);
                         // log('state.instanceUUID: ' + state.instanceUUID);
