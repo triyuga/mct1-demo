@@ -31,7 +31,7 @@ const Player = {
 		player.setFoodLevel(2);
 	},
 
-	doCountdown(countdown = 30) {
+	doCountdown(countdown = 10) {
 		magik.setTimeout(() => {
 			countdown--;
 			if (countdown > 0) {
@@ -39,16 +39,33 @@ const Player = {
 				this.doCountdown(countdown);
 			}
 			else {
-				const server = magik.getPlugin().getServer();
-				const loc = player.getLocation();
-				const location = `${loc.getX()} ${loc.getY()+1} ${loc.getZ()}`;
-				const cmd = `execute ${player.getName()} ~ ~ ~ summon LIGHTNING_BOLT ${location}`;
-				server.dispatchCommand(server.getConsoleSender(), cmd);
-				server.dispatchCommand(server.getConsoleSender(), cmd);
-				server.dispatchCommand(server.getConsoleSender(), cmd);
-				this.init();
+				this.lightningStruck(); // !!!!!
 			}
 		}, 1000);
+	},
+
+	lightningStruck(distance = 5) {
+		magik.setTimeout(() => {
+			const loc = player.getLocation();
+			const locations = [
+				`${loc.getX()+distance} ${loc.getY()+distance} ${loc.getZ()}`,
+				`${loc.getX()-distance} ${loc.getY()+distance} ${loc.getZ()}`,
+				`${loc.getX()+distance} ${loc.getY()-distance} ${loc.getZ()}`,
+				`${loc.getX()-distance} ${loc.getY()-distance} ${loc.getZ()}`,
+			];
+			locations.forEach(location => {
+				const server = magik.getPlugin().getServer();
+				const cmd = `execute ${player.getName()} ~ ~ ~ summon LIGHTNING_BOLT ${location}`;
+				server.dispatchCommand(server.getConsoleSender(), cmd);
+			});
+			if (distance > 0) {
+				distance--;
+				this.lightningStruck() // !!!!
+			}
+			else {
+				this.init();
+			}
+		}, (distance*500));
 	},
 
 	_init() {

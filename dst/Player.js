@@ -27,7 +27,7 @@ var Player = {
     },
     doCountdown: function (countdown) {
         var _this = this;
-        if (countdown === void 0) { countdown = 30; }
+        if (countdown === void 0) { countdown = 10; }
         magik.setTimeout(function () {
             countdown--;
             if (countdown > 0) {
@@ -35,16 +35,34 @@ var Player = {
                 _this.doCountdown(countdown);
             }
             else {
-                var server = magik.getPlugin().getServer();
-                var loc = player.getLocation();
-                var location = loc.getX() + " " + (loc.getY() + 1) + " " + loc.getZ();
-                var cmd = "execute " + player.getName() + " ~ ~ ~ summon LIGHTNING_BOLT " + location;
-                server.dispatchCommand(server.getConsoleSender(), cmd);
-                server.dispatchCommand(server.getConsoleSender(), cmd);
-                server.dispatchCommand(server.getConsoleSender(), cmd);
-                _this.init();
+                _this.lightningStruck(); // !!!!!
             }
         }, 1000);
+    },
+    lightningStruck: function (distance) {
+        var _this = this;
+        if (distance === void 0) { distance = 5; }
+        magik.setTimeout(function () {
+            var loc = player.getLocation();
+            var locations = [
+                loc.getX() + distance + " " + (loc.getY() + distance) + " " + loc.getZ(),
+                loc.getX() - distance + " " + (loc.getY() + distance) + " " + loc.getZ(),
+                loc.getX() + distance + " " + (loc.getY() - distance) + " " + loc.getZ(),
+                loc.getX() - distance + " " + (loc.getY() - distance) + " " + loc.getZ(),
+            ];
+            locations.forEach(function (location) {
+                var server = magik.getPlugin().getServer();
+                var cmd = "execute " + player.getName() + " ~ ~ ~ summon LIGHTNING_BOLT " + location;
+                server.dispatchCommand(server.getConsoleSender(), cmd);
+            });
+            if (distance > 0) {
+                distance--;
+                _this.lightningStruck(); // !!!!
+            }
+            else {
+                _this.init();
+            }
+        }, (distance * 500));
     },
     _init: function () {
         var state = State_1.getState();
