@@ -177,6 +177,8 @@ const Player = {
 			if (event.getPlayer().getName() != player.getName()) {
 				return;
 			}		
+			player.setFoodLevel(15);
+			player['setHealth'](20);
 			this.cancelNegativeEffects();
 			this.cancelSuperPowers();
 			setState({})
