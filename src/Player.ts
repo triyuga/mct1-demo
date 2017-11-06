@@ -105,6 +105,7 @@ const Player = {
 			const type = event.getItem().getType();
 			if (Food[type]) {
 				log(`You ate a ${type}!`);
+				log('digestionQueue 1: ' + JSON.stringify(state.digestionQueue));
 				const item = {
 					timestamp: Utils.makeTimestamp(),
 					type: type,
@@ -112,6 +113,7 @@ const Player = {
 				};
 				state.digestionQueue.push(item);
 				setState(state);
+				log('digestionQueue 2: ' + JSON.stringify(state.digestionQueue));
 				this.renderBars();
 				// event.setCancelled(true);
 			}
@@ -298,11 +300,11 @@ const Player = {
 			
 			// Confusion!
 			if ((state.bgl < 4 && state.bgl >= 3) || (state.bgl > 8 && state.bgl <= 12)) {
-				this._makeEffect('CONFUSION', 2500);
+				this._makeEffect('CONFUSION', 3500);
 			}
 			// More Confusion!
 			else if (state.bgl < 3 || state.bgl > 16) {
-				this._makeEffect('CONFUSION', 5000);
+				this._makeEffect('CONFUSION', 6000);
 			}
 			// Layer additional effects.
 			if (state.bgl < 2 || state.bgl >= 16) {
