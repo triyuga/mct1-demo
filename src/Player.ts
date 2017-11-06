@@ -86,7 +86,7 @@ const Player = {
 			// Summon lightning_bolt at location.
 			const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
 			const server = magik.getPlugin().getServer();
-			const cmd = `execute ${player.getName()} ~ ~ ~ summon lightning_bolt ${location}`;
+			const cmd = `execute ${player.getName()} ~ ~ ~ summon CHICKEN ${location}`;
 			server.dispatchCommand(server.getConsoleSender(), cmd);
 
 			// Food or Health cost...
@@ -193,7 +193,7 @@ const Player = {
 	renderBars() {
 		// First, clear all bars.... 
 		this.destroyBars();
-		
+
 		let state = getState();
 		// Minecraft supports upto 4 bars onscreen at once.
 
