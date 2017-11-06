@@ -48,10 +48,10 @@ const Player = {
 		magik.setTimeout(() => {
 			const loc = player.getLocation();
 			const locations = [
-				`${loc.getX()+distance} ${loc.getY()+distance} ${loc.getZ()}`,
-				`${loc.getX()-distance} ${loc.getY()+distance} ${loc.getZ()}`,
-				`${loc.getX()+distance} ${loc.getY()-distance} ${loc.getZ()}`,
-				`${loc.getX()-distance} ${loc.getY()-distance} ${loc.getZ()}`,
+				`${loc.getX()+distance} ${loc.getY()} ${loc.getZ()+distance}`,
+				`${loc.getX()-distance} ${loc.getY()} ${loc.getZ()+distance}`,
+				`${loc.getX()+distance} ${loc.getY()} ${loc.getZ()-distance}`,
+				`${loc.getX()-distance} ${loc.getY()} ${loc.getZ()-distance}`,
 			];
 			locations.forEach(location => {
 				const server = magik.getPlugin().getServer();
@@ -65,7 +65,7 @@ const Player = {
 			else {
 				this.init();
 			}
-		}, (distance*500));
+		}, (300));
 	},
 
 	_init() {

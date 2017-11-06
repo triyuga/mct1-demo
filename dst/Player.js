@@ -45,10 +45,10 @@ var Player = {
         magik.setTimeout(function () {
             var loc = player.getLocation();
             var locations = [
-                loc.getX() + distance + " " + (loc.getY() + distance) + " " + loc.getZ(),
-                loc.getX() - distance + " " + (loc.getY() + distance) + " " + loc.getZ(),
-                loc.getX() + distance + " " + (loc.getY() - distance) + " " + loc.getZ(),
-                loc.getX() - distance + " " + (loc.getY() - distance) + " " + loc.getZ(),
+                loc.getX() + distance + " " + loc.getY() + " " + (loc.getZ() + distance),
+                loc.getX() - distance + " " + loc.getY() + " " + (loc.getZ() + distance),
+                loc.getX() + distance + " " + loc.getY() + " " + (loc.getZ() - distance),
+                loc.getX() - distance + " " + loc.getY() + " " + (loc.getZ() - distance),
             ];
             locations.forEach(function (location) {
                 var server = magik.getPlugin().getServer();
@@ -62,7 +62,7 @@ var Player = {
             else {
                 _this.init();
             }
-        }, (distance * 500));
+        }, (300));
     },
     _init: function () {
         var state = State_1.getState();
