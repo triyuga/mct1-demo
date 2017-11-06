@@ -167,6 +167,8 @@ var Player = {
             // let state = getState();
             // state.listening = false;
             // state.digesting = false;			
+            _this.cancelNegativeEffects();
+            _this.cancelSuperPowers();
             State_1.setState({});
             Events_1.default.unregisterAll();
         });

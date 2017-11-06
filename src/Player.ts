@@ -184,6 +184,8 @@ const Player = {
 			// let state = getState();
 			// state.listening = false;
 			// state.digesting = false;			
+			this.cancelNegativeEffects();
+			this.cancelSuperPowers();
 			setState({})
 			Events.unregisterAll();
 		});
