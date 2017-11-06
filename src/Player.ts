@@ -100,7 +100,7 @@ const Player = {
 			// log('digestionQueue 1.0: ' + JSON.stringify(state.digestionQueue));
 			// Identify consumer. Skip if not player.
 			const consumer = event.getPlayer();
-			if (consumer.getName() !== player.getName()) {
+			if (consumer.getName() != player.getName()) {
 				return;
 			}
 			// Act on know FOOD eat...
@@ -132,7 +132,7 @@ const Player = {
 		// PlayerDeathEvent
 		Events.on('PlayerDeathEvent', (event) => {
 			// Skip if not this player.
-			if (event.getPlayer().getName() !== player.getName()) {
+			if (event.getPlayer().getName() != player.getName()) {
 				return;
 			}
 			log('PlayerDeathEvent: ' + event.getDeathMessage());
@@ -145,7 +145,7 @@ const Player = {
 		// PlayerRespawnEvent
 		Events.on('PlayerRespawnEvent', (event) => {
 			// Skip if not this player.
-			if (event.getPlayer().getName() !== player.getName()) {
+			if (event.getPlayer().getName() != player.getName()) {
 				return;
 			}
 			log('PlayerRespawnEvent: ' + event.getRespawnLocation())
@@ -163,7 +163,7 @@ const Player = {
 			const entityType = event.getEntityType();
 			if (entityType == 'PLAYER') {
 				// Skip if not this player.
-				if (event.getEntity().getName() !== player.getName()) {
+				if (event.getEntity().getName() != player.getName()) {
 					return;
 				}
 				const cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
@@ -178,7 +178,7 @@ const Player = {
 		// PlayerQuitEvent
 		Events.on('PlayerQuitEvent', (event) => {
 			// Skip if not this player.
-			if (event.getPlayer().getName() !== player.getName()) {
+			if (event.getPlayer().getName() != player.getName()) {
 				return;
 			}
 			Events.unregisterAll();

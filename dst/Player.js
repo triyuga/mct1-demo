@@ -88,7 +88,7 @@ var Player = {
             // log('digestionQueue 1.0: ' + JSON.stringify(state.digestionQueue));
             // Identify consumer. Skip if not player.
             var consumer = event.getPlayer();
-            if (consumer.getName() !== player.getName()) {
+            if (consumer.getName() != player.getName()) {
                 return;
             }
             // Act on know FOOD eat...
@@ -118,7 +118,7 @@ var Player = {
         // PlayerDeathEvent
         Events_1.default.on('PlayerDeathEvent', function (event) {
             // Skip if not this player.
-            if (event.getPlayer().getName() !== player.getName()) {
+            if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
             log('PlayerDeathEvent: ' + event.getDeathMessage());
@@ -130,7 +130,7 @@ var Player = {
         // PlayerRespawnEvent
         Events_1.default.on('PlayerRespawnEvent', function (event) {
             // Skip if not this player.
-            if (event.getPlayer().getName() !== player.getName()) {
+            if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
             log('PlayerRespawnEvent: ' + event.getRespawnLocation());
@@ -146,7 +146,7 @@ var Player = {
             var entityType = event.getEntityType();
             if (entityType == 'PLAYER') {
                 // Skip if not this player.
-                if (event.getEntity().getName() !== player.getName()) {
+                if (event.getEntity().getName() != player.getName()) {
                     return;
                 }
                 var cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
@@ -160,7 +160,7 @@ var Player = {
         // PlayerQuitEvent
         Events_1.default.on('PlayerQuitEvent', function (event) {
             // Skip if not this player.
-            if (event.getPlayer().getName() !== player.getName()) {
+            if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
             Events_1.default.unregisterAll();
