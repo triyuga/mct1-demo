@@ -88,8 +88,7 @@ const Player = {
 			server.dispatchCommand(server.getConsoleSender(), cmd);
 
 			// Food or Health cost...
-			log('projectileHitCounter: ' + projectileHitCounter);
-			if (projectileHitCounter % 5 === 0) { // Every 10 ticks...
+			if (projectileHitCounter % 5 === 0) { // Every 3 hits...
 				if (player.getFoodLevel() > 0) {
 					player.setFoodLevel(Math.max(player.getFoodLevel()-1, 0));
 				}
@@ -260,7 +259,7 @@ const Player = {
 			// Every 10 ticks...
 			if (tickCount % 10 === 0) {
 				// Reduce food level.
-				player.setFoodLevel(Math.max((player.getFoodLevel()-1), 0));
+				player.setFoodLevel(Math.max((player.getFoodLevel()+1), 0));
 			}
 
 			// handle insulin in system

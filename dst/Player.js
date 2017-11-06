@@ -79,7 +79,6 @@ var Player = {
             var cmd = "execute " + player.getName() + " ~ ~ ~ summon LIGHTNING_BOLT " + location;
             server.dispatchCommand(server.getConsoleSender(), cmd);
             // Food or Health cost...
-            log('projectileHitCounter: ' + projectileHitCounter);
             if (projectileHitCounter % 5 === 0) {
                 if (player.getFoodLevel() > 0) {
                     player.setFoodLevel(Math.max(player.getFoodLevel() - 1, 0));
@@ -242,7 +241,7 @@ var Player = {
             // Every 10 ticks...
             if (tickCount % 10 === 0) {
                 // Reduce food level.
-                player.setFoodLevel(Math.max((player.getFoodLevel() - 1), 0));
+                player.setFoodLevel(Math.max((player.getFoodLevel() + 1), 0));
             }
             // handle insulin in system
             if (state.insulin > 0) {
