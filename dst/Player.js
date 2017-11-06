@@ -28,11 +28,11 @@ var Player = {
             this.doDigestion();
             state.digesting = true;
             State_1.setState(state);
-            log('digesting');
+            log('digesting!');
         }
         // Start listening if not already started.
         if (!state.listening) {
-            log('listening');
+            log('listening!');
             this.enableEventListeners();
             state.listening = true;
             State_1.setState(state);

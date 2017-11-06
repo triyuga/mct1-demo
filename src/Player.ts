@@ -29,19 +29,19 @@ FoodList.forEach(item => Food[item.type] = item);
 const Player = {
 	init() {
 
-		const state = getState();
+		let state = getState();
 
 		// Start digestion if not already started.
 		if (!state.digesting) {
 			this.doDigestion();
 			state.digesting = true;
 			setState(state);
-			log('digesting');
+			log('digesting!');
 		}
 
 		// Start listening if not already started.
 		if (!state.listening) {
-			log('listening');
+			log('listening!');
 			this.enableEventListeners();
 			state.listening = true;
 			setState(state);
@@ -59,7 +59,7 @@ const Player = {
 		
 		// ProjectileHitEvent
 		Events.on('ProjectileHitEvent', (event) => { 
-			const state = getState();	
+			let state = getState();	
 			// Identify shooter. Skip if not player.
 			const shooter = event.getEntity().getShooter();
 			if (!shooter || shooter.getName() !== player.getName()) {
@@ -88,7 +88,7 @@ const Player = {
 
 		// PlayerItemConsumeEvent
 		Events.on('PlayerItemConsumeEvent', (event) => { 
-			const state = getState();
+			let state = getState();
 			// Identify consumer. Skip if not player.
 			const consumer = event.getPlayer();
 			if (consumer.getName() !== player.getName()) {
@@ -124,7 +124,7 @@ const Player = {
 				return;
 			}
 			log('PlayerDeathEvent: ' + event.getDeathMessage());
-			const state = getState();
+			let state = getState();
 			state.dead = true;
 			setState(state);
 			// this.reset();
@@ -137,7 +137,7 @@ const Player = {
 				return;
 			}
 			log('PlayerRespawnEvent: ' + event.getRespawnLocation())
-			const state = getState();
+			let state = getState();
 			state.dead = false;
 			setState(state);
 			
@@ -165,7 +165,7 @@ const Player = {
 	},
 
 	renderBars() {
-		const state = getState();
+		let state = getState();
 		
 		// First, clear all bars.... 
 		if (state.bglBar) state.bglBar.destroy();
@@ -216,7 +216,7 @@ const Player = {
 	},
 
 	doDigestion(tickCount = 0) {
-		const state = getState();
+		let state = getState();
 		// log('digesting...');
 		const that = this;
 		magik.setTimeout(function() {
@@ -272,7 +272,7 @@ const Player = {
 	},
 
 	doEffects() {
-		const state = getState();
+		let state = getState();
 
 		if ((state.bgl >= 4 && state.bgl <= 8)) {
 			this.cancelNegativeEffects();
