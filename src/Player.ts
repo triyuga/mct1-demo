@@ -318,9 +318,13 @@ const Player = {
 			
 			// Spawn Items...
 			if (tickCount % 5 === 0) {
+				if (tickCount % 50 === 0) {
+					// Cleanup dropped items.
+					const server = magik.getPlugin().getServer();
+					const cmd = `execute ${player.getName()} ~ ~ ~ minecraft:kill @e[type=Item,r=50]`;
+					server.dispatchCommand(server.getConsoleSender(), cmd);
+				}
 				const worldName = player.getWorld()['getName']();
-				log('worldName: ' + worldName);
-				
 				if (worldName == 'mct1-main') {
 					const Material = Java.type("org.bukkit.Material");
 					const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
