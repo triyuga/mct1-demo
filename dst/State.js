@@ -23,6 +23,7 @@ function getState() {
         log('not obj!');
         state = {};
     }
+    log('typeof state: ' + typeof state);
     state = _ensureCompleteState(state);
     return state;
 }
