@@ -298,7 +298,7 @@ const Player = {
 			// Every 10 ticks...
 			if (tickCount % 5 === 0) {
 				const Material = Java.type("org.bukkit.Material");
-				const ItemStack = Java.type("org.bukkit.inventor.ItemStack");
+				const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
 				// 	const server = magik.getPlugin().getServer();
 				// 	// event.getPlayer().getInventory().setItem(37, );
 				const Location = Java.type('org.bukkit.Location');
