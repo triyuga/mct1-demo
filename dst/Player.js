@@ -168,12 +168,16 @@ var Player = {
             state.digestionBar0.destroy();
         if (state.digestionBar1)
             state.digestionBar1.destroy();
+        state.bglBar = null;
+        state.insulinBar = null;
+        state.digestionBar0 = null;
+        state.digestionBar1 = null;
         State_1.setState(state);
     },
     renderBars: function () {
-        var state = State_1.getState();
         // First, clear all bars.... 
         this.destroyBars();
+        var state = State_1.getState();
         // Minecraft supports upto 4 bars onscreen at once.
         // bglBar color
         var color = 'GREEN';

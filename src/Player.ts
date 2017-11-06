@@ -183,15 +183,18 @@ const Player = {
 		if (state.insulinBar) state.insulinBar.destroy();
 		if (state.digestionBar0) state.digestionBar0.destroy();
 		if (state.digestionBar1) state.digestionBar1.destroy();
+		state.bglBar = null;
+		state.insulinBar = null;
+		state.digestionBar0 = null;
+		state.digestionBar1 = null;
 		setState(state);
 	},
 
 	renderBars() {
-		let state = getState();
-		
 		// First, clear all bars.... 
 		this.destroyBars();
 		
+		let state = getState();
 		// Minecraft supports upto 4 bars onscreen at once.
 
 		// bglBar color
