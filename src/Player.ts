@@ -200,7 +200,7 @@ const Player = {
 			// Cancel lightning and fire damage for player.
 			const entityType = event.getEntityType();
 			const cause = event.getCause();
-			
+
 			if (entityType == 'PLAYER') {
 				// Skip if not this player.
 				if (event.getEntity().getName() != player.getName()) {
@@ -213,6 +213,8 @@ const Player = {
 					event.setCancelled(true);
 				}
 			}
+			log('entityType: ' + entityType);
+			log('cause: ' + cause);
 			if (entityType == 'WITHER' && cause == 'PROJECTILE') {
 				event.setDamage(10);
 			}
