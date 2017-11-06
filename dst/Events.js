@@ -22,17 +22,14 @@ var Events = {
     registerAll: function () {
         var _loop_1 = function (type) {
             var javaType = eventTypes[type];
-            // log('registering event: ' + type);
-            // log('javaType: ' + javaType);
             var instanceUUID = State_1.getState().instanceUUID;
-            log('INIT instanceUUID: ' + instanceUUID);
             magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
                     var state = State_1.getState();
-                    log('-----.instanceUUID: ' + instanceUUID);
-                    log('state.instanceUUID: ' + state.instanceUUID);
                     if (state.instanceUUID !== instanceUUID) {
-                        log('canceled event!');
+                        // Do not emit if state.instanceUUID !== instanceUUID at time of registration.								
+                        // log('-----.instanceUUID: ' + instanceUUID);
+                        // log('state.instanceUUID: ' + state.instanceUUID);
                         return;
                     }
                     Emitter.emit(type, event);

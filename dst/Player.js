@@ -168,6 +168,7 @@ var Player = {
             state.digestionBar0.destroy();
         if (state.digestionBar1)
             state.digestionBar1.destroy();
+        State_1.setState(state);
     },
     renderBars: function () {
         var state = State_1.getState();

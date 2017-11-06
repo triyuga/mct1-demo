@@ -183,6 +183,7 @@ const Player = {
 		if (state.insulinBar) state.insulinBar.destroy();
 		if (state.digestionBar0) state.digestionBar0.destroy();
 		if (state.digestionBar1) state.digestionBar1.destroy();
+		setState(state);
 	},
 
 	renderBars() {

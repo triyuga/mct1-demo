@@ -26,14 +26,9 @@ const Events = {
 	on: (eventName, callback) => Emitter.on(eventName, callback),
 
 	registerAll: () => {
-		
-		
 		for (let type in eventTypes) {
 			const javaType = eventTypes[type];
-			// log('registering event: ' + type);
-			// log('javaType: ' + javaType);
 			const instanceUUID = getState().instanceUUID;
-			log('INIT instanceUUID: ' + instanceUUID);
 
 			magik.getPlugin().registerEvent(
 				Java.type(javaType).class,
@@ -42,12 +37,11 @@ const Events = {
 				new EventCallback({
 					callback: function (event: any) {
 						const state = getState();
-						
-						log('-----.instanceUUID: ' + instanceUUID);
-						log('state.instanceUUID: ' + state.instanceUUID);
-						
+
 						if (state.instanceUUID !== instanceUUID) {
-							log('canceled event!');
+							// Do not emit if state.instanceUUID !== instanceUUID at time of registration.								
+							// log('-----.instanceUUID: ' + instanceUUID);
+							// log('state.instanceUUID: ' + state.instanceUUID);
 							return;
 						}
 
