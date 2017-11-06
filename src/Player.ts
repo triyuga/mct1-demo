@@ -98,6 +98,7 @@ const Player = {
 		// PlayerItemConsumeEvent
 		Events.on('PlayerItemConsumeEvent', (event) => { 
 			let state = getState();
+			log('digestionQueue 1.0: ' + JSON.stringify(state.digestionQueue));
 			// Identify consumer. Skip if not player.
 			const consumer = event.getPlayer();
 			if (consumer.getName() !== player.getName()) {
@@ -113,6 +114,7 @@ const Player = {
 					type: type,
 					percentDigested: 0,
 				};
+				log('item: ' + JSON.stringify(item));
 				state.digestionQueue.push(item);
 				setState(state);
 				log('digestionQueue 1.2: ' + JSON.stringify(state.digestionQueue));

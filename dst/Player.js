@@ -85,6 +85,7 @@ var Player = {
         // PlayerItemConsumeEvent
         Events_1.default.on('PlayerItemConsumeEvent', function (event) {
             var state = State_1.getState();
+            log('digestionQueue 1.0: ' + JSON.stringify(state.digestionQueue));
             // Identify consumer. Skip if not player.
             var consumer = event.getPlayer();
             if (consumer.getName() !== player.getName()) {
@@ -100,6 +101,7 @@ var Player = {
                     type: type,
                     percentDigested: 0,
                 };
+                log('item: ' + JSON.stringify(item));
                 state.digestionQueue.push(item);
                 State_1.setState(state);
                 log('digestionQueue 1.2: ' + JSON.stringify(state.digestionQueue));
