@@ -36,7 +36,7 @@ export function getState() {
 		state = {};
 	}
 
-	log('state: ' + JSON.stringify(state));
+	// log('state: ' + JSON.stringify(state));
 
 	state = _ensureCompleteState(state);
 	return state;

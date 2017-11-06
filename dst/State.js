@@ -30,7 +30,7 @@ function getState() {
     if (JSON.stringify(state) === undefined) {
         state = {};
     }
-    log('state: ' + JSON.stringify(state));
+    // log('state: ' + JSON.stringify(state));
     state = _ensureCompleteState(state);
     return state;
 }
