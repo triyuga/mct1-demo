@@ -19,7 +19,8 @@ function _ensureCompleteState(state) {
 function getState() {
     var state = magik.playerMap.get(KEY) || {};
     log('state 1: ' + JSON.stringify(state));
-    if (state == 'undefined' || state == undefined) {
+    if (typeof state !== 'object') {
+        log('not obj!');
         state = {};
     }
     state = _ensureCompleteState(state);
