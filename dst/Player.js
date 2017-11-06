@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
 var State_1 = require("./State");
-// import * as fs from 'fs-extra'; 
 var Events_1 = require("./Events");
 // Read the file, and pass it to your callback
 var magik = magikcraft.io;
@@ -28,17 +27,16 @@ var Player = {
     },
     _init: function () {
         var state = State_1.getState();
-        log('state: ' + JSON.stringify(state));
         // Start digestion if not already started.
         if (!state.digesting) {
             this.doDigestion();
             state.digesting = true;
             State_1.setState(state);
-            log('digesting!');
+            // log('digesting!');
         }
         // Start listening if not already started.
         if (!state.listening) {
-            log('listening!');
+            // log('listening!');
             this.enableEventListeners();
             state.listening = true;
             State_1.setState(state);
@@ -48,7 +46,6 @@ var Player = {
         this.clearInventory();
         this.setupInventory();
         this.renderBars();
-        // log('state: ' + JSON.stringify(state));
     },
     enableEventListeners: function () {
         var _this = this;
@@ -86,7 +83,6 @@ var Player = {
         // PlayerItemConsumeEvent
         Events_1.default.on('PlayerItemConsumeEvent', function (event) {
             var state = State_1.getState();
-            // log('digestionQueue 1.0: ' + JSON.stringify(state.digestionQueue));
             // Identify consumer. Skip if not player.
             var consumer = event.getPlayer();
             if (consumer.getName() != player.getName()) {
@@ -96,18 +92,14 @@ var Player = {
             var type = event.getItem().getType();
             if (Food[type]) {
                 log("You ate a " + type + "!");
-                // log('digestionQueue 1.1: ' + JSON.stringify(state.digestionQueue));
                 var item = {
                     timestamp: Utils_1.default.makeTimestamp(),
                     type: Food[type].type,
                     percentDigested: 0,
                 };
-                // log('item: ' + JSON.stringify(item));
                 state.digestionQueue.push(item);
                 State_1.setState(state);
-                // log('digestionQueue 1.2: ' + JSON.stringify(state.digestionQueue));
                 _this.renderBars();
-                // event.setCancelled(true);
             }
             else if (type == 'POTION') {
                 log("You drank an INSULIN POTION!");
@@ -122,11 +114,10 @@ var Player = {
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
-            log('PlayerDeathEvent: ' + event.getDeathMessage());
+            // log('PlayerDeathEvent: ' + event.getDeathMessage());
             var state = State_1.getState();
             state.dead = true;
             State_1.setState(state);
-            // this.reset();
         });
         // PlayerRespawnEvent
         Events_1.default.on('PlayerRespawnEvent', function (event) {
@@ -152,7 +143,7 @@ var Player = {
                 }
                 var cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
                 if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
-                    magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
+                    // magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
                     event.setDamage(0);
                     event.setCancelled(true);
                 }
@@ -164,9 +155,6 @@ var Player = {
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
-            // let state = getState();
-            // state.listening = false;
-            // state.digesting = false;			
             _this.cancelNegativeEffects();
             _this.cancelSuperPowers();
             State_1.setState({});
@@ -220,7 +208,6 @@ var Player = {
             .progress((state.insulin / 20) * 100) // insulin as percentage, rounded to 1 decimal
             .show();
         // digestionBar(s)
-        // log('digestionQueue 3.1: ' + JSON.stringify(state.digestionQueue));
         state.digestionQueue.slice(0, 2).map(function (item, i) {
             var food = Food[item.type];
             state["digestionBar" + i] = Bar.bar()
@@ -230,14 +217,12 @@ var Player = {
                 .progress(100 - item.percentDigested)
                 .show();
         });
-        // log('digestionQueue 3.2: ' + JSON.stringify(state.digestionQueue));
         // SetState
         State_1.setState(state);
     },
     doDigestion: function (tickCount) {
         if (tickCount === void 0) { tickCount = 0; }
         var state = State_1.getState();
-        // log('digesting...');
         var that = this;
         magik.setTimeout(function () {
             // Skip if dead!
@@ -260,7 +245,6 @@ var Player = {
                 }
             }
             // handle digestionQueue
-            // log('digestionQueue 2.1: ' + JSON.stringify(state.digestionQueue));
             if (state.digestionQueue[0]) {
                 state.digestionQueue[0].percentDigested += 5;
                 state.bgl += 0.2;
@@ -272,7 +256,6 @@ var Player = {
                     state.digestionQueue.splice(0, 1);
                 }
             }
-            // log('digestionQueue 2.2: ' + JSON.stringify(state.digestionQueue));
             state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
             State_1.setState(state);
             that.renderBars();
@@ -360,7 +343,7 @@ var Player = {
         var server = magik.getPlugin().getServer();
         items.map(function (item) {
             server.dispatchCommand(server.getConsoleSender(), "give " + player.getName() + " " + item.type + " " + item.amount);
-            magik.dixit("server.dispatchCommand(give " + player.getName() + " " + item.type + " " + item.amount + ")");
+            // loh(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
         });
     },
     clearInventory: function () {

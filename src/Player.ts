@@ -1,8 +1,6 @@
 import * as Bar from './Bar';
 import Utils from './Utils';
 import { getState, setState } from './State';
-// import * as fs from 'fs-extra'; 
-
 import Events from './Events';
 
 // Read the file, and pass it to your callback
@@ -35,18 +33,17 @@ const Player = {
 
 	_init() {
 		let state = getState();
-		log('state: '+ JSON.stringify(state));
 		// Start digestion if not already started.
 		if (!state.digesting) {
 			this.doDigestion();
 			state.digesting = true;
 			setState(state);
-			log('digesting!');
+			// log('digesting!');
 		}
 
 		// Start listening if not already started.
 		if (!state.listening) {
-			log('listening!');
+			// log('listening!');
 			this.enableEventListeners();
 			state.listening = true;
 			setState(state);
@@ -57,8 +54,6 @@ const Player = {
 		this.clearInventory();
 		this.setupInventory();
 		this.renderBars();
-
-		// log('state: ' + JSON.stringify(state));
 	},
 
 	enableEventListeners() {
@@ -97,7 +92,6 @@ const Player = {
 		// PlayerItemConsumeEvent
 		Events.on('PlayerItemConsumeEvent', (event) => { 
 			let state = getState();
-			// log('digestionQueue 1.0: ' + JSON.stringify(state.digestionQueue));
 			// Identify consumer. Skip if not player.
 			const consumer = event.getPlayer();
 			if (consumer.getName() != player.getName()) {
@@ -107,18 +101,14 @@ const Player = {
 			const type = event.getItem().getType();
 			if (Food[type]) {
 				log(`You ate a ${type}!`);
-				// log('digestionQueue 1.1: ' + JSON.stringify(state.digestionQueue));
 				const item = {
 					timestamp: Utils.makeTimestamp(),
 					type: Food[type].type,
 					percentDigested: 0,
 				};
-				// log('item: ' + JSON.stringify(item));
 				state.digestionQueue.push(item);
 				setState(state);
-				// log('digestionQueue 1.2: ' + JSON.stringify(state.digestionQueue));
 				this.renderBars();
-				// event.setCancelled(true);
 			}
 			// Act on POTION drink... (insulin)
 			else if (type == 'POTION') { // important! use double arrow (not triple)
@@ -135,11 +125,10 @@ const Player = {
 			if (event.getPlayer().getName() != player.getName()) {
 				return;
 			}
-			log('PlayerDeathEvent: ' + event.getDeathMessage());
+			// log('PlayerDeathEvent: ' + event.getDeathMessage());
 			let state = getState();
 			state.dead = true;
 			setState(state);
-			// this.reset();
 		});
 
 		// PlayerRespawnEvent
@@ -168,7 +157,7 @@ const Player = {
 				}
 				const cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
 				if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
-					magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
+					// magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
 					event.setDamage(0);
 					event.setCancelled(true);
 				}
@@ -180,10 +169,7 @@ const Player = {
 			// Skip if not this player.
 			if (event.getPlayer().getName() != player.getName()) {
 				return;
-			}
-			// let state = getState();
-			// state.listening = false;
-			// state.digesting = false;			
+			}		
 			this.cancelNegativeEffects();
 			this.cancelSuperPowers();
 			setState({})
@@ -237,7 +223,6 @@ const Player = {
 			.show();
 
 		// digestionBar(s)
-		// log('digestionQueue 3.1: ' + JSON.stringify(state.digestionQueue));
 		state.digestionQueue.slice(0, 2).map((item, i) => {
 			const food = Food[item.type];
 			state[`digestionBar${i}`] = Bar.bar()
@@ -247,7 +232,6 @@ const Player = {
 				.progress(100 - item.percentDigested)
 				.show();
 		});
-		// log('digestionQueue 3.2: ' + JSON.stringify(state.digestionQueue));
 
 		// SetState
 		setState(state);
@@ -255,7 +239,6 @@ const Player = {
 
 	doDigestion(tickCount = 0) {
 		let state = getState();
-		// log('digesting...');
 		const that = this;
 		magik.setTimeout(function() {
 			// Skip if dead!
@@ -281,7 +264,6 @@ const Player = {
 			}
 
 			// handle digestionQueue
-			// log('digestionQueue 2.1: ' + JSON.stringify(state.digestionQueue));
 			if (state.digestionQueue[0]) {
 				state.digestionQueue[0].percentDigested += 5;
 				state.bgl += 0.2;
@@ -293,7 +275,6 @@ const Player = {
 					state.digestionQueue.splice(0,1);
 				}
 			}
-			// log('digestionQueue 2.2: ' + JSON.stringify(state.digestionQueue));
 
 			state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
 			setState(state);
@@ -395,7 +376,7 @@ const Player = {
 
 		items.map(item => {
 			server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
-			magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
+			// loh(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
 		});
 	},
 
@@ -433,7 +414,7 @@ const Player = {
 	// 		const cmd = `replaceitem entity ${player.getName()} ${slot} ${item.type} ${item.quantity}`;
 	// 		magik.dixit(cmd);
 	// 		server.dispatchCommand(server.getConsoleSender(), cmd);
-	// 		// magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
+	// 		// log(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
 	// 	});
 	// },
 }
