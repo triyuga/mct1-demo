@@ -4,7 +4,7 @@ export const spells = {
     _default: () => Player.init(), // This is all that is required to run MCT1
 
     // Below: Utility functions only, not required for MCT1 operation.
-    getInventory: () => Player.getInventory(),
-    refreshInventory: () => Player.refreshInventory(),
-    setupInventory: () => Player.setupInventory(),
+    // getInventory: () => Player.getInventory(),
+    // refreshInventory: () => Player.refreshInventory(),
+    // setupInventory: () => Player.setupInventory(),
 }

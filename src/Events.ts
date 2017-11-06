@@ -5,8 +5,11 @@ const magik = magikcraft.io;
 const log = magik.dixit;
 
 declare const Java: any;
+// const Listener = Java.type("org.bukkit.event");
+// const HandlerList = Java.type("org.bukkit.event.HandlerList");
 const EventPriority = Java.type("org.bukkit.event.EventPriority");
 const EventCallback = Java.type("io.magikcraft.EventCallback");
+
 
 const eventTypes = {
 	PlayerDeathEvent: 'org.bukkit.event.entity.PlayerDeathEvent',
@@ -24,8 +27,9 @@ const Events = {
 	registerAll: () => {
 		for (let type in eventTypes) {
 			const javaType = eventTypes[type];
-			log('registering event: ' + type);
-			log('javaType: ' + javaType);
+			// log('registering event: ' + type);
+			// log('javaType: ' + javaType);
+
 			magik.getPlugin().registerEvent(
 				Java.type(javaType).class,
 				EventPriority.MONITOR,

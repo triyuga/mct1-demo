@@ -4,6 +4,8 @@ var events_1 = require("events");
 var Emitter = new events_1.EventEmitter();
 var magik = magikcraft.io;
 var log = magik.dixit;
+// const Listener = Java.type("org.bukkit.event");
+// const HandlerList = Java.type("org.bukkit.event.HandlerList");
 var EventPriority = Java.type("org.bukkit.event.EventPriority");
 var EventCallback = Java.type("io.magikcraft.EventCallback");
 var eventTypes = {
@@ -19,8 +21,8 @@ var Events = {
     registerAll: function () {
         var _loop_1 = function (type) {
             var javaType = eventTypes[type];
-            log('registering event: ' + type);
-            log('javaType: ' + javaType);
+            // log('registering event: ' + type);
+            // log('javaType: ' + javaType);
             magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
                     Emitter.emit(type, event);

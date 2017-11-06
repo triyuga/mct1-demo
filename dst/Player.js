@@ -9,8 +9,6 @@ var Events_1 = require("./Events");
 var magik = magikcraft.io;
 var log = magik.dixit;
 var player = magik.getSender();
-// let state = getState();
-var InventoryList_1 = require("./InventoryList");
 var FoodList_1 = require("./FoodList");
 var Food = {};
 FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
@@ -24,80 +22,123 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 // * low GI, digest slower, BGL still goes down in Insulin in system
 var Player = {
     init: function () {
-        this.reset();
-        player.setFoodLevel(2);
         var state = State_1.getState();
+        // Start digestion if not already started.
         if (!state.digesting) {
             this.doDigestion();
             state.digesting = true;
             State_1.setState(state);
             log('digesting');
         }
+        // Start listening if not already started.
         if (!state.listening) {
             log('listening');
             this.enableEventListeners();
             state.listening = true;
             State_1.setState(state);
         }
-    },
-    reset: function () {
-        // Reset State
-        var state = State_1.getState();
-        this.clearNegativeEffects();
-        this.clearSuperPowers();
+        this.cancelNegativeEffects();
+        this.cancelSuperPowers();
         this.clearInventory();
         this.setupInventory();
         this.renderBars();
-        // Super Powers!
-        this.makeSuperPowers();
     },
     enableEventListeners: function () {
         var _this = this;
         Events_1.default.registerAll();
+        // ProjectileHitEvent
         Events_1.default.on('ProjectileHitEvent', function (event) {
-            log('ProjectileHitEvent');
-            _this.onProjectileHit(event);
+            var state = State_1.getState();
+            // Identify shooter. Skip if not player.
+            var shooter = event.getEntity().getShooter();
+            if (!shooter || shooter.getName() !== player.getName()) {
+                return;
+            }
+            // Get loc
+            var loc = null;
+            if (event.getHitEntity()) {
+                loc = event.getHitEntity().getLocation();
+            }
+            else if (event.getHitBlock()) {
+                loc = event.getHitBlock().getLocation();
+            }
+            // Skip if could not find loc.
+            if (!loc)
+                return;
+            // Summon lightning_bolt at location.
+            var location = loc.getX() + " " + loc.getY() + " " + loc.getZ();
+            var server = magik.getPlugin().getServer();
+            var cmd = "execute " + player.getName() + " ~ ~ ~ summon lightning_bolt " + location;
+            server.dispatchCommand(server.getConsoleSender(), cmd);
+            // Food or Health cost...
+            if (player.getFoodLevel() > 0) {
+                player.setFoodLevel(Math.max(player.getFoodLevel() - 0.5, 0));
+            }
         });
+        // PlayerItemConsumeEvent
         Events_1.default.on('PlayerItemConsumeEvent', function (event) {
-            log('PlayerItemConsumeEvent');
-            _this.onConsume(event);
+            var state = State_1.getState();
+            // Identify consumer. Skip if not player.
+            var consumer = event.getPlayer();
+            if (consumer.getName() !== player.getName()) {
+                return;
+            }
+            // Act on know FOOD eat...
+            var type = event.getItem().getType();
+            if (Food[type]) {
+                log("You ate a " + type + "!");
+                var item = {
+                    timestamp: Utils_1.default.makeTimestamp(),
+                    type: type,
+                    percentDigested: 0,
+                };
+                state.digestionQueue.push(item);
+                State_1.setState(state);
+                _this.renderBars();
+                // event.setCancelled(true);
+            }
+            else if (type == 'POTION') {
+                log("You drank an INSULIN POTION!");
+                state.insulin += 2;
+                State_1.setState(state);
+                _this.renderBars();
+            }
         });
+        // PlayerDeathEvent
         Events_1.default.on('PlayerDeathEvent', function (event) {
+            // Skip if not this player.
+            if (event.getPlayer().getName() !== player.getName()) {
+                return;
+            }
             log('PlayerDeathEvent: ' + event.getDeathMessage());
             var state = State_1.getState();
             state.dead = true;
             State_1.setState(state);
             // this.reset();
         });
+        // PlayerRespawnEvent
         Events_1.default.on('PlayerRespawnEvent', function (event) {
+            // Skip if not this player.
+            if (event.getPlayer().getName() !== player.getName()) {
+                return;
+            }
             log('PlayerRespawnEvent: ' + event.getRespawnLocation());
             var state = State_1.getState();
             state.dead = false;
             State_1.setState(state);
-            // this.reset();
+            // Re-init
+            _this.init();
         });
-        Events_1.default.on('EntityDamageByEntityEvent', function (event) {
-            // log('EntityDamageByEntityEvent: ' + event.getCause());
-            // const entityType = event.getEntityType(); // EntityType
-            // const cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
-            // const damagerType = event.getDamager().getType();
-            // if (damagerType == 'PLAYER') {
-            // 	if (cause == 'ENTITY_ATTACK') {
-            // 		magik.dixit('set fire to '+ entityType + '!!!');
-            // 		event.getEntity().setFireTicks(200);
-            // 		const loc = event.getEntity().getLocation();
-            // 		const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
-            // 		const server = magik.getPlugin().getServer();
-            // 		const cmd = `execute ${event.getDamager().getName()} ~ ~ ~ summon lightning_bolt ${location}`;
-            // 		server.dispatchCommand(server.getConsoleSender(), cmd);
-            // 	}
-            // }
-        });
+        // EntityDamageEvent
         Events_1.default.on('EntityDamageEvent', function (event) {
-            // log('EntityDamageEvent: ' + event.getCause());
-            var entityType = event.getEntityType(); // EntityType
-            var cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
+            // Cancel lightning and fire damage for player.
+            var entityType = event.getEntityType();
             if (entityType == 'PLAYER') {
+                // Skip if not this player.
+                if (event.getEntity().getName() !== player.getName()) {
+                    return;
+                }
+                var cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
                 if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
                     magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
                     event.setDamage(0);
@@ -206,159 +247,56 @@ var Player = {
             that.doDigestion(tickCount);
         }, 1000);
     },
-    onConsume: function (event) {
-        log('onConsume!');
-        var state = State_1.getState();
-        var consumer = event.getPlayer();
-        if (consumer.getName() !== player.getName()) {
-            return;
-        }
-        var type = event.getItem().getType();
-        if (Food[type]) {
-            log("You ate a " + type + "!");
-            var item = {
-                timestamp: Utils_1.default.makeTimestamp(),
-                type: type,
-                percentDigested: 0,
-            };
-            state.digestionQueue.push(item);
-            State_1.setState(state);
-            this.renderBars();
-            // event.setCancelled(true);
-        }
-        else if (type == 'POTION') {
-            log("You drank an INSULIN POTION!");
-            state.insulin += 2;
-            State_1.setState(state);
-            this.renderBars();
-        }
-    },
-    onProjectileHit: function (event) {
-        var state = State_1.getState();
-        // Identify shooter.
-        var shooter = event.getEntity().getShooter();
-        if (!shooter || shooter.getName() !== player.getName()) {
-            return;
-        }
-        // Get loc
-        var loc = null;
-        if (event.getHitEntity()) {
-            loc = event.getHitEntity().getLocation();
-        }
-        else if (event.getHitBlock()) {
-            loc = event.getHitBlock().getLocation();
-        }
-        if (!loc)
-            return;
-        var location = loc.getX() + " " + loc.getY() + " " + loc.getZ();
-        var server = magik.getPlugin().getServer();
-        var cmd = "execute " + player.getName() + " ~ ~ ~ summon lightning_bolt " + location;
-        server.dispatchCommand(server.getConsoleSender(), cmd);
-        // Food or Health cost...
-        if (player.getFoodLevel() > 0) {
-            player.setFoodLevel(Math.max(player.getFoodLevel() - 0.5, 0));
-        }
-    },
     doEffects: function () {
         var state = State_1.getState();
         if ((state.bgl >= 4 && state.bgl <= 8)) {
+            this.cancelNegativeEffects();
             // Super powers!
-            this.makeSuperPowers();
+            this.giveSuperPowers();
         }
         else {
-            // Negative Effects!
-            this.clearSuperPowers();
+            // Cancel super powers...
+            this.cancelSuperPowers();
             // Confusion!
             if ((state.bgl < 4 && state.bgl >= 3) || (state.bgl > 8 && state.bgl <= 12)) {
-                this.doConfusion(2500);
+                this._makeEffect('CONFUSION', 2500);
             }
             else if (state.bgl < 3 || state.bgl > 16) {
-                this.doConfusion(5000);
+                this._makeEffect('CONFUSION', 5000);
             }
             // Layer additional effects.
             if (state.bgl < 2 || state.bgl >= 16) {
-                this.doBlindness(5000);
-                this.doPoison(5000);
+                this._makeEffect('BLINDNESS', 5000);
+                this._makeEffect('POISON', 5000);
             }
         }
     },
-    clearNegativeEffects: function () {
-        var PotionEffectType = magik.type("potion.PotionEffectType");
-        if (player['hasPotionEffect'](PotionEffectType.CONFUSION) == true) {
-            player['removePotionEffect'](PotionEffectType.CONFUSION);
-        }
-        if (player['hasPotionEffect'](PotionEffectType.BLINDNESS) == true) {
-            player['removePotionEffect'](PotionEffectType.BLINDNESS);
-        }
-        if (player['hasPotionEffect'](PotionEffectType.POISON) == true) {
-            player['removePotionEffect'](PotionEffectType.POISON);
-        }
+    cancelNegativeEffects: function () {
+        this._cancelEffect('CONFUSION');
+        this._cancelEffect('BLINDNESS');
+        this._cancelEffect('POISON');
     },
-    doConfusion: function (milliseconds) {
-        var state = State_1.getState();
-        if (!state.confusionEffect) {
-            this._makeEffect('CONFUSION', milliseconds);
-            state.confusionEffect = true;
-            State_1.setState(state);
-            magik.setTimeout(function () {
-                var state = State_1.getState();
-                state.confusionEffect = false;
-                State_1.setState(state);
-            }, milliseconds);
-        }
-    },
-    doBlindness: function (milliseconds) {
-        var state = State_1.getState();
-        if (!state.blindnessEffect) {
-            this._makeEffect('BLINDNESS', milliseconds);
-            state.blindnessEffect = true;
-            State_1.setState(state);
-            magik.setTimeout(function () {
-                var state = State_1.getState();
-                state.blindnessEffect = false;
-                State_1.setState(state);
-            }, milliseconds);
-        }
-    },
-    doPoison: function (milliseconds) {
-        var state = State_1.getState();
-        if (!state.poisonEffect) {
-            this._makeEffect('POISON', milliseconds);
-            state.poisonEffect = true;
-            State_1.setState(state);
-            magik.setTimeout(function () {
-                var state = State_1.getState();
-                state.poisonEffect = false;
-                State_1.setState(state);
-            }, milliseconds);
-        }
-    },
-    makeSuperPowers: function () {
+    giveSuperPowers: function () {
         this._makeEffect('SPEED', 10000000, 'WHITE', 3);
         this._makeEffect('JUMP', 10000000, 'WHITE', 3);
         this._makeEffect('GLOWING', 10000000, 'WHITE');
         this._makeEffect('NIGHT_VISION', 10000000, 'WHITE');
     },
-    clearSuperPowers: function () {
-        var PotionEffectType = magik.type("potion.PotionEffectType");
-        if (player['hasPotionEffect'](PotionEffectType.SPEED) == true) {
-            player['removePotionEffect'](PotionEffectType.SPEED);
-        }
-        if (player['hasPotionEffect'](PotionEffectType.JUMP) == true) {
-            player['removePotionEffect'](PotionEffectType.JUMP);
-        }
-        if (player['hasPotionEffect'](PotionEffectType.GLOWING) == true) {
-            player['removePotionEffect'](PotionEffectType.GLOWING);
-        }
-        if (player['hasPotionEffect'](PotionEffectType.NIGHT_VISION) == true) {
-            player['removePotionEffect'](PotionEffectType.NIGHT_VISION);
-        }
+    cancelSuperPowers: function () {
+        this._cancelEffect('SPEED');
+        this._cancelEffect('JUMP');
+        this._cancelEffect('GLOWING');
+        this._cancelEffect('NIGHT_VISION');
     },
     _makeEffect: function (type, milliseconds, color, amplifier) {
         if (color === void 0) { color = 'GREEN'; }
         if (amplifier === void 0) { amplifier = 1; }
-        var PotionEffect = magik.type("potion.PotionEffect");
         var PotionEffectType = magik.type("potion.PotionEffectType");
+        if (player['hasPotionEffect'](PotionEffectType[type]) == true) {
+            // Skip if effect already active!
+            return;
+        }
+        var PotionEffect = magik.type("potion.PotionEffect");
         var Color = magik.type("Color");
         var duration = milliseconds / 1000 * 40; // 20 tick. 1 tick = 0.05 seconds
         var c = Color[color];
@@ -366,35 +304,11 @@ var Player = {
         var effect = new PotionEffect(l, duration, amplifier, true, true, c);
         player.addPotionEffect(effect);
     },
-    getInventory: function () {
-        var inventory = player.getInventory(); //Contents of player inventory
-        for (var i = 0; i <= 35; i++) {
-            var item = inventory['getItem'](i);
-            if (item) {
-                var type = item.getType();
-                var amount = item.getAmount();
-                log('i: ' + i);
-                log('type: ' + type);
-                log('amount: ' + amount);
-            }
+    _cancelEffect: function (type) {
+        var PotionEffectType = magik.type("potion.PotionEffectType");
+        if (player['hasPotionEffect'](PotionEffectType[type]) == true) {
+            player['removePotionEffect'](PotionEffectType[type]);
         }
-    },
-    refreshInventory: function () {
-        // const MATERIAL = Java.type("org.bukkit.Material");
-        // const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
-        var server = magik.getPlugin().getServer();
-        // event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
-        // const thing = new ItemStack(MATERIAL[item]);
-        // canon.sender.getInventory().addItem(thing);
-        InventoryList_1.default.map(function (item) {
-            // const stack = new ItemStack(MATERIAL[item.type], item.quantity);
-            // player.getInventory()['setItem'](item.slot, stack);
-            var slot = (item.slot <= 8) ? "slot.hotbar." + item.slot : "slot.inventory." + (item.slot - 1);
-            var cmd = "replaceitem entity " + player.getName() + " " + slot + " " + item.type + " " + item.quantity;
-            magik.dixit(cmd);
-            server.dispatchCommand(server.getConsoleSender(), cmd);
-            // magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
-        });
     },
     setupInventory: function () {
         var items = [

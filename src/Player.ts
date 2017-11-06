@@ -11,7 +11,6 @@ const magik = magikcraft.io;
 const log = magik.dixit;
 
 const player = magik.getSender();
-// let state = getState();
 
 import InventoryList from './InventoryList';
 import FoodList from './FoodList';
@@ -29,11 +28,10 @@ FoodList.forEach(item => Food[item.type] = item);
 
 const Player = {
 	init() {
-		this.reset();
-		player.setFoodLevel(2);
 
 		const state = getState();
 
+		// Start digestion if not already started.
 		if (!state.digesting) {
 			this.doDigestion();
 			state.digesting = true;
@@ -41,74 +39,122 @@ const Player = {
 			log('digesting');
 		}
 
+		// Start listening if not already started.
 		if (!state.listening) {
 			log('listening');
 			this.enableEventListeners();
 			state.listening = true;
 			setState(state);
 		}
-	},
 
-	reset() {
-		// Reset State
-		const state = getState();
-
-		this.clearNegativeEffects();
-		this.clearSuperPowers();
+		this.cancelNegativeEffects();
+		this.cancelSuperPowers();
 		this.clearInventory();
-
 		this.setupInventory();
 		this.renderBars();
-		// Super Powers!
-		this.makeSuperPowers();
 	},
 
 	enableEventListeners() {
 		Events.registerAll();
+		
+		// ProjectileHitEvent
 		Events.on('ProjectileHitEvent', (event) => { 
-			log('ProjectileHitEvent'); 
-			this.onProjectileHit(event) 
+			const state = getState();	
+			// Identify shooter. Skip if not player.
+			const shooter = event.getEntity().getShooter();
+			if (!shooter || shooter.getName() !== player.getName()) {
+				return;
+			}
+			// Get loc
+			let loc:any = null;
+			if (event.getHitEntity()) {
+				loc = event.getHitEntity().getLocation();
+			} else if (event.getHitBlock()) {
+				loc = event.getHitBlock().getLocation();
+			}
+			// Skip if could not find loc.
+			if (!loc) return;
+			// Summon lightning_bolt at location.
+			const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
+			const server = magik.getPlugin().getServer();
+			const cmd = `execute ${player.getName()} ~ ~ ~ summon lightning_bolt ${location}`;
+			server.dispatchCommand(server.getConsoleSender(), cmd);
+
+			// Food or Health cost...
+			if (player.getFoodLevel() > 0) {
+				player.setFoodLevel(Math.max(player.getFoodLevel()-0.5, 0));
+			}
 		});
+
+		// PlayerItemConsumeEvent
 		Events.on('PlayerItemConsumeEvent', (event) => { 
-			log('PlayerItemConsumeEvent'); 
-			this.onConsume(event) 
+			const state = getState();
+			// Identify consumer. Skip if not player.
+			const consumer = event.getPlayer();
+			if (consumer.getName() !== player.getName()) {
+				return;
+			}
+			// Act on know FOOD eat...
+			const type = event.getItem().getType();
+			if (Food[type]) {
+				log(`You ate a ${type}!`);
+				const item = {
+					timestamp: Utils.makeTimestamp(),
+					type: type,
+					percentDigested: 0,
+				};
+				state.digestionQueue.push(item);
+				setState(state);
+				this.renderBars();
+				// event.setCancelled(true);
+			}
+			// Act on POTION drink... (insulin)
+			else if (type == 'POTION') { // important! use double arrow (not triple)
+				log(`You drank an INSULIN POTION!`);
+				state.insulin += 2;
+				setState(state);
+				this.renderBars();
+			}
 		});
+
+		// PlayerDeathEvent
 		Events.on('PlayerDeathEvent', (event) => {
+			// Skip if not this player.
+			if (event.getPlayer().getName() !== player.getName()) {
+				return;
+			}
 			log('PlayerDeathEvent: ' + event.getDeathMessage());
 			const state = getState();
 			state.dead = true;
 			setState(state);
 			// this.reset();
 		});
+
+		// PlayerRespawnEvent
 		Events.on('PlayerRespawnEvent', (event) => {
+			// Skip if not this player.
+			if (event.getPlayer().getName() !== player.getName()) {
+				return;
+			}
 			log('PlayerRespawnEvent: ' + event.getRespawnLocation())
 			const state = getState();
 			state.dead = false;
 			setState(state);
-			// this.reset();
+			
+			// Re-init
+			this.init();
 		});
-		Events.on('EntityDamageByEntityEvent', (event) => { 
-			// log('EntityDamageByEntityEvent: ' + event.getCause());
-			// const entityType = event.getEntityType(); // EntityType
-			// const cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
-			// const damagerType = event.getDamager().getType();
-			// if (damagerType == 'PLAYER') {
-			// 	if (cause == 'ENTITY_ATTACK') {
-			// 		magik.dixit('set fire to '+ entityType + '!!!');
-			// 		event.getEntity().setFireTicks(200);
-			// 		const loc = event.getEntity().getLocation();
-			// 		const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
-			// 		const server = magik.getPlugin().getServer();
-			// 		const cmd = `execute ${event.getDamager().getName()} ~ ~ ~ summon lightning_bolt ${location}`;
-			// 		server.dispatchCommand(server.getConsoleSender(), cmd);
-			// 	}
-			// }
-		});
+
+		// EntityDamageEvent
 		Events.on('EntityDamageEvent', (event) => {
-			// log('EntityDamageEvent: ' + event.getCause());
-			const entityType = event.getEntityType(); // EntityType
-			const cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
+			// Cancel lightning and fire damage for player.
+			const entityType = event.getEntityType();
 			if (entityType == 'PLAYER') {
+				// Skip if not this player.
+				if (event.getEntity().getName() !== player.getName()) {
+					return;
+				}
+				const cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
 				if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
 					magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
 					event.setDamage(0);
@@ -209,7 +255,6 @@ const Player = {
 				}
 			}
 
-			
 			state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
 			setState(state);
 			that.renderBars();
@@ -226,173 +271,62 @@ const Player = {
 		}, 1000);
 	},
 
-	onConsume(event) {
-		log('onConsume!');
-		
-		const state = getState();
-		
-		const consumer = event.getPlayer();
-		if (consumer.getName() !== player.getName()) {
-			return;
-		}	
-		const type = event.getItem().getType();
-		if (Food[type]) {
-			log(`You ate a ${type}!`);
-			const item = {
-				timestamp: Utils.makeTimestamp(),
-				type: type,
-				percentDigested: 0,
-			};
-			state.digestionQueue.push(item);
-			setState(state);
-			this.renderBars();
-			// event.setCancelled(true);
-		}
-		else if (type == 'POTION') { // important! use double arrow (not triple)
-			log(`You drank an INSULIN POTION!`);
-			state.insulin += 2;
-			setState(state);
-			this.renderBars();
-		}
-	},
-
-	onProjectileHit(event) {
-		const state = getState();
-
-		// Identify shooter.
-		const shooter = event.getEntity().getShooter();
-		if (!shooter || shooter.getName() !== player.getName()) {
-			return;
-		}
-		
-		// Get loc
-		let loc:any = null;
-		if (event.getHitEntity()) {
-			loc = event.getHitEntity().getLocation();
-		} else if (event.getHitBlock()) {
-			loc = event.getHitBlock().getLocation();
-		}
-
-		if (!loc) return;
-		
-		const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
-		const server = magik.getPlugin().getServer();
-		const cmd = `execute ${player.getName()} ~ ~ ~ summon lightning_bolt ${location}`;
-		server.dispatchCommand(server.getConsoleSender(), cmd);
-
-		// Food or Health cost...
-		if (player.getFoodLevel() > 0) {
-			player.setFoodLevel(Math.max(player.getFoodLevel()-0.5, 0));
-		}
-	},
-
 	doEffects() {
 		const state = getState();
 
 		if ((state.bgl >= 4 && state.bgl <= 8)) {
+			this.cancelNegativeEffects();
 			// Super powers!
-			this.makeSuperPowers();
+			this.giveSuperPowers();
 		}
-		else {
-			// Negative Effects!
-			this.clearSuperPowers();
+		else { // Out of range...
+
+			// Cancel super powers...
+			this.cancelSuperPowers();
+			
 			// Confusion!
 			if ((state.bgl < 4 && state.bgl >= 3) || (state.bgl > 8 && state.bgl <= 12)) {
-				this.doConfusion(2500);
+				this._makeEffect('CONFUSION', 2500);
 			}
 			// More Confusion!
 			else if (state.bgl < 3 || state.bgl > 16) {
-				this.doConfusion(5000);
+				this._makeEffect('CONFUSION', 5000);
 			}
 			// Layer additional effects.
 			if (state.bgl < 2 || state.bgl >= 16) {
-				this.doBlindness(5000);
-				this.doPoison(5000);
+				this._makeEffect('BLINDNESS', 5000);
+				this._makeEffect('POISON', 5000);
 			}
 		}
 	},
 
-	clearNegativeEffects() {
-		const PotionEffectType = magik.type("potion.PotionEffectType");
-		if (player['hasPotionEffect'](PotionEffectType.CONFUSION) == true) {
-			player['removePotionEffect'](PotionEffectType.CONFUSION);
-		}
-		if (player['hasPotionEffect'](PotionEffectType.BLINDNESS) == true) {
-			player['removePotionEffect'](PotionEffectType.BLINDNESS);
-		}
-		if (player['hasPotionEffect'](PotionEffectType.POISON) == true) {
-			player['removePotionEffect'](PotionEffectType.POISON);
-		}
+	cancelNegativeEffects() {
+		this._cancelEffect('CONFUSION');
+		this._cancelEffect('BLINDNESS');
+		this._cancelEffect('POISON');
 	},
 
-	doConfusion(milliseconds) {
-		const state = getState();
-		if (!state.confusionEffect) {
-			this._makeEffect('CONFUSION', milliseconds);
-			state.confusionEffect = true;
-			setState(state);
-			magik.setTimeout(() => {
-				const state = getState();
-				state.confusionEffect = false;
-				setState(state);
-			}, milliseconds);
-		}
-	},
-
-	doBlindness(milliseconds) {
-		const state = getState();
-		if (!state.blindnessEffect) {
-			this._makeEffect('BLINDNESS', milliseconds);
-			state.blindnessEffect = true;
-			setState(state);
-			magik.setTimeout(() => {
-				const state = getState();
-				state.blindnessEffect = false;
-				setState(state);
-			}, milliseconds);
-		}
-	},
-
-	doPoison(milliseconds) {
-		const state = getState();
-		if (!state.poisonEffect) {
-			this._makeEffect('POISON', milliseconds);
-			state.poisonEffect = true;
-			setState(state);
-			magik.setTimeout(() => {
-				const state = getState();
-				state.poisonEffect = false;
-				setState(state);
-			}, milliseconds);
-		}
-	},
-
-	makeSuperPowers() {
+	giveSuperPowers() {
 		this._makeEffect('SPEED', 10000000, 'WHITE', 3);
 		this._makeEffect('JUMP', 10000000, 'WHITE', 3);
 		this._makeEffect('GLOWING', 10000000, 'WHITE');
 		this._makeEffect('NIGHT_VISION', 10000000, 'WHITE');
 	},
 
-	clearSuperPowers() {
-		const PotionEffectType = magik.type("potion.PotionEffectType");
-		if (player['hasPotionEffect'](PotionEffectType.SPEED) == true) {
-			player['removePotionEffect'](PotionEffectType.SPEED);
-		}
-		if (player['hasPotionEffect'](PotionEffectType.JUMP) == true) {
-			player['removePotionEffect'](PotionEffectType.JUMP);
-		}
-		if (player['hasPotionEffect'](PotionEffectType.GLOWING) == true) {
-			player['removePotionEffect'](PotionEffectType.GLOWING);
-		}
-		if (player['hasPotionEffect'](PotionEffectType.NIGHT_VISION) == true) {
-			player['removePotionEffect'](PotionEffectType.NIGHT_VISION);
-		}
+	cancelSuperPowers() {
+		this._cancelEffect('SPEED');
+		this._cancelEffect('JUMP');
+		this._cancelEffect('GLOWING');
+		this._cancelEffect('NIGHT_VISION');
 	},
 
 	_makeEffect(type, milliseconds, color = 'GREEN', amplifier = 1) {
-		const PotionEffect = magik.type("potion.PotionEffect");
 		const PotionEffectType = magik.type("potion.PotionEffectType");
+		if (player['hasPotionEffect'](PotionEffectType[type]) == true) {
+			// Skip if effect already active!
+			return;
+		}
+		const PotionEffect = magik.type("potion.PotionEffect");
 		const Color = magik.type("Color");
 		const duration = milliseconds/1000*40; // 20 tick. 1 tick = 0.05 seconds
 		const c = Color[color];
@@ -401,38 +335,11 @@ const Player = {
 		player.addPotionEffect(effect);
 	},
 
-	getInventory() {
-        const inventory = player.getInventory(); //Contents of player inventory
-        for (let i = 0; i <= 35; i++) {
-            const item = inventory['getItem'](i);
-            if (item) {
-                const type = item.getType();
-                const amount = item.getAmount();
-                log('i: ' + i);
-                log('type: ' + type);
-                log('amount: ' + amount);
-            }
-        }
-	},
-
-	refreshInventory() {
-		// const MATERIAL = Java.type("org.bukkit.Material");
-        // const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
-		const server = magik.getPlugin().getServer();
-
-		// event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
-		// const thing = new ItemStack(MATERIAL[item]);
-		// canon.sender.getInventory().addItem(thing);
-		
-		InventoryList.map(item => {
-			// const stack = new ItemStack(MATERIAL[item.type], item.quantity);
-			// player.getInventory()['setItem'](item.slot, stack);
-			const slot = (item.slot <= 8) ? `slot.hotbar.${item.slot}` : `slot.inventory.${item.slot-1}`
-			const cmd = `replaceitem entity ${player.getName()} ${slot} ${item.type} ${item.quantity}`;
-			magik.dixit(cmd);
-			server.dispatchCommand(server.getConsoleSender(), cmd);
-			// magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
-		});
+	_cancelEffect(type) {
+		const PotionEffectType = magik.type("potion.PotionEffectType");
+		if (player['hasPotionEffect'](PotionEffectType[type]) == true) {
+			player['removePotionEffect'](PotionEffectType[type]);
+		}
 	},
 
 	setupInventory() {
@@ -455,6 +362,40 @@ const Player = {
 	clearInventory() {
 		player.getInventory()['clear']();
 	},
+
+	// getInventory() {
+    //     const inventory = player.getInventory(); //Contents of player inventory
+    //     for (let i = 0; i <= 35; i++) {
+    //         const item = inventory['getItem'](i);
+    //         if (item) {
+    //             const type = item.getType();
+    //             const amount = item.getAmount();
+    //             log('i: ' + i);
+    //             log('type: ' + type);
+    //             log('amount: ' + amount);
+    //         }
+    //     }
+	// },
+
+	// refreshInventory() {
+	// 	// const MATERIAL = Java.type("org.bukkit.Material");
+    //     // const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
+	// 	const server = magik.getPlugin().getServer();
+
+	// 	// event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
+	// 	// const thing = new ItemStack(MATERIAL[item]);
+	// 	// canon.sender.getInventory().addItem(thing);
+		
+	// 	InventoryList.map(item => {
+	// 		// const stack = new ItemStack(MATERIAL[item.type], item.quantity);
+	// 		// player.getInventory()['setItem'](item.slot, stack);
+	// 		const slot = (item.slot <= 8) ? `slot.hotbar.${item.slot}` : `slot.inventory.${item.slot-1}`
+	// 		const cmd = `replaceitem entity ${player.getName()} ${slot} ${item.type} ${item.quantity}`;
+	// 		magik.dixit(cmd);
+	// 		server.dispatchCommand(server.getConsoleSender(), cmd);
+	// 		// magik.dixit(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
+	// 	});
+	// },
 }
 
 export default Player;
