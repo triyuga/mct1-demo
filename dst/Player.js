@@ -157,6 +157,14 @@ var Player = {
                 }
             }
         });
+        // PlayerQuitEvent
+        Events_1.default.on('PlayerQuitEvent', function (event) {
+            // Skip if not this player.
+            if (event.getPlayer().getName() !== player.getName()) {
+                return;
+            }
+            Events_1.default.unregisterAll();
+        });
     },
     destroyBars: function () {
         var state = State_1.getState();

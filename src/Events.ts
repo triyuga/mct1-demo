@@ -10,9 +10,6 @@ declare const Java: any;
 const EventPriority = Java.type("org.bukkit.event.EventPriority");
 const EventCallback = Java.type("io.magikcraft.EventCallback");
 
-import { getState } from './State';
-// import instanceUUID from './instanceUUID';
-
 const eventTypes = {
 	PlayerDeathEvent: 'org.bukkit.event.entity.PlayerDeathEvent',
 	PlayerRespawnEvent: 'org.bukkit.event.player.PlayerRespawnEvent',
@@ -20,6 +17,7 @@ const eventTypes = {
 	EntityDamageEvent: 'org.bukkit.event.entity.EntityDamageEvent',
 	ProjectileHitEvent: 'org.bukkit.event.entity.ProjectileHitEvent',
 	PlayerItemConsumeEvent: 'org.bukkit.event.player.PlayerItemConsumeEvent',
+	PlayerQuitEvent: 'org.bukkit.event.player.PlayerQuitEvent',
 };
 
 const Events = {
@@ -39,17 +37,8 @@ const Events = {
 				EventPriority.MONITOR,
 				true,
 				new EventCallback({
-					callback: function (event: any) {
-						const state = getState();
-						// log('-----.instanceUUID: ' + instanceUUID);
-						// log('state.instanceUUID: ' + state.instanceUUID);
-						// if (state.instanceUUID === instanceUUID) {
-							// Only emit if state.instanceUUID !== instanceUUID at time of registration.								
-							Emitter.emit(type, event);
-							// return;
-						// }
-
-						
+					callback: function (event: any) {						
+						Emitter.emit(type, event);
 					}
 				})
 			);
