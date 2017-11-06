@@ -41,7 +41,7 @@ var Player = {
     },
     lightningStruck: function (distance) {
         var _this = this;
-        if (distance === void 0) { distance = 5; }
+        if (distance === void 0) { distance = 10; }
         magik.setTimeout(function () {
             log('distance: ' + distance);
             var loc = player.getLocation();
@@ -63,7 +63,7 @@ var Player = {
             else {
                 _this.init();
             }
-        }, (300));
+        }, (200));
     },
     _init: function () {
         var state = State_1.getState();

@@ -44,7 +44,7 @@ const Player = {
 		}, 1000);
 	},
 
-	lightningStruck(distance = 5) {
+	lightningStruck(distance = 10) {
 		magik.setTimeout(() => {
 			log('distance: ' + distance);
 			const loc = player.getLocation();
@@ -67,7 +67,7 @@ const Player = {
 			else {
 				this.init();
 			}
-		}, (300));
+		}, (200));
 	},
 
 	_init() {
