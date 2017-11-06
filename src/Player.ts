@@ -46,6 +46,7 @@ const Player = {
 
 	lightningStruck(distance = 5) {
 		magik.setTimeout(() => {
+			log('distance: ' + distance);
 			const loc = player.getLocation();
 			const locations = [
 				`${loc.getX()+distance} ${loc.getY()} ${loc.getZ()+distance}`,
@@ -58,9 +59,10 @@ const Player = {
 				const cmd = `execute ${player.getName()} ~ ~ ~ summon LIGHTNING_BOLT ${location}`;
 				server.dispatchCommand(server.getConsoleSender(), cmd);
 			});
+
 			if (distance > 0) {
 				distance--;
-				this.lightningStruck() // !!!!
+				this.lightningStruck(distance) // !!!!
 			}
 			else {
 				this.init();
