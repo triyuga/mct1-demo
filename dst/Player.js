@@ -198,8 +198,6 @@ var Player = {
                     event.setCancelled(true);
                 }
             }
-            log('entityType: ' + entityType);
-            log('cause: ' + cause);
             if (entityType == 'WITHER' && cause == 'PROJECTILE') {
                 event.setDamage(10);
             }
