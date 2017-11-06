@@ -199,17 +199,22 @@ const Player = {
 		Events.on('EntityDamageEvent', (event) => {
 			// Cancel lightning and fire damage for player.
 			const entityType = event.getEntityType();
+			const cause = event.getCause();
+			
 			if (entityType == 'PLAYER') {
 				// Skip if not this player.
 				if (event.getEntity().getName() != player.getName()) {
 					return;
 				}
-				const cause = event.getCause(); // LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
+				// LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
 				if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
 					// magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
 					event.setDamage(0);
 					event.setCancelled(true);
 				}
+			}
+			if (entityType == 'WITHER' && cause == 'PROJECTILE') {
+				event.setDamage(10);
 			}
 		});
 		
