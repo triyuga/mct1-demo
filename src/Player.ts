@@ -61,7 +61,7 @@ const Player = {
 		this.setupInventory();
 		this.renderBars();
 
-		log('state: ' + JSON.stringify(state));
+		// log('state: ' + JSON.stringify(state));
 	},
 
 	enableEventListeners() {
@@ -99,7 +99,7 @@ const Player = {
 		// PlayerItemConsumeEvent
 		Events.on('PlayerItemConsumeEvent', (event) => { 
 			let state = getState();
-			log('digestionQueue 1.0: ' + JSON.stringify(state.digestionQueue));
+			// log('digestionQueue 1.0: ' + JSON.stringify(state.digestionQueue));
 			// Identify consumer. Skip if not player.
 			const consumer = event.getPlayer();
 			if (consumer.getName() !== player.getName()) {
@@ -109,16 +109,16 @@ const Player = {
 			const type = event.getItem().getType();
 			if (Food[type]) {
 				log(`You ate a ${type}!`);
-				log('digestionQueue 1.1: ' + JSON.stringify(state.digestionQueue));
+				// log('digestionQueue 1.1: ' + JSON.stringify(state.digestionQueue));
 				const item = {
 					timestamp: Utils.makeTimestamp(),
 					type: Food[type].type,
 					percentDigested: 0,
 				};
-				log('item: ' + JSON.stringify(item));
+				// log('item: ' + JSON.stringify(item));
 				state.digestionQueue.push(item);
 				setState(state);
-				log('digestionQueue 1.2: ' + JSON.stringify(state.digestionQueue));
+				// log('digestionQueue 1.2: ' + JSON.stringify(state.digestionQueue));
 				this.renderBars();
 				// event.setCancelled(true);
 			}

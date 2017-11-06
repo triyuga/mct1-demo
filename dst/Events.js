@@ -26,10 +26,10 @@ var Events = {
             magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
                     var state = State_1.getState();
+                    log('-----.instanceUUID: ' + instanceUUID_1.default);
+                    log('state.instanceUUID: ' + state.instanceUUID);
                     if (state.instanceUUID !== instanceUUID_1.default) {
                         // Do not emit if state.instanceUUID !== instanceUUID at time of registration.								
-                        // log('-----.instanceUUID: ' + instanceUUID);
-                        // log('state.instanceUUID: ' + state.instanceUUID);
                         return;
                     }
                     Emitter.emit(type, event);

@@ -37,10 +37,10 @@ const Events = {
 				new EventCallback({
 					callback: function (event: any) {
 						const state = getState();
+						log('-----.instanceUUID: ' + instanceUUID);
+						log('state.instanceUUID: ' + state.instanceUUID);
 						if (state.instanceUUID !== instanceUUID) {
 							// Do not emit if state.instanceUUID !== instanceUUID at time of registration.								
-							// log('-----.instanceUUID: ' + instanceUUID);
-							// log('state.instanceUUID: ' + state.instanceUUID);
 							return;
 						}
 
