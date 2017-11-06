@@ -24,7 +24,7 @@ const Events = {
 
 	on: (eventName, callback) => Emitter.on(eventName, callback),
 
-	registerAll: () => {
+	registerAll: (instanceUUID) => {
 		for (let type in eventTypes) {
 			const javaType = eventTypes[type];
 			// log('registering event: ' + type);
@@ -36,6 +36,7 @@ const Events = {
 				true,
 				new EventCallback({
 					callback: function (event: any) {
+						event.instanceUUID = instanceUUID; // enrich event with instanceUUID.
 						Emitter.emit(type, event);
 					}
 				})

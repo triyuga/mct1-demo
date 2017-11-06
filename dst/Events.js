@@ -18,13 +18,14 @@ var eventTypes = {
 };
 var Events = {
     on: function (eventName, callback) { return Emitter.on(eventName, callback); },
-    registerAll: function () {
+    registerAll: function (instanceUUID) {
         var _loop_1 = function (type) {
             var javaType = eventTypes[type];
             // log('registering event: ' + type);
             // log('javaType: ' + javaType);
             magik.getPlugin().registerEvent(Java.type(javaType).class, EventPriority.MONITOR, true, new EventCallback({
                 callback: function (event) {
+                    event.instanceUUID = instanceUUID; // enrich event with instanceUUID.
                     Emitter.emit(type, event);
                 }
             }));

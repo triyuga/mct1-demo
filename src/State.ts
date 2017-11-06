@@ -1,8 +1,10 @@
+import * as uuid from 'node-uuid';
 const magik = magikcraft.io;
 const log = magik.dixit;
 const KEY = 'mct1-demo';
 
 function _ensureCompleteState(state) {
+	state.instanceUUID = state.instanceUUID || uuid.v4();
 	state.listening = state.listening !== undefined ? state.listening : false;
 	state.digesting = state.digesting !== undefined ? state.digesting : false;
 	state.dead = state.dead !== undefined ? state.dead : false;
