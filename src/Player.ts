@@ -294,6 +294,19 @@ const Player = {
 				player.setFoodLevel(19.5);
 			}
 
+
+			// Every 10 ticks...
+			if (tickCount % 5 === 0) {
+				const Material = Java.type("org.bukkit.Material");
+				const ItemStack = Java.type("org.bukkit.inventor.ItemStack");
+				// 	const server = magik.getPlugin().getServer();
+				// 	// event.getPlayer().getInventory().setItem(37, );
+				const Location = Java.type('org.bukkit.Location');
+				const loc = new Location(player.getWorld(), 920, 95, 1115);
+				player.getWorld()['dropItemNaturally'](loc, new ItemStack(Material.APPLE, 1));
+			}
+			
+
 			// repeat ongoingly!
 			tickCount++;
 			that.doDigestion(tickCount);
