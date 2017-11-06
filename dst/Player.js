@@ -48,6 +48,7 @@ var Player = {
         this.clearInventory();
         this.setupInventory();
         this.renderBars();
+        log('state: ' + JSON.stringify(state));
     },
     enableEventListeners: function () {
         var _this = this;
