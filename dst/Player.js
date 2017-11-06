@@ -9,7 +9,7 @@ var Events_1 = require("./Events");
 var magik = magikcraft.io;
 var log = magik.dixit;
 var player = magik.getSender();
-var state = State_1.getState();
+// let state = getState();
 var InventoryList_1 = require("./InventoryList");
 var FoodList_1 = require("./FoodList");
 var Food = {};
@@ -25,23 +25,24 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 var Player = {
     init: function () {
         this.reset();
-        this.setFood(2);
+        player.setFoodLevel(2);
+        var state = State_1.getState();
         if (!state.digesting) {
             this.doDigestion();
             state.digesting = true;
-            state = State_1.setState(state);
+            State_1.setState(state);
             log('digesting');
         }
         if (!state.listening) {
             log('listening');
             this.enableEventListeners();
             state.listening = true;
-            state = State_1.setState(state);
+            State_1.setState(state);
         }
     },
     reset: function () {
         // Reset State
-        state = State_1.resetState(state);
+        var state = State_1.getState();
         this.clearNegativeEffects();
         this.clearSuperPowers();
         this.clearInventory();
@@ -63,15 +64,17 @@ var Player = {
         });
         Events_1.default.on('PlayerDeathEvent', function (event) {
             log('PlayerDeathEvent: ' + event.getDeathMessage());
+            var state = State_1.getState();
             state.dead = true;
-            state = State_1.setState(state);
+            State_1.setState(state);
             // this.reset();
         });
         Events_1.default.on('PlayerRespawnEvent', function (event) {
             log('PlayerRespawnEvent: ' + event.getRespawnLocation());
+            var state = State_1.getState();
             state.dead = false;
-            state = State_1.setState(state);
-            _this.reset();
+            State_1.setState(state);
+            // this.reset();
         });
         Events_1.default.on('EntityDamageByEntityEvent', function (event) {
             // log('EntityDamageByEntityEvent: ' + event.getCause());
@@ -103,23 +106,8 @@ var Player = {
             }
         });
     },
-    setFood: function (num) {
-        player.setFoodLevel(num);
-    },
-    setHealth: function (num) {
-        player['setHealth'](num);
-    },
-    setInsulin: function (num) {
-        if (num === void 0) { num = 0; }
-        state.insulin = num;
-        state = State_1.setState(state);
-    },
-    setBGL: function (num) {
-        if (num === void 0) { num = 0; }
-        state.bgl = num;
-        state = State_1.setState(state);
-    },
     renderBars: function () {
+        var state = State_1.getState();
         // First, clear all bars.... 
         if (state.bglBar)
             state.bglBar.destroy();
@@ -166,10 +154,11 @@ var Player = {
                 .show();
         });
         // SetState
-        state = State_1.setState(state);
+        State_1.setState(state);
     },
     doDigestion: function (tickCount) {
         if (tickCount === void 0) { tickCount = 0; }
+        var state = State_1.getState();
         // log('digesting...');
         var that = this;
         magik.setTimeout(function () {
@@ -205,7 +194,7 @@ var Player = {
                 }
             }
             state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
-            state = State_1.setState(state);
+            State_1.setState(state);
             that.renderBars();
             that.doEffects();
             // Never allow player to be full!
@@ -219,6 +208,7 @@ var Player = {
     },
     onConsume: function (event) {
         log('onConsume!');
+        var state = State_1.getState();
         var consumer = event.getPlayer();
         if (consumer.getName() !== player.getName()) {
             return;
@@ -232,18 +222,19 @@ var Player = {
                 percentDigested: 0,
             };
             state.digestionQueue.push(item);
-            state = State_1.setState(state);
+            State_1.setState(state);
             this.renderBars();
             // event.setCancelled(true);
         }
         else if (type == 'POTION') {
             log("You drank an INSULIN POTION!");
             state.insulin += 2;
-            state = State_1.setState(state);
+            State_1.setState(state);
             this.renderBars();
         }
     },
     onProjectileHit: function (event) {
+        var state = State_1.getState();
         // Identify shooter.
         var shooter = event.getEntity().getShooter();
         if (!shooter || shooter.getName() !== player.getName()) {
@@ -265,13 +256,11 @@ var Player = {
         server.dispatchCommand(server.getConsoleSender(), cmd);
         // Food or Health cost...
         if (player.getFoodLevel() > 0) {
-            player.setFoodLevel(Math.max(player.getFoodLevel() - 1, 0));
+            player.setFoodLevel(Math.max(player.getFoodLevel() - 0.5, 0));
         }
-        // else {
-        // 	player['setHealth'](player['getHealth']() - 1);
-        // }
     },
     doEffects: function () {
+        var state = State_1.getState();
         if ((state.bgl >= 4 && state.bgl <= 8)) {
             // Super powers!
             this.makeSuperPowers();
@@ -306,35 +295,41 @@ var Player = {
         }
     },
     doConfusion: function (milliseconds) {
+        var state = State_1.getState();
         if (!state.confusionEffect) {
             this._makeEffect('CONFUSION', milliseconds);
             state.confusionEffect = true;
-            state = State_1.setState(state);
+            State_1.setState(state);
             magik.setTimeout(function () {
+                var state = State_1.getState();
                 state.confusionEffect = false;
-                state = State_1.setState(state);
+                State_1.setState(state);
             }, milliseconds);
         }
     },
     doBlindness: function (milliseconds) {
+        var state = State_1.getState();
         if (!state.blindnessEffect) {
             this._makeEffect('BLINDNESS', milliseconds);
             state.blindnessEffect = true;
-            state = State_1.setState(state);
+            State_1.setState(state);
             magik.setTimeout(function () {
+                var state = State_1.getState();
                 state.blindnessEffect = false;
-                state = State_1.setState(state);
+                State_1.setState(state);
             }, milliseconds);
         }
     },
     doPoison: function (milliseconds) {
+        var state = State_1.getState();
         if (!state.poisonEffect) {
             this._makeEffect('POISON', milliseconds);
             state.poisonEffect = true;
-            state = State_1.setState(state);
+            State_1.setState(state);
             magik.setTimeout(function () {
+                var state = State_1.getState();
                 state.poisonEffect = false;
-                state = State_1.setState(state);
+                State_1.setState(state);
             }, milliseconds);
         }
     },

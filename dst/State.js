@@ -42,30 +42,3 @@ function setState(state) {
     return state;
 }
 exports.setState = setState;
-function resetState(state) {
-    state.listening = state.listening !== undefined ? state.listening : false;
-    state.digesting = state.digesting !== undefined ? state.digesting : false;
-    state.dead = state.dead !== undefined ? state.dead : false;
-    state.inHeathyRange = true;
-    state.bgl = 5;
-    state.insulin = 0;
-    state.digestionQueue = [];
-    if (state.bglBar)
-        state.bglBar.destroy();
-    state.bglBar = null;
-    if (state.insulinBar)
-        state.insulinBar.destroy();
-    state.insulinBar = null;
-    if (state.digestionBar0)
-        state.digestionBar0.destroy();
-    state.digestionBar0 = null;
-    if (state.digestionBar1)
-        state.digestionBar1.destroy();
-    state.digestionBar1 = null;
-    state.confusionEffect = false;
-    state.blindnessEffect = false;
-    state.poisonEffect = false;
-    magik.playerMap.put(KEY, state);
-    return state;
-}
-exports.resetState = resetState;

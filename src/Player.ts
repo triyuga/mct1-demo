@@ -1,6 +1,6 @@
 import * as Bar from './Bar';
 import Utils from './Utils';
-import { getState, setState, resetState } from './State';
+import { getState, setState } from './State';
 // import * as fs from 'fs-extra'; 
 
 import Events from './Events';
@@ -11,7 +11,7 @@ const magik = magikcraft.io;
 const log = magik.dixit;
 
 const player = magik.getSender();
-let state = getState();
+// let state = getState();
 
 import InventoryList from './InventoryList';
 import FoodList from './FoodList';
@@ -30,12 +30,14 @@ FoodList.forEach(item => Food[item.type] = item);
 const Player = {
 	init() {
 		this.reset();
-		this.setFood(2);
+		player.setFoodLevel(2);
+
+		const state = getState();
 
 		if (!state.digesting) {
 			this.doDigestion();
 			state.digesting = true;
-			state = setState(state);
+			setState(state);
 			log('digesting');
 		}
 
@@ -43,13 +45,13 @@ const Player = {
 			log('listening');
 			this.enableEventListeners();
 			state.listening = true;
-			state = setState(state);
+			setState(state);
 		}
 	},
 
 	reset() {
 		// Reset State
-		state = resetState(state);
+		const state = getState();
 
 		this.clearNegativeEffects();
 		this.clearSuperPowers();
@@ -73,15 +75,17 @@ const Player = {
 		});
 		Events.on('PlayerDeathEvent', (event) => {
 			log('PlayerDeathEvent: ' + event.getDeathMessage());
+			const state = getState();
 			state.dead = true;
-			state = setState(state);
+			setState(state);
 			// this.reset();
 		});
 		Events.on('PlayerRespawnEvent', (event) => {
 			log('PlayerRespawnEvent: ' + event.getRespawnLocation())
+			const state = getState();
 			state.dead = false;
-			state = setState(state);
-			this.reset();
+			setState(state);
+			// this.reset();
 		});
 		Events.on('EntityDamageByEntityEvent', (event) => { 
 			// log('EntityDamageByEntityEvent: ' + event.getCause());
@@ -114,25 +118,9 @@ const Player = {
 		});
 	},
 
-	setFood(num: number) {
-		player.setFoodLevel(num);
-	},
-
-	setHealth(num: number) {
-		player['setHealth'](num);
-	},
-
-	setInsulin(num: number = 0) {
-		state.insulin = num;
-		state = setState(state);
-	},
-
-	setBGL(num: number = 0) {
-		state.bgl = num;
-		state = setState(state);
-	},
-
 	renderBars() {
+		const state = getState();
+		
 		// First, clear all bars.... 
 		if (state.bglBar) state.bglBar.destroy();
 		if (state.insulinBar) state.insulinBar.destroy();
@@ -178,10 +166,11 @@ const Player = {
 		});
 
 		// SetState
-		state = setState(state);
+		setState(state);
 	},
 
 	doDigestion(tickCount = 0) {
+		const state = getState();
 		// log('digesting...');
 		const that = this;
 		magik.setTimeout(function() {
@@ -222,7 +211,7 @@ const Player = {
 
 			
 			state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
-			state = setState(state);
+			setState(state);
 			that.renderBars();
 			that.doEffects();
 
@@ -239,6 +228,9 @@ const Player = {
 
 	onConsume(event) {
 		log('onConsume!');
+		
+		const state = getState();
+		
 		const consumer = event.getPlayer();
 		if (consumer.getName() !== player.getName()) {
 			return;
@@ -252,19 +244,21 @@ const Player = {
 				percentDigested: 0,
 			};
 			state.digestionQueue.push(item);
-			state = setState(state);
+			setState(state);
 			this.renderBars();
 			// event.setCancelled(true);
 		}
 		else if (type == 'POTION') { // important! use double arrow (not triple)
 			log(`You drank an INSULIN POTION!`);
 			state.insulin += 2;
-			state = setState(state);
+			setState(state);
 			this.renderBars();
 		}
 	},
 
 	onProjectileHit(event) {
+		const state = getState();
+
 		// Identify shooter.
 		const shooter = event.getEntity().getShooter();
 		if (!shooter || shooter.getName() !== player.getName()) {
@@ -288,14 +282,13 @@ const Player = {
 
 		// Food or Health cost...
 		if (player.getFoodLevel() > 0) {
-			player.setFoodLevel(Math.max(player.getFoodLevel()-1, 0));
+			player.setFoodLevel(Math.max(player.getFoodLevel()-0.5, 0));
 		}
-		// else {
-		// 	player['setHealth'](player['getHealth']() - 1);
-		// }
 	},
 
 	doEffects() {
+		const state = getState();
+
 		if ((state.bgl >= 4 && state.bgl <= 8)) {
 			// Super powers!
 			this.makeSuperPowers();
@@ -333,37 +326,43 @@ const Player = {
 	},
 
 	doConfusion(milliseconds) {
+		const state = getState();
 		if (!state.confusionEffect) {
 			this._makeEffect('CONFUSION', milliseconds);
 			state.confusionEffect = true;
-			state = setState(state);
+			setState(state);
 			magik.setTimeout(() => {
+				const state = getState();
 				state.confusionEffect = false;
-				state = setState(state);
+				setState(state);
 			}, milliseconds);
 		}
 	},
 
 	doBlindness(milliseconds) {
+		const state = getState();
 		if (!state.blindnessEffect) {
 			this._makeEffect('BLINDNESS', milliseconds);
 			state.blindnessEffect = true;
-			state = setState(state);
+			setState(state);
 			magik.setTimeout(() => {
+				const state = getState();
 				state.blindnessEffect = false;
-				state = setState(state);
+				setState(state);
 			}, milliseconds);
 		}
 	},
 
 	doPoison(milliseconds) {
+		const state = getState();
 		if (!state.poisonEffect) {
 			this._makeEffect('POISON', milliseconds);
 			state.poisonEffect = true;
-			state = setState(state);
+			setState(state);
 			magik.setTimeout(() => {
+				const state = getState();
 				state.poisonEffect = false;
-				state = setState(state);
+				setState(state);
 			}, milliseconds);
 		}
 	},
