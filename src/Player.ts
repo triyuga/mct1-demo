@@ -86,7 +86,7 @@ const Player = {
 			// Summon lightning_bolt at location.
 			const location = `${loc.getX()} ${loc.getY()} ${loc.getZ()}`;
 			const server = magik.getPlugin().getServer();
-			const cmd = `execute ${player.getName()} ~ ~ ~ summon CHICKEN ${location}`;
+			const cmd = `execute ${player.getName()} ~ ~+1 ~ summon CHICKEN ${location}`;
 			server.dispatchCommand(server.getConsoleSender(), cmd);
 
 			// Food or Health cost...
