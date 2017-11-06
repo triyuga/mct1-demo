@@ -3,7 +3,7 @@ const magik = magikcraft.io;
 const log = magik.dixit;
 
 
-const KEY = 'mct1-demo-' + instanceUUID;
+const KEY = 'mct1-demo';
 
 function _ensureCompleteState(state) {
 	state.instanceUUID = state.instanceUUID || instanceUUID;
