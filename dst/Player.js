@@ -271,16 +271,22 @@ var Player = {
             if (player.getFoodLevel() >= 20) {
                 player.setFoodLevel(19.5);
             }
-            // Every 10 ticks...
+            // Spawn Items...
             if (tickCount % 5 === 0) {
-                var Material = Java.type("org.bukkit.Material");
-                var ItemStack = Java.type("org.bukkit.inventory.ItemStack");
-                // 	const server = magik.getPlugin().getServer();
-                // 	// event.getPlayer().getInventory().setItem(37, );
-                var Location = Java.type('org.bukkit.Location');
-                var loc = new Location(player.getWorld(), 920, 95, 1115);
-                player.getWorld()['dropItem'](loc, new ItemStack(Material.APPLE, 1));
-                log('summon apple');
+                var worldName = player.getWorld()['getName']();
+                log('worldName: ' + worldName);
+                if (worldName == 'mct1-main') {
+                    var Material = Java.type("org.bukkit.Material");
+                    var ItemStack = Java.type("org.bukkit.inventory.ItemStack");
+                    var Location = Java.type('org.bukkit.Location');
+                    var loc = void 0;
+                    // Spawn Apples!
+                    loc = new Location(player.getWorld(), 920, 97, 1115);
+                    player.getWorld()['dropItem'](loc, new ItemStack(Material.APPLE, 1));
+                    // Spawn Potions!
+                    loc = new Location(player.getWorld(), 933, 96, 1117);
+                    player.getWorld()['dropItem'](loc, new ItemStack(Material.POTION, 1));
+                }
             }
             // repeat ongoingly!
             tickCount++;

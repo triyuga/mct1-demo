@@ -295,18 +295,27 @@ const Player = {
 			}
 
 
-			// Every 10 ticks...
-			if (tickCount % 5 === 0) {
-				const Material = Java.type("org.bukkit.Material");
-				const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
-				// 	const server = magik.getPlugin().getServer();
-				// 	// event.getPlayer().getInventory().setItem(37, );
-				const Location = Java.type('org.bukkit.Location');
-				const loc = new Location(player.getWorld(), 920, 95, 1115);
-				player.getWorld()['dropItem'](loc, new ItemStack(Material.APPLE, 1));
-				log('summon apple');
-			}
 			
+			// Spawn Items...
+			if (tickCount % 5 === 0) {
+				const worldName = player.getWorld()['getName']();
+				log('worldName: ' + worldName);
+				
+				if (worldName == 'mct1-main') {
+					const Material = Java.type("org.bukkit.Material");
+					const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
+					const Location = Java.type('org.bukkit.Location');
+					let loc;
+
+					// Spawn Apples!
+					loc = new Location(player.getWorld(), 920, 97, 1115);
+					player.getWorld()['dropItem'](loc, new ItemStack(Material.APPLE, 1));
+
+					// Spawn Potions!
+					loc = new Location(player.getWorld(), 933, 96, 1117);
+					player.getWorld()['dropItem'](loc, new ItemStack(Material.POTION, 1));
+				}			
+			}
 
 			// repeat ongoingly!
 			tickCount++;
