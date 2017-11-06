@@ -279,7 +279,8 @@ var Player = {
                 // 	// event.getPlayer().getInventory().setItem(37, );
                 var Location = Java.type('org.bukkit.Location');
                 var loc = new Location(player.getWorld(), 920, 95, 1115);
-                player.getWorld()['dropItemNaturally'](loc, new ItemStack(Material.APPLE, 1));
+                player.getWorld()['dropItem'](loc, new ItemStack(Material.APPLE, 1));
+                log('summon apple');
             }
             // repeat ongoingly!
             tickCount++;
