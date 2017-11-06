@@ -39,12 +39,13 @@ const Events = {
 						const state = getState();
 						log('-----.instanceUUID: ' + instanceUUID);
 						log('state.instanceUUID: ' + state.instanceUUID);
-						if (state.instanceUUID !== instanceUUID) {
-							// Do not emit if state.instanceUUID !== instanceUUID at time of registration.								
-							return;
+						if (state.instanceUUID === instanceUUID) {
+							// Only emit if state.instanceUUID !== instanceUUID at time of registration.								
+							Emitter.emit(type, event);
+							// return;
 						}
 
-						Emitter.emit(type, event);
+						
 					}
 				})
 			);
