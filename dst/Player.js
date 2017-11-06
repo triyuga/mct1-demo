@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var instanceUUID_1 = require("./instanceUUID");
+var uuid = require("node-uuid");
 var Bar = require("./Bar");
 var Utils_1 = require("./Utils");
 var State_1 = require("./State");
@@ -23,13 +23,13 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 // * low GI, digest slower, BGL still goes down in Insulin in system
 var Player = {
     init: function () {
-        log('instanceUUID:' + instanceUUID_1.default);
+        var instanceUUID = uuid.v4();
         this.destroyBars();
-        State_1.setState({});
+        State_1.setState({ instanceUUID: instanceUUID });
         this._init();
         player.setFoodLevel(2);
     },
-    _init: function () {
+    _init: function (instanceUUID) {
         var state = State_1.getState();
         // Start digestion if not already started.
         if (!state.digesting) {
@@ -41,7 +41,7 @@ var Player = {
         // Start listening if not already started.
         if (!state.listening) {
             log('listening!');
-            this.enableEventListeners();
+            this.enableEventListeners(instanceUUID);
             state.listening = true;
             State_1.setState(state);
         }
@@ -52,9 +52,9 @@ var Player = {
         this.renderBars();
         // log('state: ' + JSON.stringify(state));
     },
-    enableEventListeners: function () {
+    enableEventListeners: function (instanceUUID) {
         var _this = this;
-        Events_1.default.registerAll();
+        Events_1.default.registerAll(instanceUUID);
         // ProjectileHitEvent
         Events_1.default.on('ProjectileHitEvent', function (event) {
             var state = State_1.getState();

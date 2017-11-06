@@ -1,4 +1,4 @@
-import instanceUUID from './instanceUUID';
+import * as uuid from 'node-uuid';
 import * as Bar from './Bar';
 import Utils from './Utils';
 import { getState, setState } from './State';
@@ -29,14 +29,14 @@ FoodList.forEach(item => Food[item.type] = item);
 
 const Player = {
 	init() {
-		log('instanceUUID:' + instanceUUID);
+		const instanceUUID = uuid.v4();
 		this.destroyBars();
-		setState({});
+		setState({instanceUUID: instanceUUID});
 		this._init();
 		player.setFoodLevel(2);
 	},
 
-	_init() {
+	_init(instanceUUID) {
 		let state = getState();
 
 		// Start digestion if not already started.
@@ -50,7 +50,7 @@ const Player = {
 		// Start listening if not already started.
 		if (!state.listening) {
 			log('listening!');
-			this.enableEventListeners();
+			this.enableEventListeners(instanceUUID);
 			state.listening = true;
 			setState(state);
 		}
@@ -64,8 +64,8 @@ const Player = {
 		// log('state: ' + JSON.stringify(state));
 	},
 
-	enableEventListeners() {
-		Events.registerAll();
+	enableEventListeners(instanceUUID) {
+		Events.registerAll(instanceUUID);
 		
 		// ProjectileHitEvent
 		Events.on('ProjectileHitEvent', (event) => { 

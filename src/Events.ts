@@ -11,7 +11,7 @@ const EventPriority = Java.type("org.bukkit.event.EventPriority");
 const EventCallback = Java.type("io.magikcraft.EventCallback");
 
 import { getState } from './State';
-import instanceUUID from './instanceUUID';
+// import instanceUUID from './instanceUUID';
 
 const eventTypes = {
 	PlayerDeathEvent: 'org.bukkit.event.entity.PlayerDeathEvent',
@@ -26,7 +26,7 @@ const Events = {
 
 	on: (eventName, callback) => Emitter.on(eventName, callback),
 
-	registerAll: () => {
+	registerAll: (instanceUUID) => {
 		for (let type in eventTypes) {
 			const javaType = eventTypes[type];
 

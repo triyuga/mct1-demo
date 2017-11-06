@@ -1,11 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var instanceUUID_1 = require("./instanceUUID");
 var magik = magikcraft.io;
 var log = magik.dixit;
 var KEY = 'mct1-demo';
 function _ensureCompleteState(state) {
-    state.instanceUUID = state.instanceUUID || instanceUUID_1.default;
     state.listening = state.listening !== undefined ? state.listening : false;
     state.digesting = state.digesting !== undefined ? state.digesting : false;
     state.dead = state.dead !== undefined ? state.dead : false;
