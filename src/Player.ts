@@ -36,7 +36,7 @@ const Player = {
 		player.setFoodLevel(2);
 	},
 
-	_init(instanceUUID) {
+	_init() {
 		let state = getState();
 
 		// Start digestion if not already started.
@@ -50,7 +50,7 @@ const Player = {
 		// Start listening if not already started.
 		if (!state.listening) {
 			log('listening!');
-			this.enableEventListeners(instanceUUID);
+			this.enableEventListeners();
 			state.listening = true;
 			setState(state);
 		}
@@ -64,8 +64,9 @@ const Player = {
 		// log('state: ' + JSON.stringify(state));
 	},
 
-	enableEventListeners(instanceUUID) {
-		Events.registerAll(instanceUUID);
+	enableEventListeners() {
+		let state = getState();
+		Events.registerAll(state.instanceUUID);
 		
 		// ProjectileHitEvent
 		Events.on('ProjectileHitEvent', (event) => { 

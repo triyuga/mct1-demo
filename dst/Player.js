@@ -29,7 +29,7 @@ var Player = {
         this._init();
         player.setFoodLevel(2);
     },
-    _init: function (instanceUUID) {
+    _init: function () {
         var state = State_1.getState();
         // Start digestion if not already started.
         if (!state.digesting) {
@@ -41,7 +41,7 @@ var Player = {
         // Start listening if not already started.
         if (!state.listening) {
             log('listening!');
-            this.enableEventListeners(instanceUUID);
+            this.enableEventListeners();
             state.listening = true;
             State_1.setState(state);
         }
@@ -52,9 +52,10 @@ var Player = {
         this.renderBars();
         // log('state: ' + JSON.stringify(state));
     },
-    enableEventListeners: function (instanceUUID) {
+    enableEventListeners: function () {
         var _this = this;
-        Events_1.default.registerAll(instanceUUID);
+        var state = State_1.getState();
+        Events_1.default.registerAll(state.instanceUUID);
         // ProjectileHitEvent
         Events_1.default.on('ProjectileHitEvent', function (event) {
             var state = State_1.getState();
