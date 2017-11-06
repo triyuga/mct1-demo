@@ -20,6 +20,10 @@ function _ensureCompleteState(state) {
 export function getState() {
 	let state = magik.playerMap.get(KEY) || {};
 	log('state 1: ' + JSON.stringify(state));
+	if (JSON.stringify(state) == 'undefined') {
+		log('undef!');
+		state = {};
+	}
 	if (typeof state !== 'object') {
 		log('not obj!');
 		state = {};
