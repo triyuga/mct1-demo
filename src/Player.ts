@@ -61,7 +61,10 @@ const Player = {
 		Events.registerAll();
 		
 		// ProjectileHitEvent
+		let projectileHitCounter = 0;
 		Events.on('ProjectileHitEvent', (event) => { 
+			projectileHitCounter++;
+			
 			let state = getState();	
 			// Identify shooter. Skip if not player.
 			const shooter = event.getEntity().getShooter();
@@ -85,8 +88,11 @@ const Player = {
 			server.dispatchCommand(server.getConsoleSender(), cmd);
 
 			// Food or Health cost...
-			if (player.getFoodLevel() > 0) {
-				player.setFoodLevel(Math.max(player.getFoodLevel()-0.5, 0));
+			log('projectileHitCounter: ' + projectileHitCounter);
+			if (projectileHitCounter % 5 === 0) { // Every 10 ticks...
+				if (player.getFoodLevel() > 0) {
+					player.setFoodLevel(Math.max(player.getFoodLevel()-1, 0));
+				}
 			}
 		});
 

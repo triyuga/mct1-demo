@@ -20,23 +20,10 @@ function _ensureCompleteState(state) {
 export function getState() {
 	let state = magik.playerMap.get(KEY) || {};
 	
-	if (JSON.stringify(state) == 'undefined') {
-		log('JSON.stringify(state) == "undefined"');
-	}
-
-	if (JSON.stringify(state) === undefined) {
-		log('JSON.stringify(state) === undefined');
-	}
-
-	if (typeof state !== "object") {
-		log('typeof state !== "object"');
-	}
-	
+	// Fix for weird behavior...
 	if (JSON.stringify(state) === undefined) {
 		state = {};
 	}
-
-	// log('state: ' + JSON.stringify(state));
 
 	state = _ensureCompleteState(state);
 	return state;

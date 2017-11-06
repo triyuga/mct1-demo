@@ -52,7 +52,9 @@ var Player = {
         var state = State_1.getState();
         Events_1.default.registerAll();
         // ProjectileHitEvent
+        var projectileHitCounter = 0;
         Events_1.default.on('ProjectileHitEvent', function (event) {
+            projectileHitCounter++;
             var state = State_1.getState();
             // Identify shooter. Skip if not player.
             var shooter = event.getEntity().getShooter();
@@ -77,8 +79,11 @@ var Player = {
             var cmd = "execute " + player.getName() + " ~ ~ ~ summon LIGHTNING_BOLT " + location;
             server.dispatchCommand(server.getConsoleSender(), cmd);
             // Food or Health cost...
-            if (player.getFoodLevel() > 0) {
-                player.setFoodLevel(Math.max(player.getFoodLevel() - 0.5, 0));
+            log('projectileHitCounter: ' + projectileHitCounter);
+            if (projectileHitCounter % 5 === 0) {
+                if (player.getFoodLevel() > 0) {
+                    player.setFoodLevel(Math.max(player.getFoodLevel() - 1, 0));
+                }
             }
         });
         // PlayerItemConsumeEvent
