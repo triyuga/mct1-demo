@@ -22,6 +22,12 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 // * low GI, digest slower, BGL still goes down in Insulin in system
 var Player = {
     init: function () {
+        this.destroyBars();
+        State_1.setState({});
+        this._init();
+        player.setFoodLevel(2);
+    },
+    _init: function () {
         var state = State_1.getState();
         // Start digestion if not already started.
         if (!state.digesting) {
@@ -127,7 +133,7 @@ var Player = {
             state.dead = false;
             State_1.setState(state);
             // Re-init
-            _this.init();
+            _this._init();
         });
         // EntityDamageEvent
         Events_1.default.on('EntityDamageEvent', function (event) {
@@ -147,9 +153,8 @@ var Player = {
             }
         });
     },
-    renderBars: function () {
+    destroyBars: function () {
         var state = State_1.getState();
-        // First, clear all bars.... 
         if (state.bglBar)
             state.bglBar.destroy();
         if (state.insulinBar)
@@ -158,6 +163,11 @@ var Player = {
             state.digestionBar0.destroy();
         if (state.digestionBar1)
             state.digestionBar1.destroy();
+    },
+    renderBars: function () {
+        var state = State_1.getState();
+        // First, clear all bars.... 
+        this.destroyBars();
         // Minecraft supports upto 4 bars onscreen at once.
         // bglBar color
         var color = 'GREEN';

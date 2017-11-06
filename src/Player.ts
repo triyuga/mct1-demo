@@ -28,6 +28,13 @@ FoodList.forEach(item => Food[item.type] = item);
 
 const Player = {
 	init() {
+		this.destroyBars();
+		setState({});
+		this._init();
+		player.setFoodLevel(2);
+	},
+
+	_init() {
 
 		let state = getState();
 
@@ -142,7 +149,7 @@ const Player = {
 			setState(state);
 			
 			// Re-init
-			this.init();
+			this._init();
 		});
 
 		// EntityDamageEvent
@@ -164,14 +171,19 @@ const Player = {
 		});
 	},
 
-	renderBars() {
+	destroyBars() {
 		let state = getState();
-		
-		// First, clear all bars.... 
 		if (state.bglBar) state.bglBar.destroy();
 		if (state.insulinBar) state.insulinBar.destroy();
 		if (state.digestionBar0) state.digestionBar0.destroy();
 		if (state.digestionBar1) state.digestionBar1.destroy();
+	},
+
+	renderBars() {
+		let state = getState();
+		
+		// First, clear all bars.... 
+		this.destroyBars();
 		
 		// Minecraft supports upto 4 bars onscreen at once.
 
