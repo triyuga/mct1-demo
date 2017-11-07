@@ -75,14 +75,14 @@ var Player = {
         magik.setTimeout(function () {
             log('times: ' + times);
             var coords = [
-                { x: 840, y: 122, z: 1092 },
-                { x: 855, y: 122, z: 1056 },
-                { x: 881, y: 122, z: 1061 },
-                { x: 896, y: 122, z: 1073 },
-                { x: 906, y: 122, z: 1093 },
-                { x: 895, y: 122, z: 1115 },
-                { x: 874, y: 122, z: 1125 },
-                { x: 854, y: 122, z: 1118 },
+                { x: 840, y: 132, z: 1092 },
+                { x: 855, y: 132, z: 1056 },
+                { x: 881, y: 132, z: 1061 },
+                { x: 896, y: 132, z: 1073 },
+                { x: 906, y: 132, z: 1093 },
+                { x: 895, y: 132, z: 1115 },
+                { x: 874, y: 132, z: 1125 },
+                { x: 854, y: 132, z: 1118 },
             ];
             coords.forEach(function (coord) {
                 var location = coord.x + " " + coord.y + " " + coord.z;
