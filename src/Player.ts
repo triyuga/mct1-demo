@@ -235,6 +235,10 @@ const Player = {
 		// RegionEnterEvent
 		Events.on('RegionEnterEvent', (event) => {
 			log('RegionEnterEvent!');
+			const regionName = event.getRegion().getId();
+			const playerName = event.getPlayer().getName();
+			log('regionName: ' + regionName);
+			log('playerName: ' + playerName);
 		});
 	},
 

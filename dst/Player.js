@@ -218,6 +218,10 @@ var Player = {
         // RegionEnterEvent
         Events_1.default.on('RegionEnterEvent', function (event) {
             log('RegionEnterEvent!');
+            var regionName = event.getRegion().getId();
+            var playerName = event.getPlayer().getName();
+            log('regionName: ' + regionName);
+            log('playerName: ' + playerName);
         });
     },
     destroyBars: function () {
