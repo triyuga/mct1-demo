@@ -239,29 +239,40 @@ const Player = {
 				return;
 			}
 
-			const worldName = event.getPlayer().getWorld().getName();
-			log('worldName: ' + worldName);
-
-			const worldName2 = event.getWorld().getName();
-			log('worldName2: ' + worldName2);
-
 			const regionName = event.getRegion().getId();
+			const world = event.getPlayer().getWorld();
 
-			switch(regionName) {
+			switch (regionName) {
 				case 'training-1':
-					// if(world.getBlockAt(loc).getType()== Material.WOOL){
+					const coords = [
+						{ x: 926, y: 95, z: 1116 },
+						{ x: 926, y: 95, z: 1115 },
+						{ x: 926, y: 95, z: 1114 },
+						{ x: 926, y: 96, z: 1116 },
+						{ x: 926, y: 96, z: 1115 },
+						{ x: 926, y: 96, z: 1114 },
+						{ x: 926, y: 97, z: 1116 },
+						{ x: 926, y: 97, z: 1115 },
+						{ x: 926, y: 97, z: 1114 },
+					];
+
+					const Material = Java.type("org.bukkit.Material");
+					const Location = Java.type('org.bukkit.Location');
+
+					coords.forEach(coord => {
+						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
+						if (world.getBlockAt(loc).getType() == Material.AIR) {
+							loc.getBlock().setType(Material.STONE);
+						}
+					});
+					
 					// 	Block newBlock = world.getBlockAt(loc);
 					// 	Wool wool = new Wool();
 					// 	wool.setData(newBlock.getData());
 					// 	wool.setColor(DyeColor.BROWN);
 					// 	newBlock.setTypeIdAndData(wool.getItemTypeId(), wool.getData(), true);
-					// }
-					break
+					break;
 			}
-			
-			log('regionName: ' + regionName);
-			log('playerName: ' + playerName);
-
 		});
 	},
 

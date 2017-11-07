@@ -221,24 +221,36 @@ var Player = {
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
-            var worldName = event.getPlayer().getWorld().getName();
-            log('worldName: ' + worldName);
-            var worldName2 = event.getWorld().getName();
-            log('worldName2: ' + worldName2);
             var regionName = event.getRegion().getId();
+            var world = event.getPlayer().getWorld();
             switch (regionName) {
                 case 'training-1':
-                    // if(world.getBlockAt(loc).getType()== Material.WOOL){
+                    var coords = [
+                        { x: 926, y: 95, z: 1116 },
+                        { x: 926, y: 95, z: 1115 },
+                        { x: 926, y: 95, z: 1114 },
+                        { x: 926, y: 96, z: 1116 },
+                        { x: 926, y: 96, z: 1115 },
+                        { x: 926, y: 96, z: 1114 },
+                        { x: 926, y: 97, z: 1116 },
+                        { x: 926, y: 97, z: 1115 },
+                        { x: 926, y: 97, z: 1114 },
+                    ];
+                    var Material_1 = Java.type("org.bukkit.Material");
+                    var Location_1 = Java.type('org.bukkit.Location');
+                    coords.forEach(function (coord) {
+                        var loc = new Location_1(player.getWorld(), coord.x, coord.y, coord.z);
+                        if (world.getBlockAt(loc).getType() == Material_1.AIR) {
+                            loc.getBlock().setType(Material_1.STONE);
+                        }
+                    });
                     // 	Block newBlock = world.getBlockAt(loc);
                     // 	Wool wool = new Wool();
                     // 	wool.setData(newBlock.getData());
                     // 	wool.setColor(DyeColor.BROWN);
                     // 	newBlock.setTypeIdAndData(wool.getItemTypeId(), wool.getData(), true);
-                    // }
                     break;
             }
-            log('regionName: ' + regionName);
-            log('playerName: ' + playerName);
         });
     },
     destroyBars: function () {
