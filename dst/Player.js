@@ -192,7 +192,7 @@ var Player = {
             // const loc = event.getEntity().getLocation();
             // const location = `${loc.getX()} ${loc.getY()} ${loc.getY()}`;
             var server = magik.getPlugin().getServer();
-            var cmd = "execute " + player.getName() + " ~ ~ ~ spawnpoint";
+            var cmd = "execute " + player.getName() + " ~ ~ ~ spawnpoint " + player.getName();
             server.dispatchCommand(server.getConsoleSender(), cmd);
             // event.getEntity().setSpawnLocation(loc.getX(), loc.getY(), loc.getY());
             log('Updated spawn location!');

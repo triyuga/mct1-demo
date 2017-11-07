@@ -210,7 +210,7 @@ const Player = {
 			// const location = `${loc.getX()} ${loc.getY()} ${loc.getY()}`;
 			
 			const server = magik.getPlugin().getServer();
-			const cmd = `execute ${player.getName()} ~ ~ ~ spawnpoint`;
+			const cmd = `execute ${player.getName()} ~ ~ ~ spawnpoint ${player.getName()}`;
 			server.dispatchCommand(server.getConsoleSender(), cmd);
 			
 			// event.getEntity().setSpawnLocation(loc.getX(), loc.getY(), loc.getY());
