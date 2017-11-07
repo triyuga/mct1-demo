@@ -235,10 +235,30 @@ const Player = {
 		// RegionEnterEvent
 		Events.on('RegionEnterEvent', (event) => {
 			log('RegionEnterEvent!');
+			if (event.getPlayer().getName() != player.getName()) {
+				return;
+			}
+
+			const worldName = event.getWorld().getName();
+			log('worldName: ' + worldName);
+
 			const regionName = event.getRegion().getId();
-			const playerName = event.getPlayer().getName();
+
+			switch(regionName) {
+				case 'training-1':
+					// if(world.getBlockAt(loc).getType()== Material.WOOL){
+					// 	Block newBlock = world.getBlockAt(loc);
+					// 	Wool wool = new Wool();
+					// 	wool.setData(newBlock.getData());
+					// 	wool.setColor(DyeColor.BROWN);
+					// 	newBlock.setTypeIdAndData(wool.getItemTypeId(), wool.getData(), true);
+					// }
+					break
+			}
+			
 			log('regionName: ' + regionName);
 			log('playerName: ' + playerName);
+
 		});
 	},
 
