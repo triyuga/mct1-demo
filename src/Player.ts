@@ -206,8 +206,14 @@ const Player = {
 
 			// Set spawn location to death location.
 			log('Updating spawn location!');
-			const loc = event.getEntity().getLocation();
-			event.getEntity().setSpawnLocation(loc.getX(), loc.getY() + 1, loc.getY());
+			// const loc = event.getEntity().getLocation();
+			// const location = `${loc.getX()} ${loc.getY()} ${loc.getY()}`;
+			
+			const server = magik.getPlugin().getServer();
+			const cmd = `execute ${player.getName()} ~ ~ ~ spawnpoint`;
+			server.dispatchCommand(server.getConsoleSender(), cmd);
+			
+			// event.getEntity().setSpawnLocation(loc.getX(), loc.getY(), loc.getY());
 			log('Updated spawn location!');
 
 			let state = getState();
