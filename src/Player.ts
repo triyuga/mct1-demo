@@ -231,6 +231,11 @@ const Player = {
 			setState({})
 			Events.unregisterAll();
 		});
+		
+		// RegionEnterEvent
+		Events.on('RegionEnterEvent', (event) => {
+			log('RegionEnterEvent!');
+		});
 	},
 
 	destroyBars() {

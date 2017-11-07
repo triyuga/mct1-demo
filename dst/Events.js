@@ -16,6 +16,7 @@ var eventTypes = {
     ProjectileHitEvent: 'org.bukkit.event.entity.ProjectileHitEvent',
     PlayerItemConsumeEvent: 'org.bukkit.event.player.PlayerItemConsumeEvent',
     PlayerQuitEvent: 'org.bukkit.event.player.PlayerQuitEvent',
+    RegionEnterEvent: 'com.mewin.WGRegionEvents.events.RegionEnterEvent',
 };
 var Events = {
     on: function (eventName, callback) { return Emitter.on(eventName, callback); },

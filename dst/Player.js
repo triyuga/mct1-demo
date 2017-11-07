@@ -215,6 +215,10 @@ var Player = {
             State_1.setState({});
             Events_1.default.unregisterAll();
         });
+        // RegionEnterEvent
+        Events_1.default.on('RegionEnterEvent', function (event) {
+            log('RegionEnterEvent!');
+        });
     },
     destroyBars: function () {
         var state = State_1.getState();
