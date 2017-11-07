@@ -199,14 +199,15 @@ const Player = {
 		// PlayerDeathEvent
 		Events.on('PlayerDeathEvent', (event) => {
 			// Skip if not this player.
-			if (event.getPlayer().getName() != player.getName()) {
+			log('PlayerDeathEvent');
+			if (event.getEntity().getName() != player.getName()) {
 				return;
 			}
 
 			// Set spawn location to death location.
 			log('Updating spawn location!');
-			const loc = event.getPlayer().getLocation();
-			event.getPlayer().setSpawnLocation(loc.getX(), loc.getY() + 1, loc.getY());
+			const loc = event.getEntity().getLocation();
+			event.getEntity().setSpawnLocation(loc.getX(), loc.getY() + 1, loc.getY());
 			log('Updated spawn location!');
 
 			let state = getState();

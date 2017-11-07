@@ -183,13 +183,14 @@ var Player = {
         // PlayerDeathEvent
         Events_1.default.on('PlayerDeathEvent', function (event) {
             // Skip if not this player.
-            if (event.getPlayer().getName() != player.getName()) {
+            log('PlayerDeathEvent');
+            if (event.getEntity().getName() != player.getName()) {
                 return;
             }
             // Set spawn location to death location.
             log('Updating spawn location!');
-            var loc = event.getPlayer().getLocation();
-            event.getPlayer().setSpawnLocation(loc.getX(), loc.getY() + 1, loc.getY());
+            var loc = event.getEntity().getLocation();
+            event.getEntity().setSpawnLocation(loc.getX(), loc.getY() + 1, loc.getY());
             log('Updated spawn location!');
             var state = State_1.getState();
             state.dead = true;
