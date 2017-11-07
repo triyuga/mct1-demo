@@ -226,6 +226,7 @@ var Player = {
             switch (regionName) {
                 case 'training-1':
                     var coords = [
+                        // front door
                         { x: 926, y: 95, z: 1116 },
                         { x: 926, y: 95, z: 1115 },
                         { x: 926, y: 95, z: 1114 },
@@ -235,13 +236,23 @@ var Player = {
                         { x: 926, y: 97, z: 1116 },
                         { x: 926, y: 97, z: 1115 },
                         { x: 926, y: 97, z: 1114 },
+                        // behind door
+                        { x: 910, y: 95, z: 1113 },
+                        { x: 910, y: 95, z: 1114 },
+                        { x: 910, y: 95, z: 1115 },
+                        { x: 910, y: 96, z: 1113 },
+                        { x: 910, y: 96, z: 1114 },
+                        { x: 910, y: 96, z: 1115 },
+                        { x: 910, y: 97, z: 1113 },
+                        { x: 910, y: 97, z: 1114 },
+                        { x: 910, y: 97, z: 1115 },
                     ];
                     var Material_1 = Java.type("org.bukkit.Material");
                     var Location_1 = Java.type('org.bukkit.Location');
                     coords.forEach(function (coord) {
                         var loc = new Location_1(player.getWorld(), coord.x, coord.y, coord.z);
                         if (world.getBlockAt(loc).getType() == Material_1.AIR) {
-                            loc.getBlock().setType(Material_1.STONE);
+                            loc.getBlock().setType(Material_1.STAINED_GLASS_PANE).setData(1);
                         }
                     });
                     // 	Block newBlock = world.getBlockAt(loc);

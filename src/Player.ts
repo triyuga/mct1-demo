@@ -245,6 +245,7 @@ const Player = {
 			switch (regionName) {
 				case 'training-1':
 					const coords = [
+						// front door
 						{ x: 926, y: 95, z: 1116 },
 						{ x: 926, y: 95, z: 1115 },
 						{ x: 926, y: 95, z: 1114 },
@@ -254,6 +255,16 @@ const Player = {
 						{ x: 926, y: 97, z: 1116 },
 						{ x: 926, y: 97, z: 1115 },
 						{ x: 926, y: 97, z: 1114 },
+						// behind door
+						{ x: 910, y: 95, z: 1113 },
+						{ x: 910, y: 95, z: 1114 },
+						{ x: 910, y: 95, z: 1115 },
+						{ x: 910, y: 96, z: 1113 },
+						{ x: 910, y: 96, z: 1114 },
+						{ x: 910, y: 96, z: 1115 },
+						{ x: 910, y: 97, z: 1113 },
+						{ x: 910, y: 97, z: 1114 },
+						{ x: 910, y: 97, z: 1115 },
 					];
 
 					const Material = Java.type("org.bukkit.Material");
@@ -262,7 +273,7 @@ const Player = {
 					coords.forEach(coord => {
 						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
 						if (world.getBlockAt(loc).getType() == Material.AIR) {
-							loc.getBlock().setType(Material.STONE);
+							loc.getBlock().setType(Material.STAINED_GLASS_PANE).setData(1);
 						}
 					});
 					
