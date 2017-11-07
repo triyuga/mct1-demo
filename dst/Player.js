@@ -186,7 +186,9 @@ var Player = {
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
-            // log('PlayerDeathEvent: ' + event.getDeathMessage());
+            // Set spawn location to death location.
+            var loc = event.getPlayer().getLocation();
+            event.getPlayer().setSpawnLocation(loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
             var state = State_1.getState();
             state.dead = true;
             State_1.setState(state);
@@ -221,7 +223,7 @@ var Player = {
                     event.setCancelled(true);
                 }
                 // STARVATION
-                if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
+                if (cause == 'STARVATION') {
                     magik.dixit('You are starving! Eat food now!');
                 }
                 // FALL, ENTITY_ATTACK
@@ -254,13 +256,16 @@ var Player = {
             var state = State_1.getState();
             state.inRegion = regionName;
             State_1.setState(state);
+            var coords = [];
+            var Material = Java.type("org.bukkit.Material");
+            var Location = Java.type('org.bukkit.Location');
             switch (regionName) {
                 case 'training-1':
                     // Set food and BGL
                     state.bgl = 6;
                     State_1.setState(state);
-                    player.setFoodLevel(0);
-                    var coords = [
+                    player.setFoodLevel(1);
+                    coords = [
                         // front door
                         { x: 926, y: 95, z: 1116 },
                         { x: 926, y: 95, z: 1115 },
@@ -282,19 +287,41 @@ var Player = {
                         { x: 910, y: 97, z: 1114 },
                         { x: 910, y: 97, z: 1115 },
                     ];
-                    var Material_2 = Java.type("org.bukkit.Material");
-                    var Location_2 = Java.type('org.bukkit.Location');
                     coords.forEach(function (coord) {
-                        var loc = new Location_2(player.getWorld(), coord.x, coord.y, coord.z);
-                        // if (world.getBlockAt(loc).getType() == Material.AIR) {
-                        loc.getBlock().setType(Material_2.GLASS);
-                        // }
+                        var loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
+                        loc.getBlock().setType(Material.GLASS);
                     });
-                    // 	Block newBlock = world.getBlockAt(loc);
-                    // 	Wool wool = new Wool();
-                    // 	wool.setData(newBlock.getData());
-                    // 	wool.setColor(DyeColor.BROWN);
-                    // 	newBlock.setTypeIdAndData(wool.getItemTypeId(), wool.getData(), true);
+                    break;
+                case 'training-2':
+                    // Set Insulin
+                    state.insulin = 4;
+                    State_1.setState(state);
+                    coords = [
+                        // forward door
+                        { x: 940, y: 94, z: 1116 },
+                        { x: 940, y: 94, z: 1117 },
+                        { x: 940, y: 94, z: 1118 },
+                        { x: 940, y: 95, z: 1116 },
+                        { x: 940, y: 95, z: 1117 },
+                        { x: 940, y: 95, z: 1118 },
+                        { x: 940, y: 96, z: 1116 },
+                        { x: 940, y: 96, z: 1117 },
+                        { x: 940, y: 96, z: 1118 },
+                        // behind door
+                        { x: 926, y: 95, z: 1116 },
+                        { x: 926, y: 95, z: 1115 },
+                        { x: 926, y: 95, z: 1114 },
+                        { x: 926, y: 96, z: 1116 },
+                        { x: 926, y: 96, z: 1115 },
+                        { x: 926, y: 96, z: 1114 },
+                        { x: 926, y: 97, z: 1116 },
+                        { x: 926, y: 97, z: 1115 },
+                        { x: 926, y: 97, z: 1114 },
+                    ];
+                    coords.forEach(function (coord) {
+                        var loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
+                        loc.getBlock().setType(Material.GLASS);
+                    });
                     break;
             }
         });
@@ -304,6 +331,9 @@ var Player = {
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
+            var coords = [];
+            var Material = Java.type("org.bukkit.Material");
+            var Location = Java.type('org.bukkit.Location');
             var regionName = event.getRegion().getId();
             var world = event.getPlayer().getWorld();
             var state = State_1.getState();
@@ -311,7 +341,7 @@ var Player = {
             State_1.setState(state);
             switch (regionName) {
                 case 'training-1':
-                    var coords = [
+                    coords = [
                         // front door
                         { x: 926, y: 95, z: 1116 },
                         { x: 926, y: 95, z: 1115 },
@@ -333,11 +363,37 @@ var Player = {
                         { x: 910, y: 97, z: 1114 },
                         { x: 910, y: 97, z: 1115 },
                     ];
-                    var Material_3 = Java.type("org.bukkit.Material");
-                    var Location_3 = Java.type('org.bukkit.Location');
                     coords.forEach(function (coord) {
-                        var loc = new Location_3(player.getWorld(), coord.x, coord.y, coord.z);
-                        loc.getBlock().setType(Material_3.AIR);
+                        var loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
+                        loc.getBlock().setType(Material.AIR);
+                    });
+                    break;
+                case 'training-2':
+                    coords = [
+                        // forward door
+                        { x: 940, y: 94, z: 1116 },
+                        { x: 940, y: 94, z: 1117 },
+                        { x: 940, y: 94, z: 1118 },
+                        { x: 940, y: 95, z: 1116 },
+                        { x: 940, y: 95, z: 1117 },
+                        { x: 940, y: 95, z: 1118 },
+                        { x: 940, y: 96, z: 1116 },
+                        { x: 940, y: 96, z: 1117 },
+                        { x: 940, y: 96, z: 1118 },
+                        // behind door
+                        { x: 926, y: 95, z: 1116 },
+                        { x: 926, y: 95, z: 1115 },
+                        { x: 926, y: 95, z: 1114 },
+                        { x: 926, y: 96, z: 1116 },
+                        { x: 926, y: 96, z: 1115 },
+                        { x: 926, y: 96, z: 1114 },
+                        { x: 926, y: 97, z: 1116 },
+                        { x: 926, y: 97, z: 1115 },
+                        { x: 926, y: 97, z: 1114 },
+                    ];
+                    coords.forEach(function (coord) {
+                        var loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
+                        loc.getBlock().setType(Material.AIR);
                     });
                     break;
             }

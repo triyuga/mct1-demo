@@ -7,6 +7,7 @@ function _ensureCompleteState(state) {
 	state.listening = state.listening !== undefined ? state.listening : false;
 	state.digesting = state.digesting !== undefined ? state.digesting : false;
 	state.dead = state.dead !== undefined ? state.dead : false;
+	// state.lastDeathLocation = state.lastDeathLocation || null;
 	state.bgl = state.bgl !== undefined ? state.bgl : 5;
 	state.insulin = state.insulin !== undefined ? state.insulin : 0;
 	state.digestionQueue = state.digestionQueue ? state.digestionQueue.sort((a,b) => a.timestamp - b.timestamp) : [];
@@ -16,7 +17,8 @@ function _ensureCompleteState(state) {
 	state.digestionBar1 = state.digestionBar1 || null;
 	
 	state.inRegion = state.inRegion || null;
-	
+
+
 	return state;
 }
 
