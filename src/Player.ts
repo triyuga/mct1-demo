@@ -344,7 +344,7 @@ const Player = {
 					];
 					coords.forEach(coord => {
 						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
-						loc.getBlock().setType(Material.IRON_BARS);
+						loc.getBlock().setType(Material.GLASS);
 					});
 					break;
 				case 'training-2':
@@ -376,7 +376,7 @@ const Player = {
 					];
 					coords.forEach(coord => {
 						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
-						loc.getBlock().setType(Material.IRON_BARS);
+						loc.getBlock().setType(Material.GLASS);
 					});
 					break;
 			}
