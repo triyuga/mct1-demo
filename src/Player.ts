@@ -158,6 +158,34 @@ const Player = {
 				state.digestionQueue.push(item);
 				setState(state);
 				this.renderBars();
+
+				// ########
+				if (state.inRegion == 'training-1') {
+					
+					log('Great, now move on to the next training chamber!');
+
+					const coords = [
+						// front door
+						{ x: 926, y: 95, z: 1116 },
+						{ x: 926, y: 95, z: 1115 },
+						{ x: 926, y: 95, z: 1114 },
+						{ x: 926, y: 96, z: 1116 },
+						{ x: 926, y: 96, z: 1115 },
+						{ x: 926, y: 96, z: 1114 },
+						{ x: 926, y: 97, z: 1116 },
+						{ x: 926, y: 97, z: 1115 },
+						{ x: 926, y: 97, z: 1114 },
+					];
+
+					const Material = Java.type("org.bukkit.Material");
+					const Location = Java.type('org.bukkit.Location');
+
+					coords.forEach(coord => {
+						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
+						loc.getBlock().setType(Material.AIR);
+					});
+				}
+				// ########
 			}
 			// Act on POTION drink... (insulin)
 			else if (type == 'POTION') { // important! use double arrow (not triple)
@@ -242,6 +270,10 @@ const Player = {
 			const regionName = event.getRegion().getId();
 			const world = event.getPlayer().getWorld();
 
+			let state = getState();
+			state.inRegion = regionName;
+			setState(state);			
+
 			switch (regionName) {
 				case 'training-1':
 					const coords = [
@@ -282,6 +314,56 @@ const Player = {
 					// 	wool.setData(newBlock.getData());
 					// 	wool.setColor(DyeColor.BROWN);
 					// 	newBlock.setTypeIdAndData(wool.getItemTypeId(), wool.getData(), true);
+					break;
+			}
+		});
+
+		// RegionLeaveEvent
+		Events.on('RegionLeaveEvent', (event) => {
+			log('RegionLeaveEvent!');
+			if (event.getPlayer().getName() != player.getName()) {
+				return;
+			}
+
+			const regionName = event.getRegion().getId();
+			const world = event.getPlayer().getWorld();
+
+			let state = getState();
+			state.inRegion = null;
+			setState(state);			
+
+			switch (regionName) {
+				case 'training-1':
+					const coords = [
+						// front door
+						{ x: 926, y: 95, z: 1116 },
+						{ x: 926, y: 95, z: 1115 },
+						{ x: 926, y: 95, z: 1114 },
+						{ x: 926, y: 96, z: 1116 },
+						{ x: 926, y: 96, z: 1115 },
+						{ x: 926, y: 96, z: 1114 },
+						{ x: 926, y: 97, z: 1116 },
+						{ x: 926, y: 97, z: 1115 },
+						{ x: 926, y: 97, z: 1114 },
+						// behind door
+						{ x: 910, y: 95, z: 1113 },
+						{ x: 910, y: 95, z: 1114 },
+						{ x: 910, y: 95, z: 1115 },
+						{ x: 910, y: 96, z: 1113 },
+						{ x: 910, y: 96, z: 1114 },
+						{ x: 910, y: 96, z: 1115 },
+						{ x: 910, y: 97, z: 1113 },
+						{ x: 910, y: 97, z: 1114 },
+						{ x: 910, y: 97, z: 1115 },
+					];
+
+					const Material = Java.type("org.bukkit.Material");
+					const Location = Java.type('org.bukkit.Location');
+
+					coords.forEach(coord => {
+						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
+						loc.getBlock().setType(Material.AIR);
+					});
 					break;
 			}
 		});

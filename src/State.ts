@@ -14,6 +14,9 @@ function _ensureCompleteState(state) {
 	state.insulinBar = state.insulinBar || null;
 	state.digestionBar0 = state.digestionBar0 || null;
 	state.digestionBar1 = state.digestionBar1 || null;
+	
+	state.inRegion = state.inRegion || null;
+	
 	return state;
 }
 
