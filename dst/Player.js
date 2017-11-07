@@ -251,9 +251,9 @@ var Player = {
                     var Location_1 = Java.type('org.bukkit.Location');
                     coords.forEach(function (coord) {
                         var loc = new Location_1(player.getWorld(), coord.x, coord.y, coord.z);
-                        if (world.getBlockAt(loc).getType() == Material_1.AIR) {
-                            loc.getBlock().setType(Material_1.STAINED_GLASS_PANE).setData(1);
-                        }
+                        // if (world.getBlockAt(loc).getType() == Material.AIR) {
+                        loc.getBlock().setType(Material_1.GLASS);
+                        // }
                     });
                     // 	Block newBlock = world.getBlockAt(loc);
                     // 	Wool wool = new Wool();

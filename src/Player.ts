@@ -272,9 +272,9 @@ const Player = {
 
 					coords.forEach(coord => {
 						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
-						if (world.getBlockAt(loc).getType() == Material.AIR) {
-							loc.getBlock().setType(Material.STAINED_GLASS_PANE).setData(1);
-						}
+						// if (world.getBlockAt(loc).getType() == Material.AIR) {
+							loc.getBlock().setType(Material.GLASS);
+						// }
 					});
 					
 					// 	Block newBlock = world.getBlockAt(loc);
