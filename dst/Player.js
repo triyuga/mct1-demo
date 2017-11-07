@@ -15,8 +15,6 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 // * Use XP bar for lightning
 // * BGL going down due to insulin = get health
 // * See in dark when in range
-// * All super powers only when in range
-// * don't allow them to below 2, or above 20 (blind at 15)
 // * high GI go top top of queue, digest faster, effect BGL positively, even if insulin in system
 // * low GI, digest slower, BGL still goes down in Insulin in system
 var Player = {
@@ -71,7 +69,7 @@ var Player = {
     },
     graduationFireworks: function (times) {
         var _this = this;
-        if (times === void 0) { times = 20; }
+        if (times === void 0) { times = 10; }
         magik.setTimeout(function () {
             log('times: ' + times);
             var coords = [
@@ -535,6 +533,10 @@ var Player = {
             if (state.insulin > 0) {
                 state.insulin -= 0.1;
                 state.bgl -= 0.3;
+                if (state.bgl < 2) {
+                    // bgl should never go below 2!
+                    state.bgl = 2;
+                }
                 if (state.bgl < 2 && player.getFoodLevel() >= 20) {
                     player.setFoodLevel(15);
                 }
@@ -543,15 +545,19 @@ var Player = {
             if (state.digestionQueue[0]) {
                 state.digestionQueue[0].percentDigested += 5;
                 state.bgl += 0.2;
-                if (player['getHealth']() < 20) {
-                    player['setHealth'](Math.min((player['getHealth']() + 0.5), 20));
+                if (state.bgl > 20) {
+                    state.bgl = 20;
+                }
+                if (state.insulin > 0) {
+                    if (player['getHealth']() < 20) {
+                        player['setHealth'](Math.min((player['getHealth']() + 0.5), 20));
+                    }
                 }
                 if (state.digestionQueue[0].percentDigested >= 100) {
                     // finished digesting... remove from queue...
                     state.digestionQueue.splice(0, 1);
                 }
             }
-            state.inHealthyRange = (state.bgl >= 4 && state.bgl <= 8);
             State_1.setState(state);
             that.renderBars();
             that.doEffects();
@@ -604,7 +610,7 @@ var Player = {
                 this._makeEffect('CONFUSION', 6000);
             }
             // Layer additional effects.
-            if (state.bgl < 2 || state.bgl >= 16) {
+            if (state.bgl <= 2 || state.bgl >= 16) {
                 this._makeEffect('BLINDNESS', 5000);
                 this._makeEffect('POISON', 5000);
             }
@@ -619,7 +625,7 @@ var Player = {
         this._makeEffect('SPEED', 10000000, 'WHITE', 2);
         this._makeEffect('JUMP', 10000000, 'WHITE', 2);
         this._makeEffect('GLOWING', 10000000, 'WHITE');
-        // this._makeEffect('NIGHT_VISION', 10000000, 'WHITE');
+        this._makeEffect('NIGHT_VISION', 10000000, 'WHITE');
     },
     cancelSuperPowers: function () {
         this._cancelEffect('SPEED');
