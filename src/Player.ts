@@ -74,6 +74,33 @@ const Player = {
 		}, (100));
 	},
 
+	graduationFireworks(times = 5) {
+		magik.setTimeout(() => {
+			log('times: ' + times);
+			const coords = [
+				{ x: 840, y: 122, z: 1092 },
+				{ x: 855, y: 122, z: 1056 },
+				{ x: 881, y: 122, z: 1061 },
+				{ x: 896, y: 122, z: 1073 },
+				{ x: 906, y: 122, z: 1093 },
+				{ x: 895, y: 122, z: 1115 },
+				{ x: 874, y: 122, z: 1125 },
+				{ x: 854, y: 122, z: 1118 },
+			];
+
+			coords.forEach(coord => {
+				const location = `${coord.x} ${coord.y} ${coord.z}`;
+				const server = magik.getPlugin().getServer();
+				const cmd = `execute ${player.getName()} ~ ~ ~ summon minecraft:fireworks_rocket ${location} {LifeTime:20,FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:2,Flicker:1,Trail:0,Colors:[16719647],FadeColors:[9437112]},{Type:0,Flicker:1,Trail:1,Colors:[15335199],FadeColors:[4472319]},{Type:3,Flicker:1,Trail:0,Colors:[5046064],FadeColors:[16764879]},{Type:4,Flicker:0,Trail:1,Colors:[3342591],FadeColors:[16777105]}]}}}}`;
+				server.dispatchCommand(server.getConsoleSender(), cmd);
+			});
+			times--;
+			if (times > 0) {
+				this.graduationFireworks(times);
+			}
+		}, (1000));
+	},
+
 	_init() {
 		let state = getState();
 		// Start digestion if not already started.
@@ -378,6 +405,10 @@ const Player = {
 						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
 						loc.getBlock().setType(Material.GLASS);
 					});
+					break;
+				case 'tower-top':
+					// fireworks coords.
+					this.graduationFireworks();
 					break;
 			}
 		});
