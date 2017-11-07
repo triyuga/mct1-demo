@@ -187,8 +187,10 @@ var Player = {
                 return;
             }
             // Set spawn location to death location.
+            log('Updating spawn location!');
             var loc = event.getPlayer().getLocation();
-            event.getPlayer().setSpawnLocation(loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
+            event.getPlayer().setSpawnLocation(loc.getX(), loc.getY() + 1, loc.getY());
+            log('Updated spawn location!');
             var state = State_1.getState();
             state.dead = true;
             State_1.setState(state);

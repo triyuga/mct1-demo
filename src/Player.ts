@@ -204,9 +204,11 @@ const Player = {
 			}
 
 			// Set spawn location to death location.
+			log('Updating spawn location!');
 			const loc = event.getPlayer().getLocation();
-			event.getPlayer().setSpawnLocation(loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
-			
+			event.getPlayer().setSpawnLocation(loc.getX(), loc.getY() + 1, loc.getY());
+			log('Updated spawn location!');
+
 			let state = getState();
 			state.dead = true;
 			setState(state);
