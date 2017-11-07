@@ -415,8 +415,13 @@ var Player = {
             }
             // Every 10 ticks...
             if (tickCount % 10 === 0) {
-                // Reduce food level.
-                player.setFoodLevel(Math.max((player.getFoodLevel() + 1), 0));
+                // If player has food in digestionQueue, up foodlevel
+                if (state.digestionQueue && state.digestionQueue.length > 0) {
+                    player.setFoodLevel(Math.max((player.getFoodLevel() + 1), 0));
+                }
+                else {
+                    player.setFoodLevel(Math.max((player.getFoodLevel() - 1), 0));
+                }
             }
             // handle insulin in system
             if (state.insulin > 0) {
