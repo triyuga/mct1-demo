@@ -229,17 +229,9 @@ const Player = {
 				return;
 			}
 
-			// Set spawn location to death location.
-			log('Updating spawn location!');
-			// const loc = event.getEntity().getLocation();
-			// const location = `${loc.getX()} ${loc.getY()} ${loc.getY()}`;
-			
 			const server = magik.getPlugin().getServer();
 			const cmd = `execute ${player.getName()} ~ ~ ~ spawnpoint ${player.getName()}`;
 			server.dispatchCommand(server.getConsoleSender(), cmd);
-			
-			// event.getEntity().setSpawnLocation(loc.getX(), loc.getY(), loc.getY());
-			log('Updated spawn location!');
 
 			let state = getState();
 			state.dead = true;
@@ -252,7 +244,7 @@ const Player = {
 			if (event.getPlayer().getName() != player.getName()) {
 				return;
 			}
-			log('PlayerRespawnEvent: ' + event.getRespawnLocation())
+			// log('PlayerRespawnEvent: ' + event.getRespawnLocation())
 			let state = getState();
 			state.dead = false;
 			setState(state);
@@ -305,7 +297,6 @@ const Player = {
 		
 		// RegionEnterEvent
 		Events.on('RegionEnterEvent', (event) => {
-			log('RegionEnterEvent!');
 			if (event.getPlayer().getName() != player.getName()) {
 				return;
 			}
@@ -353,13 +344,13 @@ const Player = {
 					];
 					coords.forEach(coord => {
 						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
-						loc.getBlock().setType(Material.GLASS);
+						loc.getBlock().setType(Material.IRON_BARS);
 					});
 					break;
 				case 'training-2':
 					// Set Insulin
-					state.insulin = 4;
-					setState(state);
+					// state.insulin = 4;
+					// setState(state);
 
 					coords = [
 						// forward door
@@ -385,7 +376,7 @@ const Player = {
 					];
 					coords.forEach(coord => {
 						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
-						loc.getBlock().setType(Material.GLASS);
+						loc.getBlock().setType(Material.IRON_BARS);
 					});
 					break;
 			}
@@ -393,7 +384,6 @@ const Player = {
 
 		// RegionLeaveEvent
 		Events.on('RegionLeaveEvent', (event) => {
-			log('RegionLeaveEvent!');
 			if (event.getPlayer().getName() != player.getName()) {
 				return;
 			}

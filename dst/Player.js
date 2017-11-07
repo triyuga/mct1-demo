@@ -209,15 +209,9 @@ var Player = {
             if (event.getEntity().getName() != player.getName()) {
                 return;
             }
-            // Set spawn location to death location.
-            log('Updating spawn location!');
-            // const loc = event.getEntity().getLocation();
-            // const location = `${loc.getX()} ${loc.getY()} ${loc.getY()}`;
             var server = magik.getPlugin().getServer();
             var cmd = "execute " + player.getName() + " ~ ~ ~ spawnpoint " + player.getName();
             server.dispatchCommand(server.getConsoleSender(), cmd);
-            // event.getEntity().setSpawnLocation(loc.getX(), loc.getY(), loc.getY());
-            log('Updated spawn location!');
             var state = State_1.getState();
             state.dead = true;
             State_1.setState(state);
@@ -228,7 +222,7 @@ var Player = {
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
-            log('PlayerRespawnEvent: ' + event.getRespawnLocation());
+            // log('PlayerRespawnEvent: ' + event.getRespawnLocation())
             var state = State_1.getState();
             state.dead = false;
             State_1.setState(state);
@@ -276,7 +270,6 @@ var Player = {
         });
         // RegionEnterEvent
         Events_1.default.on('RegionEnterEvent', function (event) {
-            log('RegionEnterEvent!');
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
@@ -318,13 +311,13 @@ var Player = {
                     ];
                     coords.forEach(function (coord) {
                         var loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
-                        loc.getBlock().setType(Material.GLASS);
+                        loc.getBlock().setType(Material.IRON_BARS);
                     });
                     break;
                 case 'training-2':
                     // Set Insulin
-                    state.insulin = 4;
-                    State_1.setState(state);
+                    // state.insulin = 4;
+                    // setState(state);
                     coords = [
                         // forward door
                         { x: 940, y: 94, z: 1116 },
@@ -349,14 +342,13 @@ var Player = {
                     ];
                     coords.forEach(function (coord) {
                         var loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
-                        loc.getBlock().setType(Material.GLASS);
+                        loc.getBlock().setType(Material.IRON_BARS);
                     });
                     break;
             }
         });
         // RegionLeaveEvent
         Events_1.default.on('RegionLeaveEvent', function (event) {
-            log('RegionLeaveEvent!');
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
