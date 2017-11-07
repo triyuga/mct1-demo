@@ -234,12 +234,17 @@ const Player = {
 				if (event.getEntity().getName() != player.getName()) {
 					return;
 				}
-				// LIGHTNING STARVATION FIRE FALL ENTITY_ATTACK
+				// LIGHTNING, FIRE, FIRE_TICK 
 				if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
 					// magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
 					event.setDamage(0);
 					event.setCancelled(true);
 				}
+				// STARVATION
+				if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
+					magik.dixit('You are starving! Eat food now!');
+				}
+				// FALL, ENTITY_ATTACK
 			}
 			if (entityType == 'WITHER' && cause == 'PROJECTILE') {
 				event.setDamage(10);
@@ -276,6 +281,12 @@ const Player = {
 
 			switch (regionName) {
 				case 'training-1':
+					// Set food and BGL
+
+					state.bgl = 6;
+					setState(state);
+					player.setFoodLevel(0);
+
 					const coords = [
 						// front door
 						{ x: 926, y: 95, z: 1116 },
