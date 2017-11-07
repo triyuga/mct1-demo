@@ -71,7 +71,6 @@ var Player = {
         var _this = this;
         if (times === void 0) { times = 10; }
         magik.setTimeout(function () {
-            log('times: ' + times);
             var coords = [
                 { x: 840, y: 132, z: 1092 },
                 { x: 855, y: 132, z: 1056 },
