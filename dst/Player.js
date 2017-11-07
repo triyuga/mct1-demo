@@ -71,7 +71,7 @@ var Player = {
     },
     graduationFireworks: function (times) {
         var _this = this;
-        if (times === void 0) { times = 5; }
+        if (times === void 0) { times = 20; }
         magik.setTimeout(function () {
             log('times: ' + times);
             var coords = [

@@ -74,7 +74,7 @@ const Player = {
 		}, (100));
 	},
 
-	graduationFireworks(times = 5) {
+	graduationFireworks(times = 20) {
 		magik.setTimeout(() => {
 			log('times: ' + times);
 			const coords = [
