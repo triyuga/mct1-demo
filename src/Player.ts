@@ -146,6 +146,11 @@ const Player = {
 			if (consumer.getName() != player.getName()) {
 				return;
 			}
+
+			let coords:any = [];
+			const Material = Java.type("org.bukkit.Material");
+			const Location = Java.type('org.bukkit.Location');
+
 			// Act on know FOOD eat...
 			const type = event.getItem().getType();
 			if (Food[type]) {
@@ -164,7 +169,7 @@ const Player = {
 					
 					log('Great, now move on to the next training chamber!');
 
-					const coords = [
+					coords = [
 						// front door
 						{ x: 926, y: 95, z: 1116 },
 						{ x: 926, y: 95, z: 1115 },
@@ -176,10 +181,6 @@ const Player = {
 						{ x: 926, y: 97, z: 1115 },
 						{ x: 926, y: 97, z: 1114 },
 					];
-
-					const Material = Java.type("org.bukkit.Material");
-					const Location = Java.type('org.bukkit.Location');
-
 					coords.forEach(coord => {
 						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
 						loc.getBlock().setType(Material.AIR);
@@ -193,6 +194,30 @@ const Player = {
 				state.insulin += 2;
 				setState(state);
 				this.renderBars();
+
+				// ########
+				if (state.inRegion == 'training-2') {
+					
+					log('Great, now move on to the next training chamber!');
+
+					coords = [
+						// forward door
+						{ x: 940, y: 94, z: 1116 },
+						{ x: 940, y: 94, z: 1117 },
+						{ x: 940, y: 94, z: 1118 },
+						{ x: 940, y: 95, z: 1116 },
+						{ x: 940, y: 95, z: 1117 },
+						{ x: 940, y: 95, z: 1118 },
+						{ x: 940, y: 96, z: 1116 },
+						{ x: 940, y: 96, z: 1117 },
+						{ x: 940, y: 96, z: 1118 },
+					];
+					coords.forEach(coord => {
+						const loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
+						loc.getBlock().setType(Material.AIR);
+					});
+				}
+				// ########
 			}
 		});
 

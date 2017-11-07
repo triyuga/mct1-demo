@@ -137,6 +137,9 @@ var Player = {
             if (consumer.getName() != player.getName()) {
                 return;
             }
+            var coords = [];
+            var Material = Java.type("org.bukkit.Material");
+            var Location = Java.type('org.bukkit.Location');
             // Act on know FOOD eat...
             var type = event.getItem().getType();
             if (Food[type]) {
@@ -152,7 +155,7 @@ var Player = {
                 // ########
                 if (state.inRegion == 'training-1') {
                     log('Great, now move on to the next training chamber!');
-                    var coords = [
+                    coords = [
                         // front door
                         { x: 926, y: 95, z: 1116 },
                         { x: 926, y: 95, z: 1115 },
@@ -164,11 +167,9 @@ var Player = {
                         { x: 926, y: 97, z: 1115 },
                         { x: 926, y: 97, z: 1114 },
                     ];
-                    var Material_1 = Java.type("org.bukkit.Material");
-                    var Location_1 = Java.type('org.bukkit.Location');
                     coords.forEach(function (coord) {
-                        var loc = new Location_1(player.getWorld(), coord.x, coord.y, coord.z);
-                        loc.getBlock().setType(Material_1.AIR);
+                        var loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
+                        loc.getBlock().setType(Material.AIR);
                     });
                 }
                 // ########
@@ -178,6 +179,27 @@ var Player = {
                 state.insulin += 2;
                 State_1.setState(state);
                 _this.renderBars();
+                // ########
+                if (state.inRegion == 'training-2') {
+                    log('Great, now move on to the next training chamber!');
+                    coords = [
+                        // forward door
+                        { x: 940, y: 94, z: 1116 },
+                        { x: 940, y: 94, z: 1117 },
+                        { x: 940, y: 94, z: 1118 },
+                        { x: 940, y: 95, z: 1116 },
+                        { x: 940, y: 95, z: 1117 },
+                        { x: 940, y: 95, z: 1118 },
+                        { x: 940, y: 96, z: 1116 },
+                        { x: 940, y: 96, z: 1117 },
+                        { x: 940, y: 96, z: 1118 },
+                    ];
+                    coords.forEach(function (coord) {
+                        var loc = new Location(player.getWorld(), coord.x, coord.y, coord.z);
+                        loc.getBlock().setType(Material.AIR);
+                    });
+                }
+                // ########
             }
         });
         // PlayerDeathEvent
