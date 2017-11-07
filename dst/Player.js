@@ -221,8 +221,10 @@ var Player = {
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
-            var worldName = event.getWorld().getName();
+            var worldName = event.getPlayer().getWorld().getName();
             log('worldName: ' + worldName);
+            var worldName2 = event.getWorld().getName();
+            log('worldName2: ' + worldName2);
             var regionName = event.getRegion().getId();
             switch (regionName) {
                 case 'training-1':

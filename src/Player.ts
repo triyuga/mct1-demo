@@ -239,8 +239,11 @@ const Player = {
 				return;
 			}
 
-			const worldName = event.getWorld().getName();
+			const worldName = event.getPlayer().getWorld().getName();
 			log('worldName: ' + worldName);
+
+			const worldName2 = event.getWorld().getName();
+			log('worldName2: ' + worldName2);
 
 			const regionName = event.getRegion().getId();
 
