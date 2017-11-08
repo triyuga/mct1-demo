@@ -68,7 +68,9 @@ const Player = {
 			}
 			else {
 				this.init();
+				log('warping in 10 secs...');
 				magik.setTimeout(() => {
+					log('Welcom to the MCT1 Training Facitiy!');
 					const server = magik.getPlugin().getServer();
 					const cmd = `execute ${player.getName()} ~ ~ ~ warp training`;
 					server.dispatchCommand(server.getConsoleSender(), cmd);
