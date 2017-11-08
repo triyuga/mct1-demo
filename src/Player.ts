@@ -44,7 +44,6 @@ const Player = {
 
 	lightningStruck(distance = 10) {
 		magik.setTimeout(() => {
-			log('distance: ' + distance);
 			const loc = player.getLocation();
 			const locations = [
 				`${loc.getX()+distance} ${loc.getY()} ${loc.getZ()+distance}`,

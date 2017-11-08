@@ -41,7 +41,6 @@ var Player = {
         var _this = this;
         if (distance === void 0) { distance = 10; }
         magik.setTimeout(function () {
-            log('distance: ' + distance);
             var loc = player.getLocation();
             var locations = [
                 loc.getX() + distance + " " + loc.getY() + " " + (loc.getZ() + distance),
