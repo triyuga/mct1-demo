@@ -68,6 +68,11 @@ const Player = {
 			}
 			else {
 				this.init();
+				magik.setTimeout(() => {
+					const server = magik.getPlugin().getServer();
+					const cmd = `execute ${player.getName()} ~ ~ ~ warp training`;
+					server.dispatchCommand(server.getConsoleSender(), cmd);
+				}, 10000);
 			}
 		}, (100));
 	},
