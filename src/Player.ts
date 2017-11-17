@@ -542,7 +542,7 @@ const Player = {
 		state.digestionQueue.slice(0, 2).map((item, i) => {
 			// const food = Food[item.type];
 			state[`digestionBar${i}`] = Bar.bar()
-				.text(`Digesting: ${item.food.type} [${item.food.carbs} carbs] [${item.food.GI} GI]`)
+				.text(`Digesting: ${item.food.type} (${item.food.carbs} carbs) (${item.food.GI} GI)`)
 				.color((item.food.GI === 'high') ? Bar.color.PINK : Bar.color.PURPLE)
 				.style(Bar.style.NOTCHED_20)
 				.progress(100 - item.percentDigested)
@@ -579,7 +579,7 @@ const Player = {
 			// handle insulin in system
 			if (state.insulin > 0) {
 				state.insulin -= 0.1;
-				state.bgl -= 0.3;
+				state.bgl -= 0.2;
 				if (state.bgl < 2) {
 					// bgl should never go below 2!
 					state.bgl = 2;
@@ -593,12 +593,12 @@ const Player = {
 			if (state.digestionQueue[0]) {
 				if (state.digestionQueue[0].food.GI === 'high') {
 					// high GI, digest faster...
-					state.digestionQueue[0].percentDigested += 10;
-					state.bgl += 0.4;				
+					state.digestionQueue[0].percentDigested += 6;
+					state.bgl += 0.3;				
 				} else { 
 					// low GI, digest slower...
-					state.digestionQueue[0].percentDigested += 5;
-					state.bgl += 0.2;
+					state.digestionQueue[0].percentDigested += 3;
+					state.bgl += 0.15;
 				}
 				
 				if (state.bgl > 20) {
