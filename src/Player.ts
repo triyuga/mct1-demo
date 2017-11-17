@@ -23,9 +23,9 @@ FoodList.forEach(item => Food[item.type] = item);
 // * low GI, digest slower, BGL still goes down in Insulin in system
 
 const Player = {
-	init() {
+	init(isUSA = false) {
 		this.destroyBars();
-		this._init();
+		this._init(isUSA);
 		player.setFoodLevel(4);
 	},
 
@@ -104,8 +104,11 @@ const Player = {
 		}, (1000));
 	},
 
-	_init() {
+	_init(isUSA = false) {
 		let state = getState();
+		state.isUSA = isUSA;
+		setState(state);
+
 		// Start digestion if not already started.
 		if (!state.digesting) {
 			this.doDigestion();
@@ -523,8 +526,10 @@ const Player = {
 			color = 'RED';
 		}
 		// bglBar
+		let bgl = Math.round(state.bgl*10)/10;
+		if (state.isUSA) bgl = Math.round(bgl*18);
 		state.bglBar = Bar.bar()
-			.text(`BGL: ${Math.round(state.bgl*10)/10}`) // round to 1 decimal
+			.text(`BGL: ${bgl}`) // round to 1 decimal
 			.color(Bar.color[color])
 			.style(Bar.style.NOTCHED_20)
 			.progress((state.bgl/20)*100)

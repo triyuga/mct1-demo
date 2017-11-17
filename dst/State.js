@@ -7,6 +7,7 @@ var Food = {};
 FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 var KEY = 'mct1-demo';
 function _ensureCompleteState(state) {
+    state.isUSA = state.isUSA || false;
     state.listening = state.listening !== undefined ? state.listening : false;
     state.digesting = state.digesting !== undefined ? state.digesting : false;
     state.dead = state.dead !== undefined ? state.dead : false;

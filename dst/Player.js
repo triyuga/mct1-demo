@@ -18,9 +18,10 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 // * high GI go top top of queue, digest faster, effect BGL positively, even if insulin in system
 // * low GI, digest slower, BGL still goes down in Insulin in system
 var Player = {
-    init: function () {
+    init: function (isUSA) {
+        if (isUSA === void 0) { isUSA = false; }
         this.destroyBars();
-        this._init();
+        this._init(isUSA);
         player.setFoodLevel(4);
     },
     doCountdown: function (countdown) {
@@ -99,8 +100,11 @@ var Player = {
             }
         }, (1000));
     },
-    _init: function () {
+    _init: function (isUSA) {
+        if (isUSA === void 0) { isUSA = false; }
         var state = State_1.getState();
+        state.isUSA = isUSA;
+        State_1.setState(state);
         // Start digestion if not already started.
         if (!state.digesting) {
             this.doDigestion();
@@ -487,8 +491,11 @@ var Player = {
             color = 'RED';
         }
         // bglBar
+        var bgl = Math.round(state.bgl * 10) / 10;
+        if (state.isUSA)
+            bgl = Math.round(bgl * 18);
         state.bglBar = Bar.bar()
-            .text("BGL: " + Math.round(state.bgl * 10) / 10) // round to 1 decimal
+            .text("BGL: " + bgl) // round to 1 decimal
             .color(Bar.color[color])
             .style(Bar.style.NOTCHED_20)
             .progress((state.bgl / 20) * 100)
