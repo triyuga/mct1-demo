@@ -176,7 +176,8 @@ var Player = {
                 log("You ate a " + type + "!");
                 var item = {
                     timestamp: Utils_1.default.makeTimestamp(),
-                    type: Food[type].type,
+                    // type: Food[type].type,
+                    food: Food[type],
                     percentDigested: 0,
                 };
                 state.digestionQueue.push(item);
@@ -502,10 +503,10 @@ var Player = {
             .show();
         // digestionBar(s)
         state.digestionQueue.slice(0, 2).map(function (item, i) {
-            var food = Food[item.type];
+            // const food = Food[item.type];
             state["digestionBar" + i] = Bar.bar()
-                .text("Digesting: " + food.type + " (" + food.carbs + " carbs)")
-                .color((food.GI === 'high') ? Bar.color.PURPLE : Bar.color.PINK)
+                .text("Digesting: " + item.food.type + " (" + item.food.carbs + " carbs)")
+                .color((item.food.GI === 'high') ? Bar.color.PURPLE : Bar.color.PINK)
                 .style(Bar.style.NOTCHED_20)
                 .progress(100 - item.percentDigested)
                 .show();

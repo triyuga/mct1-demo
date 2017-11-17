@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var magik = magikcraft.io;
 var log = magik.dixit;
+var FoodList_1 = require("./FoodList");
+var Food = {};
+FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 var KEY = 'mct1-demo';
 function _ensureCompleteState(state) {
     state.listening = state.listening !== undefined ? state.listening : false;
@@ -10,7 +13,7 @@ function _ensureCompleteState(state) {
     // state.lastDeathLocation = state.lastDeathLocation || null;
     state.bgl = state.bgl !== undefined ? state.bgl : 5;
     state.insulin = state.insulin !== undefined ? state.insulin : 0;
-    state.digestionQueue = state.digestionQueue ? state.digestionQueue.sort(function (a, b) { return a.timestamp - b.timestamp; }) : [];
+    state.digestionQueue = state.digestionQueue ? _sortDigestionQueue(state.digestionQueue) : [];
     state.bglBar = state.bglBar || null;
     state.insulinBar = state.insulinBar || null;
     state.digestionBar0 = state.digestionBar0 || null;
@@ -33,3 +36,9 @@ function setState(state) {
     magik.playerMap.put(KEY, state);
 }
 exports.setState = setState;
+function _sortDigestionQueue(digestionQueue) {
+    digestionQueue = digestionQueue.sort(function (a, b) { return a.timestamp - b.timestamp; });
+    var highGIQueue = digestionQueue.filter(function (item) { return item.food.GI === 'high'; });
+    var lowGIQueue = digestionQueue.filter(function (item) { return item.food.GI === 'low'; });
+    return highGIQueue.concat(lowGIQueue);
+}

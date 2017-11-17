@@ -1,6 +1,10 @@
 const magik = magikcraft.io;
 const log = magik.dixit;
 
+import FoodList from './FoodList';
+const Food:any = {};
+FoodList.forEach(item => Food[item.type] = item);
+
 const KEY = 'mct1-demo';
 
 function _ensureCompleteState(state) {
@@ -10,7 +14,7 @@ function _ensureCompleteState(state) {
 	// state.lastDeathLocation = state.lastDeathLocation || null;
 	state.bgl = state.bgl !== undefined ? state.bgl : 5;
 	state.insulin = state.insulin !== undefined ? state.insulin : 0;
-	state.digestionQueue = state.digestionQueue ? state.digestionQueue.sort((a,b) => a.timestamp - b.timestamp) : [];
+	state.digestionQueue = state.digestionQueue ? _sortDigestionQueue(state.digestionQueue) : [];
 	state.bglBar = state.bglBar || null;
 	state.insulinBar = state.insulinBar || null;
 	state.digestionBar0 = state.digestionBar0 || null;
@@ -37,4 +41,11 @@ export function getState() {
 export function setState(state) {
 	state = _ensureCompleteState(state);
 	magik.playerMap.put(KEY, state);
+}
+
+function _sortDigestionQueue(digestionQueue) {
+	digestionQueue = digestionQueue.sort((a,b) => a.timestamp - b.timestamp);
+	const highGIQueue = digestionQueue.filter((item) => item.food.GI === 'high');
+	const lowGIQueue = digestionQueue.filter((item) => item.food.GI === 'low');
+	return highGIQueue.concat(lowGIQueue);
 }
