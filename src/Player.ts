@@ -559,13 +559,16 @@ const Player = {
 		magik.setTimeout(function() {
 			// Skip if dead!
 			if (state.dead) {
-				log('skip digestion coz dead!');
+				// log('skip digestion coz dead!');
 				that.doDigestion(tickCount);
 				return;
 			}
 
 			// Every 10 ticks...
 			if (tickCount % 10 === 0) {
+				// bgl rises slowly, even if not digesting...
+				state.bgl += 0.1;
+				
 				// If player has food in digestionQueue, up foodlevel
 				if (state.digestionQueue && state.digestionQueue.length > 0) {
 					player.setFoodLevel(Math.max((player.getFoodLevel()+1), 0));
@@ -580,13 +583,6 @@ const Player = {
 			if (state.insulin > 0) {
 				state.insulin -= 0.1;
 				state.bgl -= 0.2;
-				if (state.bgl < 2) {
-					// bgl should never go below 2!
-					state.bgl = 2;
-				}
-				if (state.bgl < 2 && player.getFoodLevel() >= 20) {
-					player.setFoodLevel(15);
-				}
 			}
 
 			// handle digestionQueue
@@ -601,9 +597,6 @@ const Player = {
 					state.bgl += 0.15;
 				}
 				
-				if (state.bgl > 20) {
-					state.bgl = 20;
-				}
 				if (state.insulin > 0) { // if insulin in system, boost health!
 					if (player['getHealth']() < 20) {
 						player['setHealth'](Math.min((player['getHealth']()+0.5), 20))
@@ -613,6 +606,15 @@ const Player = {
 					// finished digesting... remove from queue...
 					state.digestionQueue.splice(0,1);
 				}
+			}
+
+			// bgl should never go below 2!
+			if (state.bgl < 2) {
+				state.bgl = 2;
+			}
+			// bgl should never go above 20!
+			if (state.bgl > 20) {
+				state.bgl = 20;
 			}
 
 			setState(state);
