@@ -10,7 +10,6 @@ const log = magik.dixit;
 
 const player = magik.getSender();
 
-import InventoryList from './InventoryList';
 import FoodList from './FoodList';
 const Food:any = {};
 FoodList.forEach(item => Food[item.type] = item);
@@ -571,6 +570,8 @@ const Player = {
 				return;
 			}
 
+			this.refreshInventory();
+
 			// Every 10 ticks...
 			if (tickCount % 10 === 0) {
 				// bgl rises slowly, even if not digesting...
@@ -736,12 +737,13 @@ const Player = {
 	},
 
 	setupInventory() {
+		this.clearInventory()
 		const items = [
 			{ type: 'SNOWBALL', amount: 128 },
 			{ type: 'APPLE', amount: 64 },
 			{ type: 'BREAD', amount: 64 },
 			{ type: 'COOKED_FISH', amount: 64 },
-			{ type: 'POTION', amount: 128 },
+			{ type: 'POTION', amount: 64 },
 		];
 
 		const server = magik.getPlugin().getServer();
@@ -756,39 +758,126 @@ const Player = {
 		player.getInventory()['clear']();
 	},
 
-	// getInventory() {
-    //     const inventory = player.getInventory(); //Contents of player inventory
-    //     for (let i = 0; i <= 35; i++) {
-    //         const item = inventory['getItem'](i);
-    //         if (item) {
-    //             const type = item.getType();
-    //             const amount = item.getAmount();
-    //             log('i: ' + i);
-    //             log('type: ' + type);
-    //             log('amount: ' + amount);
-    //         }
-    //     }
-	// },
+	getInventory() {
+        const inventory = player.getInventory(); //Contents of player inventory
+        for (let i = 0; i <= 35; i++) {
+            const item = inventory['getItem'](i);
+            if (item) {
+                const type = item.getType();
+                const amount = item.getAmount();
+                log('i: ' + i);
+                log('type: ' + type);
+                log('amount: ' + amount);
+            }
+        }
+	},
 
-	// refreshInventory() {
-	// 	// const MATERIAL = Java.type("org.bukkit.Material");
-    //     // const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
-	// 	const server = magik.getPlugin().getServer();
+	refreshInventory() {
+		// const MATERIAL = Java.type("org.bukkit.Material");
+        // const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
+		const server = magik.getPlugin().getServer();
 
-	// 	// event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
-	// 	// const thing = new ItemStack(MATERIAL[item]);
-	// 	// canon.sender.getInventory().addItem(thing);
+		// event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
+		// const thing = new ItemStack(MATERIAL[item]);
+		// canon.sender.getInventory().addItem(thing);
+
+		const InventoryList = [
+			{
+				"type": "SNOWBALL",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 0
+			},
+			{
+				"type": "APPLE",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 1
+			},
+			{
+				"type": "BREAD",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 2
+			},
+			{
+				"type": "COOKED_FISH",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 3
+			},
+			{
+				"type": "POTION",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 4
+			},
+			{
+				"type": "COOKED_CHICKEN",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 15
+			},
+			{
+				"type": "COOKED_FISH",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 16
+			},
+			{
+				"type": "BREAD",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 17
+			},
+			{
+				"type": "COOKIE",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 24
+			},
+			{
+				"type": "APPLE",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 25
+			},
+			{
+				"type": "BAKED_POTATO",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 26
+			},
+			{
+				"type": "PUMPKIN_PIE",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 33
+			},
+			{
+				"type": "MUSHROOM_STEW",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 34
+			},
+			{
+				"type": "BEETROOT",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 35
+			}
+		];
 		
-	// 	InventoryList.map(item => {
-	// 		// const stack = new ItemStack(MATERIAL[item.type], item.quantity);
-	// 		// player.getInventory()['setItem'](item.slot, stack);
-	// 		const slot = (item.slot <= 8) ? `slot.hotbar.${item.slot}` : `slot.inventory.${item.slot-1}`
-	// 		const cmd = `replaceitem entity ${player.getName()} ${slot} ${item.type} ${item.quantity}`;
-	// 		magik.dixit(cmd);
-	// 		server.dispatchCommand(server.getConsoleSender(), cmd);
-	// 		// log(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
-	// 	});
-	// },
+		InventoryList.map(item => {
+			// const stack = new ItemStack(MATERIAL[item.type], item.quantity);
+			// player.getInventory()['setItem'](item.slot, stack);
+			const slot = (item.slot <= 8) ? `slot.hotbar.${item.slot}` : `slot.inventory.${item.slot-8}`
+			const cmd = `replaceitem entity ${player.getName()} ${slot} ${item.type} ${item.quantity}`;
+			magik.dixit(cmd);
+			server.dispatchCommand(server.getConsoleSender(), cmd);
+			// log(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
+		});
+	},
 }
 
 export default Player;

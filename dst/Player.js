@@ -532,6 +532,7 @@ var Player = {
                 that.doDigestion(tickCount);
                 return;
             }
+            this.refreshInventory();
             // Every 10 ticks...
             if (tickCount % 10 === 0) {
                 // bgl rises slowly, even if not digesting...
@@ -677,12 +678,13 @@ var Player = {
         }
     },
     setupInventory: function () {
+        this.clearInventory();
         var items = [
             { type: 'SNOWBALL', amount: 128 },
             { type: 'APPLE', amount: 64 },
             { type: 'BREAD', amount: 64 },
             { type: 'COOKED_FISH', amount: 64 },
-            { type: 'POTION', amount: 128 },
+            { type: 'POTION', amount: 64 },
         ];
         var server = magik.getPlugin().getServer();
         items.map(function (item) {
@@ -692,6 +694,122 @@ var Player = {
     },
     clearInventory: function () {
         player.getInventory()['clear']();
+    },
+    getInventory: function () {
+        var inventory = player.getInventory(); //Contents of player inventory
+        for (var i = 0; i <= 35; i++) {
+            var item = inventory['getItem'](i);
+            if (item) {
+                var type = item.getType();
+                var amount = item.getAmount();
+                log('i: ' + i);
+                log('type: ' + type);
+                log('amount: ' + amount);
+            }
+        }
+    },
+    refreshInventory: function () {
+        // const MATERIAL = Java.type("org.bukkit.Material");
+        // const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
+        var server = magik.getPlugin().getServer();
+        // event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
+        // const thing = new ItemStack(MATERIAL[item]);
+        // canon.sender.getInventory().addItem(thing);
+        var InventoryList = [
+            {
+                "type": "SNOWBALL",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 0
+            },
+            {
+                "type": "APPLE",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 1
+            },
+            {
+                "type": "BREAD",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 2
+            },
+            {
+                "type": "COOKED_FISH",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 3
+            },
+            {
+                "type": "POTION",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 4
+            },
+            {
+                "type": "COOKED_CHICKEN",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 15
+            },
+            {
+                "type": "COOKED_FISH",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 16
+            },
+            {
+                "type": "BREAD",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 17
+            },
+            {
+                "type": "COOKIE",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 24
+            },
+            {
+                "type": "APPLE",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 25
+            },
+            {
+                "type": "BAKED_POTATO",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 26
+            },
+            {
+                "type": "PUMPKIN_PIE",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 33
+            },
+            {
+                "type": "MUSHROOM_STEW",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 34
+            },
+            {
+                "type": "BEETROOT",
+                "quantity": 64,
+                "refresh": true,
+                "slot": 35
+            }
+        ];
+        InventoryList.map(function (item) {
+            // const stack = new ItemStack(MATERIAL[item.type], item.quantity);
+            // player.getInventory()['setItem'](item.slot, stack);
+            var slot = (item.slot <= 8) ? "slot.hotbar." + item.slot : "slot.inventory." + (item.slot - 8);
+            var cmd = "replaceitem entity " + player.getName() + " " + slot + " " + item.type + " " + item.quantity;
+            magik.dixit(cmd);
+            server.dispatchCommand(server.getConsoleSender(), cmd);
+            // log(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
+        });
     },
 };
 exports.default = Player;
