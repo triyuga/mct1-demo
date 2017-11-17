@@ -187,7 +187,6 @@ const Player = {
 				log(`You ate a ${type}!`);
 				const item = {
 					timestamp: Utils.makeTimestamp(),
-					// type: Food[type].type,
 					food: Food[type],
 					percentDigested: 0,
 				};
@@ -592,8 +591,16 @@ const Player = {
 
 			// handle digestionQueue
 			if (state.digestionQueue[0]) {
-				state.digestionQueue[0].percentDigested += 5;
-				state.bgl += 0.2;
+				if (state.digestionQueue[0].food.GI === 'high') {
+					// high GI, digest faster...
+					state.digestionQueue[0].percentDigested += 10;
+					state.bgl += 0.4;				
+				} else { 
+					// low GI, digest slower...
+					state.digestionQueue[0].percentDigested += 5;
+					state.bgl += 0.2;
+				}
+				
 				if (state.bgl > 20) {
 					state.bgl = 20;
 				}
