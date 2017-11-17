@@ -542,8 +542,8 @@ const Player = {
 		state.digestionQueue.slice(0, 2).map((item, i) => {
 			// const food = Food[item.type];
 			state[`digestionBar${i}`] = Bar.bar()
-				.text(`Digesting: ${item.food.type} (${item.food.carbs} carbs)`)
-				.color((item.food.GI === 'high') ? Bar.color.PURPLE : Bar.color.PINK)
+				.text(`Digesting: ${item.food.type} [${item.food.carbs} carbs] [${item.food.GI} GI]`)
+				.color((item.food.GI === 'high') ? Bar.color.PINK : Bar.color.PURPLE)
 				.style(Bar.style.NOTCHED_20)
 				.progress(100 - item.percentDigested)
 				.show();
