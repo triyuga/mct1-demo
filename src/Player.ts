@@ -591,11 +591,11 @@ const Player = {
 			if (state.digestionQueue[0]) {
 				if (state.digestionQueue[0].food.GI === 'high') {
 					// high GI, digest faster...
-					state.digestionQueue[0].carbsDigested += 2;
+					state.digestionQueue[0].carbsDigested += 1;
 					state.bgl += 0.3;	
 				} else { 
 					// low GI, digest slower...
-					state.digestionQueue[0].carbsDigested += 1;
+					state.digestionQueue[0].carbsDigested += 0.5;
 					state.bgl += 0.15;
 				}
 				
