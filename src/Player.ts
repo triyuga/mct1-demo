@@ -784,6 +784,12 @@ const Player = {
 				"slot": 3
 			},
 			{
+				"type": "COOKIE",
+				"quantity": 64,
+				"refresh": true,
+				"slot": 3
+			},
+			{
 				"type": "POTION",
 				"quantity": 64,
 				"refresh": true,
