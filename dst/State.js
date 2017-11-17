@@ -40,5 +40,7 @@ function _sortDigestionQueue(digestionQueue) {
     digestionQueue = digestionQueue.sort(function (a, b) { return a.timestamp - b.timestamp; });
     var highGIQueue = digestionQueue.filter(function (item) { return item.food.GI === 'high'; });
     var lowGIQueue = digestionQueue.filter(function (item) { return item.food.GI === 'low'; });
-    return highGIQueue.concat(lowGIQueue);
+    digestionQueue = highGIQueue.concat(lowGIQueue);
+    log('digestionQueue: ' + JSON.stringify(digestionQueue));
+    return digestionQueue;
 }

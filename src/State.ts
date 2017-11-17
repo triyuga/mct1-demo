@@ -47,5 +47,7 @@ function _sortDigestionQueue(digestionQueue) {
 	digestionQueue = digestionQueue.sort((a,b) => a.timestamp - b.timestamp);
 	const highGIQueue = digestionQueue.filter((item) => item.food.GI === 'high');
 	const lowGIQueue = digestionQueue.filter((item) => item.food.GI === 'low');
-	return highGIQueue.concat(lowGIQueue);
+	digestionQueue = highGIQueue.concat(lowGIQueue);
+	log('digestionQueue: ' + JSON.stringify(digestionQueue));
+	return digestionQueue
 }
