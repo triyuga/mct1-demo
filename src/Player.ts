@@ -569,7 +569,8 @@ const Player = {
 				that.doDigestion(tickCount);
 				return;
 			}
-
+			
+			log('digesting...');
 			this.refreshInventory();
 
 			// Every 10 ticks...

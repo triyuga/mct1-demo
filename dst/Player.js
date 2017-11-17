@@ -532,6 +532,7 @@ var Player = {
                 that.doDigestion(tickCount);
                 return;
             }
+            log('digesting...');
             this.refreshInventory();
             // Every 10 ticks...
             if (tickCount % 10 === 0) {
