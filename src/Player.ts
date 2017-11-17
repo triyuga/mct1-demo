@@ -584,7 +584,7 @@ const Player = {
 			// handle insulin in system
 			if (state.insulin > 0) {
 				state.insulin -= 0.1;
-				state.bgl -= 0.2;
+				state.bgl -= 0.15;
 			}
 
 			// handle digestionQueue
@@ -592,11 +592,11 @@ const Player = {
 				if (state.digestionQueue[0].food.GI === 'high') {
 					// high GI, digest faster...
 					state.digestionQueue[0].carbsDigested += 1;
-					state.bgl += 0.3;	
+					state.bgl += 0.2;	
 				} else { 
 					// low GI, digest slower...
 					state.digestionQueue[0].carbsDigested += 0.5;
-					state.bgl += 0.15;
+					state.bgl += 0.1;
 				}
 				
 				if (state.insulin > 0) { // if insulin in system, boost health!
