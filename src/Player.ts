@@ -757,7 +757,7 @@ const Player = {
 	},
 
 	refreshInventory() {
-		log('refreshInventory');
+		
 		const InventoryList = [
 			{
 				"type": "SNOWBALL",

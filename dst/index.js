@@ -7,5 +7,5 @@ exports.spells = {
         return Player_1.default.init(isUSA);
     },
     // Below: Utility functions only, not required for MCT1 operation.
-    countdown: function () { return Player_1.default.doCountdown(); },
+    countdown: function (secs) { return Player_1.default.doCountdown(secs); },
 };

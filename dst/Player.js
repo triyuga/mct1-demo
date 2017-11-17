@@ -694,7 +694,6 @@ var Player = {
         }
     },
     refreshInventory: function () {
-        log('refreshInventory');
         var InventoryList = [
             {
                 "type": "SNOWBALL",
