@@ -12,7 +12,7 @@ function _ensureCompleteState(state) {
 	state.digesting = state.digesting !== undefined ? state.digesting : false;
 	state.dead = state.dead !== undefined ? state.dead : false;
 	// state.lastDeathLocation = state.lastDeathLocation || null;
-	state.bgl = state.bgl !== undefined ? state.bgl : 5;
+	state.bgl = state.bgl !== undefined ? state.bgl : 4.9;
 	state.insulin = state.insulin !== undefined ? state.insulin : 0;
 	state.digestionQueue = state.digestionQueue ? _sortDigestionQueue(state.digestionQueue) : [];
 	state.bglBar = state.bglBar || null;

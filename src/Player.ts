@@ -26,7 +26,7 @@ const Player = {
 	init() {
 		this.destroyBars();
 		this._init();
-		player.setFoodLevel(2);
+		player.setFoodLevel(4);
 	},
 
 	doCountdown(countdown = 10) {
@@ -188,7 +188,7 @@ const Player = {
 				const item = {
 					timestamp: Utils.makeTimestamp(),
 					food: Food[type],
-					percentDigested: 0,
+					carbsDigested: 0,
 				};
 				state.digestionQueue.push(item);
 				setState(state);
@@ -541,11 +541,13 @@ const Player = {
 		// digestionBar(s)
 		state.digestionQueue.slice(0, 2).map((item, i) => {
 			// const food = Food[item.type];
+			const percentDigested = (item.carbsDigested / item.food.carbs) * 100;
+			
 			state[`digestionBar${i}`] = Bar.bar()
 				.text(`Digesting: ${item.food.type} (${item.food.carbs} carbs) (${item.food.GI} GI)`)
 				.color((item.food.GI === 'high') ? Bar.color.PINK : Bar.color.PURPLE)
 				.style(Bar.style.NOTCHED_20)
-				.progress(100 - item.percentDigested)
+				.progress(100 - percentDigested)
 				.show();
 		});
 
@@ -589,11 +591,11 @@ const Player = {
 			if (state.digestionQueue[0]) {
 				if (state.digestionQueue[0].food.GI === 'high') {
 					// high GI, digest faster...
-					state.digestionQueue[0].percentDigested += 6;
-					state.bgl += 0.3;				
+					state.digestionQueue[0].carbsDigested += 2;
+					state.bgl += 0.3;	
 				} else { 
 					// low GI, digest slower...
-					state.digestionQueue[0].percentDigested += 3;
+					state.digestionQueue[0].carbsDigested += 1;
 					state.bgl += 0.15;
 				}
 				
@@ -602,7 +604,7 @@ const Player = {
 						player['setHealth'](Math.min((player['getHealth']()+0.5), 20))
 					}
 				}
-				if (state.digestionQueue[0].percentDigested >= 100) {
+				if (state.digestionQueue[0].carbsDigested >= state.digestionQueue[0].food.carbs) {
 					// finished digesting... remove from queue...
 					state.digestionQueue.splice(0,1);
 				}
