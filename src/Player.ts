@@ -126,8 +126,7 @@ const Player = {
 
 		this.cancelNegativeEffects();
 		this.cancelSuperPowers();
-		this.clearInventory();
-		this.setupInventory();
+		this.refreshInventory();
 		this.renderBars();
 	},
 
@@ -570,11 +569,13 @@ const Player = {
 				return;
 			}
 			
-			log('digesting...');
-			that.refreshInventory();
+			
 
 			// Every 10 ticks...
 			if (tickCount % 10 === 0) {
+				// Refresh Inventory
+				that.refreshInventory();
+
 				// bgl rises slowly, even if not digesting...
 				state.bgl += 0.1;
 				
@@ -737,41 +738,23 @@ const Player = {
 		}
 	},
 
-	setupInventory() {
-		this.clearInventory()
-		const items = [
-			{ type: 'SNOWBALL', amount: 128 },
-			{ type: 'APPLE', amount: 64 },
-			{ type: 'BREAD', amount: 64 },
-			{ type: 'COOKED_FISH', amount: 64 },
-			{ type: 'POTION', amount: 64 },
-		];
-
-		const server = magik.getPlugin().getServer();
-
-		items.map(item => {
-			server.dispatchCommand(server.getConsoleSender(), `give ${player.getName()} ${item.type} ${item.amount}`);
-			// loh(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
-		});
-	},
-
 	clearInventory() {
 		player.getInventory()['clear']();
 	},
 
-	// getInventory() {
-    //     const inventory = player.getInventory(); //Contents of player inventory
-    //     for (let i = 0; i <= 35; i++) {
-    //         const item = inventory['getItem'](i);
-    //         if (item) {
-    //             const type = item.getType();
-    //             const amount = item.getAmount();
-    //             log('i: ' + i);
-    //             log('type: ' + type);
-    //             log('amount: ' + amount);
-    //         }
-    //     }
-	// },
+	getInventory() {
+        const inventory = player.getInventory(); //Contents of player inventory
+        for (let i = 0; i <= 35; i++) {
+            const item = inventory['getItem'](i);
+            if (item) {
+                const type = item.getType();
+                const amount = item.getAmount();
+                log('i: ' + i);
+                log('type: ' + type);
+                log('amount: ' + amount);
+            }
+        }
+	},
 
 	refreshInventory() {
 		log('refreshInventory');
@@ -810,13 +793,10 @@ const Player = {
 
 		const server = magik.getPlugin().getServer();
 		InventoryList.map(item => {
-			// const stack = new ItemStack(MATERIAL[item.type], item.quantity);
-			// player.getInventory()['setItem'](item.slot, stack);
 			const slot = (item.slot <= 8) ? `slot.hotbar.${item.slot}` : `slot.inventory.${item.slot - 8}`
 			const cmd = `replaceitem entity ${player.getName()} ${slot} ${item.type} ${item.quantity}`;
-			log(cmd);
+			// log(cmd);
 			server.dispatchCommand(server.getConsoleSender(), cmd);
-			// log(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
 		});
 	},
 }
