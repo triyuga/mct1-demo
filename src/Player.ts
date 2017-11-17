@@ -571,7 +571,7 @@ const Player = {
 			}
 			
 			log('digesting...');
-			this.refreshInventory();
+			that.refreshInventory();
 
 			// Every 10 ticks...
 			if (tickCount % 10 === 0) {
@@ -759,19 +759,19 @@ const Player = {
 		player.getInventory()['clear']();
 	},
 
-	getInventory() {
-        const inventory = player.getInventory(); //Contents of player inventory
-        for (let i = 0; i <= 35; i++) {
-            const item = inventory['getItem'](i);
-            if (item) {
-                const type = item.getType();
-                const amount = item.getAmount();
-                log('i: ' + i);
-                log('type: ' + type);
-                log('amount: ' + amount);
-            }
-        }
-	},
+	// getInventory() {
+    //     const inventory = player.getInventory(); //Contents of player inventory
+    //     for (let i = 0; i <= 35; i++) {
+    //         const item = inventory['getItem'](i);
+    //         if (item) {
+    //             const type = item.getType();
+    //             const amount = item.getAmount();
+    //             log('i: ' + i);
+    //             log('type: ' + type);
+    //             log('amount: ' + amount);
+    //         }
+    //     }
+	// },
 
 	refreshInventory() {
 		log('refreshInventory');
@@ -806,69 +806,15 @@ const Player = {
 				"refresh": true,
 				"slot": 4
 			},
-			{
-				"type": "COOKED_CHICKEN",
-				"quantity": 64,
-				"refresh": true,
-				"slot": 15
-			},
-			{
-				"type": "COOKED_FISH",
-				"quantity": 64,
-				"refresh": true,
-				"slot": 16
-			},
-			{
-				"type": "BREAD",
-				"quantity": 64,
-				"refresh": true,
-				"slot": 17
-			},
-			{
-				"type": "COOKIE",
-				"quantity": 64,
-				"refresh": true,
-				"slot": 24
-			},
-			{
-				"type": "APPLE",
-				"quantity": 64,
-				"refresh": true,
-				"slot": 25
-			},
-			{
-				"type": "BAKED_POTATO",
-				"quantity": 64,
-				"refresh": true,
-				"slot": 26
-			},
-			{
-				"type": "PUMPKIN_PIE",
-				"quantity": 64,
-				"refresh": true,
-				"slot": 33
-			},
-			{
-				"type": "MUSHROOM_STEW",
-				"quantity": 64,
-				"refresh": true,
-				"slot": 34
-			},
-			{
-				"type": "BEETROOT",
-				"quantity": 64,
-				"refresh": true,
-				"slot": 35
-			}
 		];
 
 		const server = magik.getPlugin().getServer();
 		InventoryList.map(item => {
 			// const stack = new ItemStack(MATERIAL[item.type], item.quantity);
 			// player.getInventory()['setItem'](item.slot, stack);
-			const slot = (item.slot <= 8) ? `slot.hotbar.${item.slot}` : `slot.inventory.${item.slot-8}`
+			const slot = (item.slot <= 8) ? `slot.hotbar.${item.slot}` : `slot.inventory.${item.slot - 8}`
 			const cmd = `replaceitem entity ${player.getName()} ${slot} ${item.type} ${item.quantity}`;
-			magik.dixit(cmd);
+			log(cmd);
 			server.dispatchCommand(server.getConsoleSender(), cmd);
 			// log(`server.dispatchCommand(give ${player.getName()} ${item.type} ${item.amount})`);
 		});
