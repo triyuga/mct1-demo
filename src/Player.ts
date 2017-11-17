@@ -787,13 +787,13 @@ const Player = {
 				"type": "COOKIE",
 				"quantity": 64,
 				"refresh": true,
-				"slot": 3
+				"slot": 4
 			},
 			{
 				"type": "POTION",
 				"quantity": 64,
 				"refresh": true,
-				"slot": 4
+				"slot": 5
 			},
 		];
 
