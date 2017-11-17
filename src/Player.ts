@@ -773,14 +773,7 @@ const Player = {
 	},
 
 	refreshInventory() {
-		// const MATERIAL = Java.type("org.bukkit.Material");
-        // const ItemStack = Java.type("org.bukkit.inventory.ItemStack");
-		const server = magik.getPlugin().getServer();
-
-		// event.getPlayer().getInventory().setItem(37, new ItemStack(Material.CHEESE, 1));
-		// const thing = new ItemStack(MATERIAL[item]);
-		// canon.sender.getInventory().addItem(thing);
-
+		log('refreshInventory');
 		const InventoryList = [
 			{
 				"type": "SNOWBALL",
@@ -867,7 +860,8 @@ const Player = {
 				"slot": 35
 			}
 		];
-		
+
+		const server = magik.getPlugin().getServer();
 		InventoryList.map(item => {
 			// const stack = new ItemStack(MATERIAL[item.type], item.quantity);
 			// player.getInventory()['setItem'](item.slot, stack);
