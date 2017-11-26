@@ -28,17 +28,20 @@ var Player = {
         player.setFoodLevel(4);
         magik.playerMap.put('mct', true);
     },
-    doCountdown: function (countdown) {
+    doCountdown: function (countdown, current) {
         var _this = this;
         if (countdown === void 0) { countdown = 10; }
+        if (current === void 0) { current = countdown; }
         if (magik.playerMap.get('mct1') == true) {
             return; // player already has MCT1
         }
         magik.setTimeout(function () {
-            countdown--;
-            if (countdown > 0) {
-                log('' + countdown);
-                _this.doCountdown(countdown);
+            current--;
+            var sender = magik.getSender();
+            sender.setWalkSpeed((countdown / current));
+            if (current > 0) {
+                // log('' + current);
+                _this.doCountdown(countdown, current);
             }
             else {
                 _this.lightningStruck(); // !!!!!

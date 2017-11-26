@@ -23,7 +23,8 @@ FoodList.forEach(item => Food[item.type] = item);
 
 const Player = {
 	init(isUSA = false) {
-		if (magik.playerMap.get('mct1') == true) { 		return; // player already has MCT1
+		if (magik.playerMap.get('mct1') == true) {
+			return; // player already has MCT1
 		}
 		this.destroyBars();
 		this._init(isUSA);
@@ -31,14 +32,17 @@ const Player = {
 		magik.playerMap.put('mct', true);
 	},
 
-	doCountdown(countdown = 10) {
-		if (magik.playerMap.get('mct1') == true) { 			return; // player already has MCT1
+	doCountdown(countdown = 10, current = countdown) {
+		if (magik.playerMap.get('mct1') == true) {
+			return; // player already has MCT1
 		}
 		magik.setTimeout(() => {
-			countdown--;
-			if (countdown > 0) {
-				log('' + countdown);
-				this.doCountdown(countdown);
+			current--;
+			const sender = magik.getSender();
+			(sender as any).setWalkSpeed((countdown / current));
+			if (current > 0) {
+				// log('' + current);
+				this.doCountdown(countdown, current);
 			}
 			else {
 				this.lightningStruck(); // !!!!!
