@@ -11,6 +11,8 @@ var player = magik.getSender();
 var FoodList_1 = require("./FoodList");
 var Food = {};
 FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
+var initialWalkSpeed = 0.1999460905790329;
+var KEY = 'mct1-mutex';
 // TODO:
 // * Use XP bar for lightning
 // * BGL going down due to insulin = get health
@@ -20,18 +22,29 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 var Player = {
     init: function (isUSA) {
         if (isUSA === void 0) { isUSA = false; }
+        if (magik.playerMap.get(KEY) === 'true') {
+            return; // player already has MCT1
+        }
         this.destroyBars();
+        player.setWalkSpeed(initialWalkSpeed); // restore walking
         this._init(isUSA);
         player.setFoodLevel(4);
+        magik.playerMap.put(KEY, 'true'); // set mutex
     },
-    doCountdown: function (countdown) {
+    doCountdown: function (countdown, current) {
         var _this = this;
         if (countdown === void 0) { countdown = 10; }
+        if (current === void 0) { current = countdown; }
+        if (magik.playerMap.get(KEY) === 'true') {
+            return; // player already has MCT1
+        }
         magik.setTimeout(function () {
-            countdown--;
-            if (countdown > 0) {
-                log('' + countdown);
-                _this.doCountdown(countdown);
+            current--;
+            var newWalkSpeed = (current / countdown) * initialWalkSpeed;
+            player.setWalkSpeed(newWalkSpeed);
+            if (current > 0) {
+                // log('' + current);
+                _this.doCountdown(countdown, current);
             }
             else {
                 _this.lightningStruck(); // !!!!!
@@ -272,7 +285,7 @@ var Player = {
                 if (event.getEntity().getName() != player.getName()) {
                     return;
                 }
-                // LIGHTNING, FIRE, FIRE_TICK 
+                // LIGHTNING, FIRE, FIRE_TICK
                 if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
                     // magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
                     event.setDamage(0);
@@ -474,7 +487,7 @@ var Player = {
         State_1.setState(state);
     },
     renderBars: function () {
-        // First, clear all bars.... 
+        // First, clear all bars....
         this.destroyBars();
         var state = State_1.getState();
         // Minecraft supports upto 4 bars onscreen at once.
