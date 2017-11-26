@@ -20,13 +20,20 @@ FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 var Player = {
     init: function (isUSA) {
         if (isUSA === void 0) { isUSA = false; }
+        if (magik.playerMap.get('mct1') == true) {
+            return; // player already has MCT1
+        }
         this.destroyBars();
         this._init(isUSA);
         player.setFoodLevel(4);
+        magik.playerMap.put('mct', true);
     },
     doCountdown: function (countdown) {
         var _this = this;
         if (countdown === void 0) { countdown = 10; }
+        if (magik.playerMap.get('mct1') == true) {
+            return; // player already has MCT1
+        }
         magik.setTimeout(function () {
             countdown--;
             if (countdown > 0) {
@@ -272,7 +279,7 @@ var Player = {
                 if (event.getEntity().getName() != player.getName()) {
                     return;
                 }
-                // LIGHTNING, FIRE, FIRE_TICK 
+                // LIGHTNING, FIRE, FIRE_TICK
                 if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
                     // magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
                     event.setDamage(0);
@@ -474,7 +481,7 @@ var Player = {
         State_1.setState(state);
     },
     renderBars: function () {
-        // First, clear all bars.... 
+        // First, clear all bars....
         this.destroyBars();
         var state = State_1.getState();
         // Minecraft supports upto 4 bars onscreen at once.
