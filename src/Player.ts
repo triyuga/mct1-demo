@@ -15,7 +15,7 @@ const Food:any = {};
 FoodList.forEach(item => Food[item.type] = item);
 
 const initialWalkSpeed = 0.1999460905790329;
-const mct1key = 'mct1';
+const KEY = 'mct1-mutex';
 
 // TODO:
 // * Use XP bar for lightning
@@ -26,26 +26,24 @@ const mct1key = 'mct1';
 
 const Player = {
 	init(isUSA = false) {
-		if (magik.playerMap.get(mct1key) === 'true') {
+		if (magik.playerMap.get(KEY) === 'true') {
 			return; // player already has MCT1
 		}
 		this.destroyBars();
-		(magik.getSender() as any).setWalkSpeed(initialWalkSpeed); // restore walking
+		(player as any).setWalkSpeed(initialWalkSpeed); // restore walking
 		this._init(isUSA);
 		player.setFoodLevel(4);
-		magik.playerMap.put(mct1key, 'true'); // set mutex
+		magik.playerMap.put(KEY, 'true'); // set mutex
 	},
 
 	doCountdown(countdown = 10, current = countdown) {
-		if (magik.playerMap.get(mct1key) === 'true') {
+		if (magik.playerMap.get(KEY) === 'true') {
 			return; // player already has MCT1
 		}
 		magik.setTimeout(() => {
 			current--;
-			const sender = magik.getSender();
 			const newWalkSpeed = (current / countdown) * initialWalkSpeed;
-			// log(`${initialWalkSpeed} : ${newWalkSpeed}`);
-			(sender as any).setWalkSpeed(newWalkSpeed);
+			(player as any).setWalkSpeed(newWalkSpeed);
 			if (current > 0) {
 				// log('' + current);
 				this.doCountdown(countdown, current);
