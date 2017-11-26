@@ -42,7 +42,7 @@ var Player = {
             current--;
             var sender = magik.getSender();
             var newWalkSpeed = (current / countdown) * initialWalkSpeed;
-            log(initialWalkSpeed + " : " + newWalkSpeed);
+            // log(`${initialWalkSpeed} : ${newWalkSpeed}`);
             sender.setWalkSpeed(newWalkSpeed);
             if (current > 0) {
                 // log('' + current);
