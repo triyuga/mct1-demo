@@ -11,7 +11,7 @@ var player = magik.getSender();
 var FoodList_1 = require("./FoodList");
 var Food = {};
 FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
-var initialSpeed;
+var initialWalkSpeed;
 var mct1key = 'mct1';
 // TODO:
 // * Use XP bar for lightning
@@ -28,7 +28,8 @@ var Player = {
         this.destroyBars();
         this._init(isUSA);
         player.setFoodLevel(4);
-        magik.playerMap.put(mct1key, 'true');
+        magik.playerMap.put(mct1key, 'true'); // set mutex
+        magik.getSender().setWalkSpeed(initialWalkSpeed); // restore walking
     },
     doCountdown: function (countdown, current) {
         var _this = this;
@@ -38,12 +39,14 @@ var Player = {
             return; // player already has MCT1
         }
         if (countdown === current) {
-            initialSpeed = magik.getSender().getWalkSpeed();
+            initialWalkSpeed = magik.getSender().getWalkSpeed();
         }
         magik.setTimeout(function () {
             current--;
             var sender = magik.getSender();
-            sender.setWalkSpeed((current / countdown) * initialSpeed);
+            var newWalkSpeed = (current / countdown) * initialWalkSpeed;
+            log(initialWalkSpeed + " : " + newWalkSpeed);
+            sender.setWalkSpeed(newWalkSpeed);
             if (current > 0) {
                 // log('' + current);
                 _this.doCountdown(countdown, current);

@@ -14,7 +14,7 @@ import FoodList from './FoodList';
 const Food:any = {};
 FoodList.forEach(item => Food[item.type] = item);
 
-let initialSpeed;
+let initialWalkSpeed;
 const mct1key = 'mct1';
 
 // TODO:
@@ -32,7 +32,8 @@ const Player = {
 		this.destroyBars();
 		this._init(isUSA);
 		player.setFoodLevel(4);
-		magik.playerMap.put(mct1key, 'true');
+		magik.playerMap.put(mct1key, 'true'); // set mutex
+		(magik.getSender() as any).setWalkSpeed(initialWalkSpeed); // restore walking
 	},
 
 	doCountdown(countdown = 10, current = countdown) {
@@ -40,12 +41,14 @@ const Player = {
 			return; // player already has MCT1
 		}
 		if (countdown === current) {
-			initialSpeed = (magik.getSender() as any).getWalkSpeed();
+			initialWalkSpeed = (magik.getSender() as any).getWalkSpeed();
 		}
 		magik.setTimeout(() => {
 			current--;
 			const sender = magik.getSender();
-			(sender as any).setWalkSpeed((current / countdown) * initialSpeed);
+			const newWalkSpeed = (current / countdown) * initialWalkSpeed;
+			log(`${initialWalkSpeed} : ${newWalkSpeed}`);
+			(sender as any).setWalkSpeed(newWalkSpeed);
 			if (current > 0) {
 				// log('' + current);
 				this.doCountdown(countdown, current);
