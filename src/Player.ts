@@ -39,7 +39,7 @@ const Player = {
 		magik.setTimeout(() => {
 			current--;
 			const sender = magik.getSender();
-			(sender as any).setWalkSpeed((countdown / current));
+			(sender as any).setWalkSpeed((current / countdown));
 			if (current > 0) {
 				// log('' + current);
 				this.doCountdown(countdown, current);
