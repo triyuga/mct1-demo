@@ -14,6 +14,8 @@ import FoodList from './FoodList';
 const Food:any = {};
 FoodList.forEach(item => Food[item.type] = item);
 
+let initialSpeed;
+
 // TODO:
 // * Use XP bar for lightning
 // * BGL going down due to insulin = get health
@@ -36,10 +38,13 @@ const Player = {
 		if (magik.playerMap.get('mct1') == true) {
 			return; // player already has MCT1
 		}
+		if (countdown === current) {
+			initialSpeed = (magik.getSender() as any).getWalkSpeed();
+		}
 		magik.setTimeout(() => {
 			current--;
 			const sender = magik.getSender();
-			(sender as any).setWalkSpeed((current / countdown));
+			(sender as any).setWalkSpeed((current / countdown) * initialSpeed);
 			if (current > 0) {
 				// log('' + current);
 				this.doCountdown(countdown, current);

@@ -11,6 +11,7 @@ var player = magik.getSender();
 var FoodList_1 = require("./FoodList");
 var Food = {};
 FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
+var initialSpeed;
 // TODO:
 // * Use XP bar for lightning
 // * BGL going down due to insulin = get health
@@ -35,10 +36,13 @@ var Player = {
         if (magik.playerMap.get('mct1') == true) {
             return; // player already has MCT1
         }
+        if (countdown === current) {
+            initialSpeed = magik.getSender().getWalkSpeed();
+        }
         magik.setTimeout(function () {
             current--;
             var sender = magik.getSender();
-            sender.setWalkSpeed((current / countdown));
+            sender.setWalkSpeed((current / countdown) * initialSpeed);
             if (current > 0) {
                 // log('' + current);
                 _this.doCountdown(countdown, current);
