@@ -23,12 +23,15 @@ FoodList.forEach(item => Food[item.type] = item);
 
 const Player = {
 	init(isUSA = false) {
+		if (magik.playerMap.getItem('mct1') == true) { return; // player already has MCT1 }
 		this.destroyBars();
 		this._init(isUSA);
 		player.setFoodLevel(4);
+		magik.playerMap.setItem('mct', true);
 	},
 
 	doCountdown(countdown = 10) {
+		if (magik.playerMap.get('mct1') == true) { return; // player already has MCT1 }
 		magik.setTimeout(() => {
 			countdown--;
 			if (countdown > 0) {
