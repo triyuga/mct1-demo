@@ -15,6 +15,7 @@ const Food:any = {};
 FoodList.forEach(item => Food[item.type] = item);
 
 let initialSpeed;
+const mct1key = 'mct1';
 
 // TODO:
 // * Use XP bar for lightning
@@ -25,17 +26,17 @@ let initialSpeed;
 
 const Player = {
 	init(isUSA = false) {
-		if (magik.playerMap.get('mct1') == true) {
+		if (magik.playerMap.get(mct1key) === 'true') {
 			return; // player already has MCT1
 		}
 		this.destroyBars();
 		this._init(isUSA);
 		player.setFoodLevel(4);
-		magik.playerMap.put('mct', true);
+		magik.playerMap.put(mct1key, 'true');
 	},
 
 	doCountdown(countdown = 10, current = countdown) {
-		if (magik.playerMap.get('mct1') == true) {
+		if (magik.playerMap.get(mct1key) === 'true') {
 			return; // player already has MCT1
 		}
 		if (countdown === current) {

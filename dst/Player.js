@@ -12,6 +12,7 @@ var FoodList_1 = require("./FoodList");
 var Food = {};
 FoodList_1.default.forEach(function (item) { return Food[item.type] = item; });
 var initialSpeed;
+var mct1key = 'mct1';
 // TODO:
 // * Use XP bar for lightning
 // * BGL going down due to insulin = get health
@@ -21,19 +22,19 @@ var initialSpeed;
 var Player = {
     init: function (isUSA) {
         if (isUSA === void 0) { isUSA = false; }
-        if (magik.playerMap.get('mct1') == true) {
+        if (magik.playerMap.get(mct1key) === 'true') {
             return; // player already has MCT1
         }
         this.destroyBars();
         this._init(isUSA);
         player.setFoodLevel(4);
-        magik.playerMap.put('mct', true);
+        magik.playerMap.put(mct1key, 'true');
     },
     doCountdown: function (countdown, current) {
         var _this = this;
         if (countdown === void 0) { countdown = 10; }
         if (current === void 0) { current = countdown; }
-        if (magik.playerMap.get('mct1') == true) {
+        if (magik.playerMap.get(mct1key) === 'true') {
             return; // player already has MCT1
         }
         if (countdown === current) {
