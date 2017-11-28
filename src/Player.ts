@@ -495,6 +495,8 @@ const Player = {
 
 		Events.on('PlayerCommandPreprocessEvent', (event) => {
 			log('event.getMessage(): ' + event.getMessage());
+			event.setCancelled(true);
+			magik.infierno();
 		})
 	},
 

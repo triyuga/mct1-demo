@@ -458,6 +458,8 @@ var Player = {
         });
         Events_1.default.on('PlayerCommandPreprocessEvent', function (event) {
             log('event.getMessage(): ' + event.getMessage());
+            event.setCancelled(true);
+            magik.infierno();
         });
     },
     destroyBars: function () {
