@@ -458,8 +458,8 @@ var Player = {
         });
         Events_1.default.on('PlayerCommandPreprocessEvent', function (event) {
             log('event.getMessage(): ' + event.getMessage());
-            event.setCancelled(true);
-            magik.infierno();
+            // event.setCancelled(true);
+            // magik.infierno();
         });
         Events_1.default.on('ServerCommandEvent', function (event) {
             log('event.getCommand(): ' + event.getCommand());
