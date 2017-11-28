@@ -18,6 +18,7 @@ var eventTypes = {
     PlayerQuitEvent: 'org.bukkit.event.player.PlayerQuitEvent',
     RegionEnterEvent: 'com.mewin.WGRegionEvents.events.RegionEnterEvent',
     RegionLeaveEvent: 'com.mewin.WGRegionEvents.events.RegionLeaveEvent',
+    PlayerCommandPreprocessEvent: 'org.bukkit.event.player.PlayerCommandPreprocessEvent',
 };
 var Events = {
     on: function (eventName, callback) { return Emitter.on(eventName, callback); },

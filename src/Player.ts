@@ -492,6 +492,10 @@ const Player = {
 					break;
 			}
 		});
+
+		Events.on('PlayerCommandPreprocessEvent', (event) => {
+			log('event.getMessage(): ' + event.getMessage());
+		})
 	},
 
 	destroyBars() {

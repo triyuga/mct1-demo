@@ -456,6 +456,9 @@ var Player = {
                     break;
             }
         });
+        Events_1.default.on('PlayerCommandPreprocessEvent', function (event) {
+            log('event.getMessage(): ' + event.getMessage());
+        });
     },
     destroyBars: function () {
         var state = State_1.getState();
