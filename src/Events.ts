@@ -21,6 +21,7 @@ const eventTypes = {
 	RegionEnterEvent: 'com.mewin.WGRegionEvents.events.RegionEnterEvent',
 	RegionLeaveEvent: 'com.mewin.WGRegionEvents.events.RegionLeaveEvent',
 	PlayerCommandPreprocessEvent: 'org.bukkit.event.player.PlayerCommandPreprocessEvent',
+	ServerCommandEvent: 'org.bukkit.event.server.ServerCommandEvent',
 };
 
 const Events = {

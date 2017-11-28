@@ -497,7 +497,14 @@ const Player = {
 			log('event.getMessage(): ' + event.getMessage());
 			event.setCancelled(true);
 			magik.infierno();
-		})
+		});
+
+		Events.on('ServerCommandEvent', (event) => {
+			log('event.getCommand(): ' + event.getCommand());
+			log('event.getSender(): ' + event.getSender());
+		});
+
+		
 	},
 
 	destroyBars() {

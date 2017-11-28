@@ -461,6 +461,10 @@ var Player = {
             event.setCancelled(true);
             magik.infierno();
         });
+        Events_1.default.on('ServerCommandEvent', function (event) {
+            log('event.getCommand(): ' + event.getCommand());
+            log('event.getSender(): ' + event.getSender());
+        });
     },
     destroyBars: function () {
         var state = State_1.getState();
