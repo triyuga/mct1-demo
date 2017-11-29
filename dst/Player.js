@@ -23,7 +23,7 @@ var Player = {
         this.destroyBars();
         this._init(isUSA);
         player.setFoodLevel(4);
-        this.enable();
+        this.enableT1();
     },
     enableT1: function () {
         var state = State_1.getState();
