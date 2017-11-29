@@ -26,9 +26,24 @@ const Player = {
 		this.destroyBars();
 		this._init(isUSA);
 		player.setFoodLevel(4);
+		this.enable();
 	},
 
-	doCountdown(countdown = 10) {
+	enableT1() {
+		let state = getState();
+		state.disabled = false;
+		setState(state);
+	},
+
+	disableT1() {
+		this.cancelNegativeEffects();
+		this.cancelSuperPowers();
+		this.destroyBars();
+		setState({});
+		Events.unregisterAll();
+	},
+
+	doCountdown(countdown = 10, isUSA = false) {
 		magik.setTimeout(() => {
 			countdown--;
 			if (countdown > 0) {
@@ -36,12 +51,12 @@ const Player = {
 				this.doCountdown(countdown);
 			}
 			else {
-				this.lightningStruck(); // !!!!!
+				this.lightningStruck(10, isUSA); // !!!!!
 			}
 		}, 1000);
 	},
 
-	lightningStruck(distance = 10) {
+	lightningStruck(distance = 10, isUSA = false) {
 		magik.setTimeout(() => {
 			const loc = player.getLocation();
 			const locations = [
@@ -65,7 +80,7 @@ const Player = {
 				this.lightningStruck(distance) // !!!!
 			}
 			else {
-				this.init();
+				this.init(isUSA);
 				log('warping in 10 secs...');
 				magik.setTimeout(() => {
 					log('Welcome to the MCT1 Training Facitiy!');
@@ -573,6 +588,10 @@ const Player = {
 
 	doDigestion(tickCount = 0) {
 		let state = getState();
+		if (state.disabled) {
+			return;
+		}
+
 		const that = this;
 		magik.setTimeout(function() {
 			// Skip if dead!

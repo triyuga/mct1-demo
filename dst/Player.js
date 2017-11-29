@@ -23,10 +23,24 @@ var Player = {
         this.destroyBars();
         this._init(isUSA);
         player.setFoodLevel(4);
+        this.enable();
     },
-    doCountdown: function (countdown) {
+    enableT1: function () {
+        var state = State_1.getState();
+        state.disabled = false;
+        State_1.setState(state);
+    },
+    disableT1: function () {
+        this.cancelNegativeEffects();
+        this.cancelSuperPowers();
+        this.destroyBars();
+        State_1.setState({});
+        Events_1.default.unregisterAll();
+    },
+    doCountdown: function (countdown, isUSA) {
         var _this = this;
         if (countdown === void 0) { countdown = 10; }
+        if (isUSA === void 0) { isUSA = false; }
         magik.setTimeout(function () {
             countdown--;
             if (countdown > 0) {
@@ -34,13 +48,14 @@ var Player = {
                 _this.doCountdown(countdown);
             }
             else {
-                _this.lightningStruck(); // !!!!!
+                _this.lightningStruck(10, isUSA); // !!!!!
             }
         }, 1000);
     },
-    lightningStruck: function (distance) {
+    lightningStruck: function (distance, isUSA) {
         var _this = this;
         if (distance === void 0) { distance = 10; }
+        if (isUSA === void 0) { isUSA = false; }
         magik.setTimeout(function () {
             var loc = player.getLocation();
             var locations = [
@@ -63,7 +78,7 @@ var Player = {
                 _this.lightningStruck(distance); // !!!!
             }
             else {
-                _this.init();
+                _this.init(isUSA);
                 log('warping in 10 secs...');
                 magik.setTimeout(function () {
                     log('Welcome to the MCT1 Training Facitiy!');
@@ -532,6 +547,9 @@ var Player = {
     doDigestion: function (tickCount) {
         if (tickCount === void 0) { tickCount = 0; }
         var state = State_1.getState();
+        if (state.disabled) {
+            return;
+        }
         var that = this;
         magik.setTimeout(function () {
             // Skip if dead!
