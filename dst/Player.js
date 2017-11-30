@@ -34,8 +34,10 @@ var Player = {
         this.cancelNegativeEffects();
         this.cancelSuperPowers();
         this.destroyBars();
-        State_1.setState({});
-        Events_1.default.unregisterAll();
+        var state = State_1.getState();
+        state.disabled = true;
+        State_1.setState(state);
+        // Events.unregisterAll();
     },
     doCountdown: function (countdown, isUSA) {
         var _this = this;
