@@ -57,9 +57,11 @@ var Player = {
         magik.setTimeout(function () {
             current--;
             var newWalkSpeed = (current / countdown) * initialWalkSpeed;
-            player.setWalkSpeed(newWalkSpeed);
+            player['setWalkSpeed'](newWalkSpeed);
             if (current > 0) {
-                // log('' + current);
+                if (player.getName() === 'triyuga' || player.getName() === 'sitapati') {
+                    log('DEV: ' + current);
+                }
                 _this.doCountdown(countdown, isUSA, current);
             }
             else {
