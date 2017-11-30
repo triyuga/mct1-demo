@@ -14,6 +14,9 @@ import FoodList from './FoodList';
 const Food:any = {};
 FoodList.forEach(item => Food[item.type] = item);
 
+const initialWalkSpeed = 0.1999460905790329;
+const KEY = 'mct1-mutex';
+
 // TODO:
 // * Use XP bar for lightning
 // * BGL going down due to insulin = get health
@@ -23,7 +26,11 @@ FoodList.forEach(item => Food[item.type] = item);
 
 const Player = {
 	init(isUSA = false) {
+		if (magik.playerMap.get(KEY) === 'true') {
+			return; // player already has MCT1
+		}
 		this.destroyBars();
+		(player as any).setWalkSpeed(initialWalkSpeed); // restore walking
 		this._init(isUSA);
 		player.setFoodLevel(4);
 		this.enableT1();
@@ -45,12 +52,18 @@ const Player = {
 		Events.unregisterAll();
 	},
 
-	doCountdown(countdown = 10, isUSA = false) {
+	doCountdown(countdown = 10, isUSA = false, current = countdown) {
+		magik.playerMap.put(KEY, 'true'); // set mutex
+		if (magik.playerMap.get(KEY) === 'true') {
+			return; // player already has MCT1
+		}
 		magik.setTimeout(() => {
-			countdown--;
-			if (countdown > 0) {
-				log('' + countdown);
-				this.doCountdown(countdown);
+			current--;
+			const newWalkSpeed = (current / countdown) * initialWalkSpeed;
+			(player as any).setWalkSpeed(newWalkSpeed);
+			if (current > 0) {
+				// log('' + current);
+				this.doCountdown(countdown, isUSA, current);
 			}
 			else {
 				this.lightningStruck(10, isUSA); // !!!!!
@@ -150,13 +163,13 @@ const Player = {
 	enableEventListeners() {
 		let state = getState();
 		Events.registerAll();
-		
+
 		// ProjectileHitEvent
 		let projectileHitCounter = 0;
-		Events.on('ProjectileHitEvent', (event) => { 
+		Events.on('ProjectileHitEvent', (event) => {
 			projectileHitCounter++;
-			
-			let state = getState();	
+
+			let state = getState();
 			// Identify shooter. Skip if not player.
 			const shooter = event.getEntity().getShooter();
 			if (!shooter || shooter.getName() !== player.getName()) {
@@ -187,7 +200,7 @@ const Player = {
 		});
 
 		// PlayerItemConsumeEvent
-		Events.on('PlayerItemConsumeEvent', (event) => { 
+		Events.on('PlayerItemConsumeEvent', (event) => {
 			let state = getState();
 			// Identify consumer. Skip if not player.
 			const consumer = event.getPlayer();
@@ -214,7 +227,7 @@ const Player = {
 
 				// ########
 				if (state.inRegion == 'training-1') {
-					
+
 					log('Great, now move on to the next training chamber!');
 
 					coords = [
@@ -245,7 +258,7 @@ const Player = {
 
 				// ########
 				if (state.inRegion == 'training-2') {
-					
+
 					log('Great, now move on to the next training chamber!');
 
 					coords = [
@@ -296,7 +309,7 @@ const Player = {
 			let state = getState();
 			state.dead = false;
 			setState(state);
-			
+
 			// Re-init
 			this._init();
 		});
@@ -312,7 +325,7 @@ const Player = {
 				if (event.getEntity().getName() != player.getName()) {
 					return;
 				}
-				// LIGHTNING, FIRE, FIRE_TICK 
+				// LIGHTNING, FIRE, FIRE_TICK
 				if (cause == 'LIGHTNING' || cause == 'FIRE' || cause == 'FIRE_TICK') {
 					// magik.dixit('set LIGHTNING damage to 0 for ' + event.getEntity().getName());
 					event.setDamage(0);
@@ -328,13 +341,13 @@ const Player = {
 				event.setDamage(10);
 			}
 		});
-		
+
 		// PlayerQuitEvent
 		Events.on('PlayerQuitEvent', (event) => {
 			// Skip if not this player.
 			if (event.getPlayer().getName() != player.getName()) {
 				return;
-			}		
+			}
 			player.setFoodLevel(15);
 			player['setHealth'](20);
 			this.cancelNegativeEffects();
@@ -342,7 +355,7 @@ const Player = {
 			setState({})
 			Events.unregisterAll();
 		});
-		
+
 		// RegionEnterEvent
 		Events.on('RegionEnterEvent', (event) => {
 			if (event.getPlayer().getName() != player.getName()) {
@@ -449,7 +462,7 @@ const Player = {
 			let state = getState();
 			state.inRegion = null;
 			setState(state);
-			
+
 			switch (regionName) {
 				case 'training-1':
 					coords = [
@@ -538,7 +551,7 @@ const Player = {
 	},
 
 	renderBars() {
-		// First, clear all bars.... 
+		// First, clear all bars....
 		this.destroyBars();
 
 		let state = getState();
@@ -575,7 +588,7 @@ const Player = {
 		state.digestionQueue.slice(0, 2).map((item, i) => {
 			// const food = Food[item.type];
 			const percentDigested = (item.carbsDigested / item.food.carbs) * 100;
-			
+
 			state[`digestionBar${i}`] = Bar.bar()
 				.text(`Digesting: ${item.food.type} (${item.food.carbs} carbs) (${item.food.GI} GI)`)
 				.color((item.food.GI === 'high') ? Bar.color.PINK : Bar.color.PURPLE)
@@ -602,8 +615,8 @@ const Player = {
 				that.doDigestion(tickCount);
 				return;
 			}
-			
-			
+
+
 
 			// Every 10 ticks...
 			if (tickCount % 10 === 0) {
@@ -612,7 +625,7 @@ const Player = {
 
 				// bgl rises slowly, even if not digesting...
 				state.bgl += 0.1;
-				
+
 				// If player has food in digestionQueue, up foodlevel
 				if (state.digestionQueue && state.digestionQueue.length > 0) {
 					player.setFoodLevel(Math.max((player.getFoodLevel()+1), 0));
@@ -634,13 +647,13 @@ const Player = {
 				if (state.digestionQueue[0].food.GI === 'high') {
 					// high GI, digest faster...
 					state.digestionQueue[0].carbsDigested += 1;
-					state.bgl += 0.2;	
-				} else { 
+					state.bgl += 0.2;
+				} else {
 					// low GI, digest slower...
 					state.digestionQueue[0].carbsDigested += 0.5;
 					state.bgl += 0.1;
 				}
-				
+
 				if (state.insulin > 0) { // if insulin in system, boost health!
 					if (player['getHealth']() < 20) {
 						player['setHealth'](Math.min((player['getHealth']()+0.5), 20))
@@ -669,7 +682,7 @@ const Player = {
 			if (player.getFoodLevel() >= 20) {
 				player.setFoodLevel(19.5);
 			}
-			
+
 			// Spawn Items...
 			if (tickCount % 5 === 0) {
 				if (tickCount % 50 === 0) {
@@ -692,7 +705,7 @@ const Player = {
 					// Spawn Potions!
 					loc = new Location(player.getWorld(), 933, 96, 1117);
 					player.getWorld()['dropItem'](loc, new ItemStack(Material.POTION, 1));
-				}			
+				}
 			}
 
 			// repeat ongoingly!
@@ -713,7 +726,7 @@ const Player = {
 
 			// Cancel super powers...
 			this.cancelSuperPowers();
-			
+
 			// Confusion!
 			if ((state.bgl < 4 && state.bgl >= 3) || (state.bgl > 8 && state.bgl <= 12)) {
 				this._makeEffect('CONFUSION', 3500);
@@ -791,7 +804,7 @@ const Player = {
 	},
 
 	refreshInventory() {
-		
+
 		const InventoryList = [
 			{
 				"type": "SNOWBALL",
