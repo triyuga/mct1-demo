@@ -37,7 +37,7 @@ var Player = {
         var state = State_1.getState();
         state.disabled = true;
         State_1.setState(state);
-        // Events.unregisterAll();
+        Events_1.default.unregisterAll();
     },
     doCountdown: function (countdown, isUSA) {
         var _this = this;

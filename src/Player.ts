@@ -42,7 +42,7 @@ const Player = {
 		let state = getState();
 		state.disabled = true;
 		setState(state);
-		// Events.unregisterAll();
+		Events.unregisterAll();
 	},
 
 	doCountdown(countdown = 10, isUSA = false) {
