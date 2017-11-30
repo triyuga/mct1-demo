@@ -71,6 +71,7 @@ const Player = {
 				this.doCountdown(countdown, isUSA, current);
 			}
 			else {
+				log('isUSA 2.2: ' + isUSA);
 				this.lightningStruck(10, isUSA); // !!!!!
 			}
 		}, 1000);
@@ -98,7 +99,7 @@ const Player = {
 
 			if (distance > 0) {
 				distance--;
-				this.lightningStruck(distance) // !!!!
+				this.lightningStruck(distance, isUSA) // !!!!
 			}
 			else {
 				log('isUSA 4: ' + isUSA);
