@@ -22,9 +22,9 @@ var KEY = 'mct1-mutex';
 var Player = {
     init: function (isUSA) {
         if (isUSA === void 0) { isUSA = false; }
-        if (magik.playerMap.get(KEY) === 'true') {
-            return; // player already has MCT1
-        }
+        // if (magik.playerMap.get(KEY) === 'true') {
+        // 	return; // player already has MCT1
+        // }
         this.destroyBars();
         player.setWalkSpeed(initialWalkSpeed); // restore walking
         this._init(isUSA);
@@ -50,10 +50,10 @@ var Player = {
         if (countdown === void 0) { countdown = 10; }
         if (isUSA === void 0) { isUSA = false; }
         if (current === void 0) { current = countdown; }
-        magik.playerMap.put(KEY, 'true'); // set mutex
-        if (magik.playerMap.get(KEY) === 'true') {
-            return; // player already has MCT1
-        }
+        // magik.playerMap.put(KEY, 'true'); // set mutex
+        // if (magik.playerMap.get(KEY) === 'true') {
+        // 	return; // player already has MCT1
+        // }
         magik.setTimeout(function () {
             current--;
             var newWalkSpeed = (current / countdown) * initialWalkSpeed;

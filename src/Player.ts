@@ -26,9 +26,9 @@ const KEY = 'mct1-mutex';
 
 const Player = {
 	init(isUSA = false) {
-		if (magik.playerMap.get(KEY) === 'true') {
-			return; // player already has MCT1
-		}
+		// if (magik.playerMap.get(KEY) === 'true') {
+		// 	return; // player already has MCT1
+		// }
 		this.destroyBars();
 		(player as any).setWalkSpeed(initialWalkSpeed); // restore walking
 		this._init(isUSA);
@@ -53,10 +53,10 @@ const Player = {
 	},
 
 	doCountdown(countdown = 10, isUSA = false, current = countdown) {
-		magik.playerMap.put(KEY, 'true'); // set mutex
-		if (magik.playerMap.get(KEY) === 'true') {
-			return; // player already has MCT1
-		}
+		// magik.playerMap.put(KEY, 'true'); // set mutex
+		// if (magik.playerMap.get(KEY) === 'true') {
+		// 	return; // player already has MCT1
+		// }
 		magik.setTimeout(() => {
 			current--;
 			const newWalkSpeed = (current / countdown) * initialWalkSpeed;
