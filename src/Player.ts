@@ -103,7 +103,7 @@ const Player = {
 					log('Welcome to the MCT1 Training Facitiy!');
 					// const server = magik.getPlugin().getServer();
 					// const cmd = `execute ${player.getName()} ~ ~ ~ warp training`;
-					player['performCommand']('warp training');
+					player['performCommand']('warp mct1-training');
 				}, 10000);
 			}
 		}, (100));
