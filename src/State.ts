@@ -8,7 +8,7 @@ FoodList.forEach(item => Food[item.type] = item);
 const KEY = 'mct1-demo';
 
 function _ensureCompleteState(state) {
-	state.disabled = state.disabled || true; // disable by default.
+	state.disabled = state.disabled || false; // disable by default.
 	state.isUSA = state.isUSA || false;
 	state.listening = state.listening !== undefined ? state.listening : false;
 	state.digesting = state.digesting !== undefined ? state.digesting : false;
