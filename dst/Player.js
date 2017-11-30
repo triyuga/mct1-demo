@@ -570,6 +570,7 @@ var Player = {
         if (tickCount === void 0) { tickCount = 0; }
         var state = State_1.getState();
         if (state.disabled) {
+            log('doDigestion: mct1 is disabled!');
             return;
         }
         var that = this;

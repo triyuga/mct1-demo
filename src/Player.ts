@@ -612,6 +612,7 @@ const Player = {
 	doDigestion(tickCount = 0) {
 		let state = getState();
 		if (state.disabled) {
+			log('doDigestion: mct1 is disabled!');
 			return;
 		}
 
