@@ -137,21 +137,14 @@ var Player = {
         var state = State_1.getState();
         state.isUSA = isUSA;
         State_1.setState(state);
-        log('state: ' + JSON.stringify(state));
         // Start digestion if not already started.
         if (!state.digesting) {
-            log('start digesting!');
             this.doDigestion();
             state.digesting = true;
             State_1.setState(state);
-            // log('digesting!');
-        }
-        else {
-            log('SKIP start digesting!');
         }
         // Start listening if not already started.
         if (!state.listening) {
-            // log('listening!');
             this.enableEventListeners();
             state.listening = true;
             State_1.setState(state);
@@ -292,7 +285,6 @@ var Player = {
             if (event.getPlayer().getName() != player.getName()) {
                 return;
             }
-            // log('PlayerRespawnEvent: ' + event.getRespawnLocation())
             var state = State_1.getState();
             state.dead = false;
             State_1.setState(state);
@@ -494,14 +486,13 @@ var Player = {
             }
         });
         Events_1.default.on('PlayerCommandPreprocessEvent', function (event) {
-            log('event.getMessage(): ' + event.getMessage());
+            // log('event.getMessage(): ' + event.getMessage());
             // event.setCancelled(true);
-            // magik.infierno();
         });
-        Events_1.default.on('ServerCommandEvent', function (event) {
-            log('event.getCommand(): ' + event.getCommand());
-            log('event.getSender(): ' + event.getSender());
-        });
+        // Events.on('ServerCommandEvent', (event) => {
+        // 	log('event.getCommand(): ' + event.getCommand());
+        // 	log('event.getSender(): ' + event.getSender());
+        // });
     },
     destroyBars: function () {
         var state = State_1.getState();
@@ -569,9 +560,7 @@ var Player = {
     doDigestion: function (tickCount) {
         if (tickCount === void 0) { tickCount = 0; }
         var state = State_1.getState();
-        log('doDigestion: state: ' + JSON.stringify(state));
         if (state.disabled) {
-            log('doDigestion: mct1 is disabled!');
             return;
         }
         var that = this;
@@ -787,7 +776,6 @@ var Player = {
         InventoryList.map(function (item) {
             var slot = (item.slot <= 8) ? "slot.hotbar." + item.slot : "slot.inventory." + (item.slot - 8);
             var cmd = "replaceitem entity " + player.getName() + " " + slot + " " + item.type + " " + item.quantity;
-            // log(cmd);
             server.dispatchCommand(server.getConsoleSender(), cmd);
         });
     },

@@ -140,23 +140,15 @@ const Player = {
 		state.isUSA = isUSA;
 		setState(state);
 
-		log('state: ' + JSON.stringify(state));
-
 		// Start digestion if not already started.
 		if (!state.digesting) {
-			log('start digesting!');
 			this.doDigestion();
 			state.digesting = true;
 			setState(state);
-			// log('digesting!');
-		}
-		else {
-			log('SKIP start digesting!');
 		}
 
 		// Start listening if not already started.
 		if (!state.listening) {
-			// log('listening!');
 			this.enableEventListeners();
 			state.listening = true;
 			setState(state);
@@ -313,7 +305,7 @@ const Player = {
 			if (event.getPlayer().getName() != player.getName()) {
 				return;
 			}
-			// log('PlayerRespawnEvent: ' + event.getRespawnLocation())
+
 			let state = getState();
 			state.dead = false;
 			setState(state);
@@ -532,15 +524,14 @@ const Player = {
 		});
 
 		Events.on('PlayerCommandPreprocessEvent', (event) => {
-			log('event.getMessage(): ' + event.getMessage());
+			// log('event.getMessage(): ' + event.getMessage());
 			// event.setCancelled(true);
-			// magik.infierno();
 		});
 
-		Events.on('ServerCommandEvent', (event) => {
-			log('event.getCommand(): ' + event.getCommand());
-			log('event.getSender(): ' + event.getSender());
-		});
+		// Events.on('ServerCommandEvent', (event) => {
+		// 	log('event.getCommand(): ' + event.getCommand());
+		// 	log('event.getSender(): ' + event.getSender());
+		// });
 
 		
 	},
@@ -611,9 +602,7 @@ const Player = {
 
 	doDigestion(tickCount = 0) {
 		let state = getState();
-		log('doDigestion: state: ' + JSON.stringify(state));
 		if (state.disabled) {
-			log('doDigestion: mct1 is disabled!');
 			return;
 		}
 
@@ -858,7 +847,6 @@ const Player = {
 		InventoryList.map(item => {
 			const slot = (item.slot <= 8) ? `slot.hotbar.${item.slot}` : `slot.inventory.${item.slot - 8}`
 			const cmd = `replaceitem entity ${player.getName()} ${slot} ${item.type} ${item.quantity}`;
-			// log(cmd);
 			server.dispatchCommand(server.getConsoleSender(), cmd);
 		});
 	},
