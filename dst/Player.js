@@ -27,7 +27,6 @@ var Player = {
         // }
         this.destroyBars();
         player['setWalkSpeed'](initialWalkSpeed); // restore walking
-        log('isUSA 5: ' + isUSA);
         this._init(isUSA);
         player.setFoodLevel(4);
         this.enableT1();
@@ -55,9 +54,7 @@ var Player = {
         // if (magik.playerMap.get(KEY) === 'true') {
         // 	return; // player already has MCT1
         // }
-        log('isUSA 1: ' + isUSA);
         magik.setTimeout(function () {
-            log('isUSA 2: ' + isUSA);
             current--;
             var newWalkSpeed = (current / countdown) * initialWalkSpeed;
             player['setWalkSpeed'](newWalkSpeed);
@@ -68,7 +65,6 @@ var Player = {
                 _this.doCountdown(countdown, isUSA, current);
             }
             else {
-                log('isUSA 2.2: ' + isUSA);
                 _this.lightningStruck(10, isUSA); // !!!!!
             }
         }, 1000);
@@ -77,7 +73,6 @@ var Player = {
         var _this = this;
         if (distance === void 0) { distance = 10; }
         if (isUSA === void 0) { isUSA = false; }
-        log('isUSA 3: ' + isUSA);
         magik.setTimeout(function () {
             var loc = player.getLocation();
             var locations = [
@@ -100,7 +95,6 @@ var Player = {
                 _this.lightningStruck(distance, isUSA); // !!!!
             }
             else {
-                log('isUSA 4: ' + isUSA);
                 _this.init(isUSA);
                 log('warping in 10 secs...');
                 magik.setTimeout(function () {
@@ -143,7 +137,6 @@ var Player = {
         var state = State_1.getState();
         state.isUSA = isUSA;
         State_1.setState(state);
-        log('set state (isUSA): ' + JSON.stringify(state));
         // Start digestion if not already started.
         if (!state.digesting) {
             this.doDigestion();
@@ -275,7 +268,6 @@ var Player = {
         // PlayerDeathEvent
         Events_1.default.on('PlayerDeathEvent', function (event) {
             // Skip if not this player.
-            log('PlayerDeathEvent');
             if (event.getEntity().getName() != player.getName()) {
                 return;
             }
@@ -493,13 +485,9 @@ var Player = {
             }
         });
         Events_1.default.on('PlayerCommandPreprocessEvent', function (event) {
-            // log('event.getMessage(): ' + event.getMessage());
+            // const command = event.getMessage();
             // event.setCancelled(true);
         });
-        // Events.on('ServerCommandEvent', (event) => {
-        // 	log('event.getCommand(): ' + event.getCommand());
-        // 	log('event.getSender(): ' + event.getSender());
-        // });
     },
     destroyBars: function () {
         var state = State_1.getState();
@@ -536,11 +524,7 @@ var Player = {
         // bglBar
         var bgl = Math.round(state.bgl * 10) / 10;
         if (state.isUSA) {
-            log('renderBars: isUSA:' + state.isUSA);
             bgl = Math.round(bgl * 18);
-        }
-        else {
-            log('renderBars: isUSA:' + state.isUSA);
         }
         state.bglBar = Bar.bar()
             .text("BGL: " + bgl) // round to 1 decimal
@@ -579,7 +563,6 @@ var Player = {
         magik.setTimeout(function () {
             // Skip if dead!
             if (state.dead) {
-                // log('skip digestion coz dead!');
                 that.doDigestion(tickCount);
                 return;
             }
@@ -731,19 +714,6 @@ var Player = {
     },
     clearInventory: function () {
         player.getInventory()['clear']();
-    },
-    getInventory: function () {
-        var inventory = player.getInventory(); //Contents of player inventory
-        for (var i = 0; i <= 35; i++) {
-            var item = inventory['getItem'](i);
-            if (item) {
-                var type = item.getType();
-                var amount = item.getAmount();
-                log('i: ' + i);
-                log('type: ' + type);
-                log('amount: ' + amount);
-            }
-        }
     },
     refreshInventory: function () {
         var InventoryList = [

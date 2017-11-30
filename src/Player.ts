@@ -31,7 +31,6 @@ const Player = {
 		// }
 		this.destroyBars();
 		player['setWalkSpeed'](initialWalkSpeed); // restore walking
-		log('isUSA 5: ' + isUSA);
 		this._init(isUSA);
 		player.setFoodLevel(4);
 		this.enableT1();
@@ -58,9 +57,7 @@ const Player = {
 		// if (magik.playerMap.get(KEY) === 'true') {
 		// 	return; // player already has MCT1
 		// }
-		log('isUSA 1: ' + isUSA);
 		magik.setTimeout(() => {
-			log('isUSA 2: ' + isUSA);
 			current--;
 			const newWalkSpeed = (current / countdown) * initialWalkSpeed;
 			player['setWalkSpeed'](newWalkSpeed);
@@ -71,14 +68,12 @@ const Player = {
 				this.doCountdown(countdown, isUSA, current);
 			}
 			else {
-				log('isUSA 2.2: ' + isUSA);
 				this.lightningStruck(10, isUSA); // !!!!!
 			}
 		}, 1000);
 	},
 
 	lightningStruck(distance = 10, isUSA = false) {
-		log('isUSA 3: ' + isUSA);
 		magik.setTimeout(() => {
 			const loc = player.getLocation();
 			const locations = [
@@ -102,7 +97,6 @@ const Player = {
 				this.lightningStruck(distance, isUSA) // !!!!
 			}
 			else {
-				log('isUSA 4: ' + isUSA);
 				this.init(isUSA);
 				log('warping in 10 secs...');
 				magik.setTimeout(() => {
@@ -145,8 +139,6 @@ const Player = {
 		let state = getState();
 		state.isUSA = isUSA;
 		setState(state);
-		
-		log('set state (isUSA): ' + JSON.stringify(state));
 
 		// Start digestion if not already started.
 		if (!state.digesting) {
@@ -293,7 +285,6 @@ const Player = {
 		// PlayerDeathEvent
 		Events.on('PlayerDeathEvent', (event) => {
 			// Skip if not this player.
-			log('PlayerDeathEvent');
 			if (event.getEntity().getName() != player.getName()) {
 				return;
 			}
@@ -532,15 +523,9 @@ const Player = {
 		});
 
 		Events.on('PlayerCommandPreprocessEvent', (event) => {
-			// log('event.getMessage(): ' + event.getMessage());
+			// const command = event.getMessage();
 			// event.setCancelled(true);
 		});
-
-		// Events.on('ServerCommandEvent', (event) => {
-		// 	log('event.getCommand(): ' + event.getCommand());
-		// 	log('event.getSender(): ' + event.getSender());
-		// });
-
 		
 	},
 
@@ -576,11 +561,7 @@ const Player = {
 		// bglBar
 		let bgl = Math.round(state.bgl*10)/10;
 		if (state.isUSA) {
-			log('renderBars: isUSA:' + state.isUSA);
 			bgl = Math.round(bgl*18);
-		}
-		else {
-			log('renderBars: isUSA:' + state.isUSA);
 		}
 
 		state.bglBar = Bar.bar()
@@ -625,7 +606,6 @@ const Player = {
 		magik.setTimeout(function() {
 			// Skip if dead!
 			if (state.dead) {
-				// log('skip digestion coz dead!');
 				that.doDigestion(tickCount);
 				return;
 			}
@@ -801,20 +781,6 @@ const Player = {
 
 	clearInventory() {
 		player.getInventory()['clear']();
-	},
-
-	getInventory() {
-        const inventory = player.getInventory(); //Contents of player inventory
-        for (let i = 0; i <= 35; i++) {
-            const item = inventory['getItem'](i);
-            if (item) {
-                const type = item.getType();
-                const amount = item.getAmount();
-                log('i: ' + i);
-                log('type: ' + type);
-                log('amount: ' + amount);
-            }
-        }
 	},
 
 	refreshInventory() {
