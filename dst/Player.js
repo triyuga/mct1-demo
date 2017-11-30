@@ -27,6 +27,7 @@ var Player = {
         // }
         this.destroyBars();
         player['setWalkSpeed'](initialWalkSpeed); // restore walking
+        log('isUSA 5: ' + isUSA);
         this._init(isUSA);
         player.setFoodLevel(4);
         this.enableT1();
@@ -54,7 +55,9 @@ var Player = {
         // if (magik.playerMap.get(KEY) === 'true') {
         // 	return; // player already has MCT1
         // }
+        log('isUSA 1: ' + isUSA);
         magik.setTimeout(function () {
+            log('isUSA 2: ' + isUSA);
             current--;
             var newWalkSpeed = (current / countdown) * initialWalkSpeed;
             player['setWalkSpeed'](newWalkSpeed);
@@ -73,6 +76,7 @@ var Player = {
         var _this = this;
         if (distance === void 0) { distance = 10; }
         if (isUSA === void 0) { isUSA = false; }
+        log('isUSA 3: ' + isUSA);
         magik.setTimeout(function () {
             var loc = player.getLocation();
             var locations = [
@@ -95,6 +99,7 @@ var Player = {
                 _this.lightningStruck(distance); // !!!!
             }
             else {
+                log('isUSA 4: ' + isUSA);
                 _this.init(isUSA);
                 log('warping in 10 secs...');
                 magik.setTimeout(function () {
