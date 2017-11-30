@@ -26,7 +26,7 @@ var Player = {
         // 	return; // player already has MCT1
         // }
         this.destroyBars();
-        player.setWalkSpeed(initialWalkSpeed); // restore walking
+        player['setWalkSpeed'](initialWalkSpeed); // restore walking
         this._init(isUSA);
         player.setFoodLevel(4);
         this.enableT1();
@@ -137,12 +137,17 @@ var Player = {
         var state = State_1.getState();
         state.isUSA = isUSA;
         State_1.setState(state);
+        log('state: ' + JSON.stringify(state));
         // Start digestion if not already started.
         if (!state.digesting) {
+            log('start digesting!');
             this.doDigestion();
             state.digesting = true;
             State_1.setState(state);
             // log('digesting!');
+        }
+        else {
+            log('SKIP start digesting!');
         }
         // Start listening if not already started.
         if (!state.listening) {
