@@ -139,6 +139,8 @@ const Player = {
 		let state = getState();
 		state.isUSA = isUSA;
 		setState(state);
+		
+		log('set state (isUSA): ' + JSON.stringify(state));
 
 		// Start digestion if not already started.
 		if (!state.digesting) {
@@ -567,7 +569,14 @@ const Player = {
 		}
 		// bglBar
 		let bgl = Math.round(state.bgl*10)/10;
-		if (state.isUSA) bgl = Math.round(bgl*18);
+		if (state.isUSA) {
+			log('renderBars: isUSA:' + state.isUSA);
+			bgl = Math.round(bgl*18);
+		}
+		else {
+			log('renderBars: isUSA:' + state.isUSA);
+		}
+
 		state.bglBar = Bar.bar()
 			.text(`BGL: ${bgl}`) // round to 1 decimal
 			.color(Bar.color[color])
